@@ -17,9 +17,9 @@ public class TicketTypeController {
             while (rs.next()) {
                 ticketTypeList.add(
                         new TicketType(rs.getInt(1),
-                                rs.getInt(2),
+                                rs.getString(2),
                                 rs.getFloat(3),
-                                rs.getString(4)
+                                rs.getInt(4)
                         )
                 );
             }

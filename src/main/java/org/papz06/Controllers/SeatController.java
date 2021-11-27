@@ -5,7 +5,6 @@ import org.papz06.Function;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SeatController {
     ArrayList<Seat> seatsList = new ArrayList<>();
@@ -14,7 +13,7 @@ public class SeatController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("Seats");
+            rs = fc.executeQuery("seats");
             while (rs.next()) {
                 seatsList.add(
                         new Seat(rs.getInt(1),
@@ -31,7 +30,7 @@ public class SeatController {
         }
     }
 
-    public void displaySchedulesList() {
+    public void displaySeatsList() {
         for (Seat st : seatsList) {
             System.out.println(st.toString());
         }

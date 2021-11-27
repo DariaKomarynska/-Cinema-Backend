@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseController {
-    List<Purchase> purchasesList = new ArrayList<>();
+    ArrayList<Purchase> purchasesList = new ArrayList<>();
 
     public PurchaseController() {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery(("purchases"));
+            rs = fc.executeQuery("purchases");
             while (rs.next()) {
                 purchasesList.add(
                         new Purchase(rs.getInt(1),

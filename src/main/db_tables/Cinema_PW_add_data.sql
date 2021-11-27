@@ -1,6 +1,6 @@
 delete from Purchases;
 delete from Schedules;
-delete from TicketTypes;
+delete from Tickets;
 
 -------------------------
 --work
@@ -40,51 +40,51 @@ insert into rooms values (7, 'Room 2', 24, 30, 3);
 commit;
 -------------------------
 --work
-insert into seats values (1, 1, 'north', 'seat', 'comfort');
-insert into seats values (2, 1, 'north', 'seat', 'comfort');
-insert into seats values (3, 1, 'south', 'seat', 'comfort');
-insert into seats values (4, 1, 'west', 'seat', 'luxury');
+insert into seats values (1, 1, 2, 2, 'comfort');
+insert into seats values (2, 1, 2, 3, 'comfort');
+insert into seats values (3, 1, 2, 4, 'comfort');
+insert into seats values (4, 1, 2, 5, 'luxury');
 
-insert into seats values (5, 2, 'north', 'seat', 'comfort');
-insert into seats values (6, 2, 'north', 'seat', 'comfort');
-insert into seats values (7, 2, 'north', 'seat', 'comfort');
-insert into seats values (8, 2, 'south', 'seat', 'comfort');
-insert into seats values (9, 2, 'south', 'seat', 'comfort');
-insert into seats values (10, 2, 'west', 'seat', 'comfort');
-insert into seats values (11, 2, 'east', 'seat', 'luxury');
-insert into seats values (12, 2, 'east', 'seat', 'luxury');
+insert into seats values (5, 2, 1, 2, 'comfort');
+insert into seats values (6, 2, 1, 3, 'comfort');
+insert into seats values (7, 2, 2, 1, 'comfort');
+insert into seats values (8, 2, 3, 6, 'comfort');
+insert into seats values (9, 2, 3, 7, 'comfort');
+insert into seats values (10, 2, 3, 8, 'comfort');
+insert into seats values (11, 2, 3, 9, 'luxury');
+insert into seats values (12, 2, 4, 1, 'luxury');
 
-insert into seats values (13, 3, 'south', 'seat', 'comfort');
-insert into seats values (14, 3, 'south', 'seat', 'comfort');
-insert into seats values (15, 3, 'south', 'seat', 'luxury');
-insert into seats values (16, 3, 'west', 'seat', 'luxury');
-insert into seats values (17, 3, 'east', 'seat', 'luxury');
-insert into seats values (18, 3, 'east', 'seat', 'luxury');
+insert into seats values (13, 3, 2, 5, 'comfort');
+insert into seats values (14, 3, 2, 6, 'comfort');
+insert into seats values (15, 3, 2, 7, 'luxury');
+insert into seats values (16, 3, 2, 8, 'luxury');
+insert into seats values (17, 3, 2, 9, 'luxury');
+insert into seats values (18, 3, 2, 10, 'luxury');
 
-insert into seats values (19, 4, 'north', 'seat', 'comfort');
-insert into seats values (20, 4, 'south', 'seat', 'comfort');
-insert into seats values (21, 4, 'west', 'seat', 'comfort');
-insert into seats values (22, 4, 'west', 'seat', 'comfort');
-insert into seats values (23, 4, 'east', 'seat', 'comfort');
-insert into seats values (24, 4, 'east', 'seat', 'luxury');
-
-insert into seats values (25, 5, 'north', 'seat', 'comfort');
-insert into seats values (26, 5, 'west', 'seat', 'comfort');
-insert into seats values (27, 5, 'west', 'seat', 'comfort');
-insert into seats values (28, 5, 'west', 'seat', 'luxury');
-insert into seats values (29, 5, 'east', 'seat', 'luxury');
-
-insert into seats values (30, 6, 'north', 'seat', 'comfort');
-insert into seats values (31, 6, 'west', 'seat', 'comfort');
-insert into seats values (32, 6, 'west', 'seat', 'comfort');
-insert into seats values (33, 6, 'south', 'seat', 'comfort');
-insert into seats values (34, 6, 'east', 'seat', 'luxury');
-insert into seats values (35, 6, 'east', 'seat', 'luxury');
-
-insert into seats values (36, 7, 'north', 'seat', 'comfort');
-insert into seats values (37, 7, 'west', 'seat', 'comfort');
-insert into seats values (38, 7, 'south', 'seat', 'comfort');
-insert into seats values (39, 7, 'east', 'seat', 'luxury');
+insert into seats values (19, 4, 1, 2, 'comfort');
+insert into seats values (20, 4, 2, 3, 'comfort');
+--insert into seats values (21, 4, 'west', 'seat', 'comfort');
+--insert into seats values (22, 4, 'west', 'seat', 'comfort');
+--insert into seats values (23, 4, 'east', 'seat', 'comfort');
+--insert into seats values (24, 4, 'east', 'seat', 'luxury');
+--
+--insert into seats values (25, 5, 'north', 'seat', 'comfort');
+--insert into seats values (26, 5, 'west', 'seat', 'comfort');
+--insert into seats values (27, 5, 'west', 'seat', 'comfort');
+--insert into seats values (28, 5, 'west', 'seat', 'luxury');
+--insert into seats values (29, 5, 'east', 'seat', 'luxury');
+--
+--insert into seats values (30, 6, 'north', 'seat', 'comfort');
+--insert into seats values (31, 6, 'west', 'seat', 'comfort');
+--insert into seats values (32, 6, 'west', 'seat', 'comfort');
+--insert into seats values (33, 6, 2, 'seat', 'comfort');
+--insert into seats values (34, 6, 'east', 'seat', 'luxury');
+--insert into seats values (35, 6, 'east', 'seat', 'luxury');
+--
+--insert into seats values (36, 7, 'north', 'seat', 'comfort');
+--insert into seats values (37, 7, 'west', 'seat', 'comfort');
+--insert into seats values (38, 7, 2, 'seat', 'comfort');
+--insert into seats values (39, 7, 'east', 'seat', 'luxury');
 
 commit;
 -------------------------
@@ -166,12 +166,12 @@ insert into TicketTypes values (6, 'child', 20.00, 3);
 commit;
 -------------------------
 
-insert into Tickets values (1, 1, 2, 1);
-insert into Tickets values (2, 1, 3, 1);
-insert into Tickets values (3, 2, 6, 4);
-insert into Tickets values (4, 2, 7, 3);
-insert into Tickets values (5, 2, 8, 4);
-insert into Tickets values (6, 3, 14, 6);
+insert into Tickets values (1, 1, 2, 1, 1);
+insert into Tickets values (2, 1, 3, 1, 2);
+insert into Tickets values (3, 2, 6, 4, 2);
+insert into Tickets values (4, 2, 7, 3, 3);
+insert into Tickets values (5, 2, 8, 4, 3);
+insert into Tickets values (6, 3, 14, 6, 4);
 commit;
 -------------------------
 
