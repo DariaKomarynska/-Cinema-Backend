@@ -7,6 +7,7 @@ import org.papz06.Function;
 import java.io.Console;
 import java.sql.*;
 import org.papz06.Controllers.*;
+import org.papz06.Models.Movie;
 
 /**
  * Hello world!
@@ -16,7 +17,7 @@ public class App {
     Gson gson = builder.create();
 
     public static void main(String[] args) {
-        MovieController mvControl = new MovieController();
-        mvControl.displayMoviesList();
+        MovieCategoryController ciControl = new MovieCategoryController();
+        ciControl.displayMovieCategoriesList();
     }
 }

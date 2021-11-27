@@ -13,13 +13,11 @@ public class Movie {
         this.description = description;
     }
     public Movie(){}
-    public String Movie(){
-        String result = Integer.toString(id)
-                + " " + Integer.toString(length)
-                + " " + Integer.toString(ageRestriction)
-                + " " + Integer.toString(cinemaId)
+    public String toString(){
+        return id + " " + length
+                + " " + ageRestriction
+                + " " + cinemaId
                 + " " + name
                 + " " + description;
-        return result;
     }
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieController {
-    List<Movie> moviesList = new ArrayList<Movie>();
+    List<Movie> moviesList = new ArrayList<>();
 
     public MovieController() {
         Function fc = new Function();
@@ -33,8 +33,8 @@ public class MovieController {
     }
 
     public void displayMoviesList() {
-        for (Movie mv:moviesList){
-            System.out.println(mv.Movie());
+        for (Movie mv : moviesList) {
+            System.out.println(mv.toString());
         }
     }
 }
