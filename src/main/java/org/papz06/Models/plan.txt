@@ -13,3 +13,7 @@
 --ticket type cinema id for what?
 --purchase amount float - binary, number - digitals
 -- schedule open close sale why not date
+--movie category should have movie_id, for what cinema_id
+--unique login
+--movie category should be in movie, instead of description
+--dont need description, cinema in movie category
