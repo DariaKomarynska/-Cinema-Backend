@@ -1,11 +1,13 @@
 package org.papz06;
 
 import javafx.util.Pair;
+import org.papz06.Request.CinemaServer;
 import org.papz06.Request.UserServer;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 // The tutorial can be found just here on the SSaurel's Blog :
@@ -54,22 +56,34 @@ public class JavaHTTPServer implements Runnable {
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
 
+            while (input.length() != 0) {
+                input = in.readLine();
+            }
+            String requesBody = "";
+            while (in.ready()) {
+                requesBody += (char) in.read();
+            }
+            String url;
+            Map<String, String> queryParams = null;
+            if (fileRequested.indexOf('?') != -1){
+                String[] pairs = fileRequested.split("\\?");
+                url = pairs[0];
+                queryParams = new Utils().splitQuery(pairs[1]);
+            }
+            else url = fileRequested;
+            System.out.println(url);
+            System.out.println(queryParams);
+            Pair<Integer, String> result = new Pair<Integer, String> (200, "");
+
             if (method.equals("POST")) {
-                while (input.length() != 0) {
-                    input = in.readLine();
-                }
-                String sb = "";
-                while (in.ready()) {
-                    sb += (char) in.read();
-                }
-                Pair<Integer, String> result = new Pair<Integer, String> (200, "");
 
                 /**
                  * Divider cases for PORT: - login
                  * **/
                 // Case 1:
-                if (fileRequested.equals("/login") ) result= new UserServer().login(sb);
+                if (url.equals("/login")) result= new UserServer().login(requesBody);
                 // Case 2:
+                if (url.equals("/cinema") ) result = new CinemaServer().CinemaCreate(requesBody);
                 // Case 3:
                 // Case 4:
                 // Case 5:
@@ -89,20 +103,11 @@ public class JavaHTTPServer implements Runnable {
                 dataOut.flush();
             } else if (method.equals("GET")) {
                 // GET or HEAD method
-                while (input.length() != 0) {
-                    input = in.readLine();
-                }
-                String sb = "";
-                while (in.ready()) {
-                    sb += (char) in.read();
-                }
                 /**
                  * Divider cases for GET: -
                  * **/
                 // Case 1:
-                if (fileRequested.equals("/cinema") ) {
-                    // Implement here
-                }
+                if (url.equals("/cinema") ) result = new CinemaServer().CinemaList();
 
 
 
