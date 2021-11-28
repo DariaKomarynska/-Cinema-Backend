@@ -79,25 +79,6 @@ public class JavaHTTPServer implements Runnable {
             else url = fileRequested.substring(1);
             KeyValue<Integer, String> result = new KeyValue<Integer, String> (200, "");
 
-            while (input.length() != 0) {
-                input = in.readLine();
-            }
-            String requesBody = "";
-            while (in.ready()) {
-                requesBody += (char) in.read();
-            }
-            String url;
-            Map<String, String> queryParams = null;
-            if (fileRequested.indexOf('?') != -1){
-                String[] pairs = fileRequested.split("\\?");
-                url = pairs[0];
-                queryParams = new Utils().splitQuery(pairs[1]);
-            }
-            else url = fileRequested;
-            System.out.println(url);
-            System.out.println(queryParams);
-            Pair<Integer, String> result = new Pair<Integer, String> (200, "");
-
             if (method.equals("POST")) {
                 /**
                  * Divider cases for PORT: - login
