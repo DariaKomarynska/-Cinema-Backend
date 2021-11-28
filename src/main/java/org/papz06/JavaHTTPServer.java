@@ -68,16 +68,23 @@ public class JavaHTTPServer implements Runnable {
             while (in.ready()) {
                 requesBody += (char) in.read();
             }
-            // prepare url, queryParams,
+            // prepare url, queryParams, index
             String url;
             Map<String, String> queryParams = null;
-            if (fileRequested.indexOf('?') != -1){
+            if (fileRequested.indexOf('?') != -1) {
                 String[] pairs = fileRequested.split("\\?");
                 url = pairs[0];
                 queryParams = new Utils().splitQuery(pairs[1]);
+            } else url = fileRequested.substring(1);
+            String id = null;
+            KeyValue<Integer, String> result = null;
+            if (url.indexOf('/') != -1) {
+                int lx = url.lastIndexOf('/');
+                id = url.substring(lx+1);
+                url = url.substring(0, lx);
             }
-            else url = fileRequested.substring(1);
-            KeyValue<Integer, String> result = new KeyValue<Integer, String> (200, "");
+            System.out.println(url);
+            System.out.println(id);
 
             if (method.equals("POST")) {
                 /**
@@ -92,31 +99,29 @@ public class JavaHTTPServer implements Runnable {
                 // Case 5:
                 // Case 6:
                 // Template
-                out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
-                out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
-                out.write("Date: " + new Date()+"\r\n");
-                out.write("Connection: close\r\n");
-                out.write("Content-type: application/json\r\n");
-                out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
-                out.write("Access-Control-Allow-Origin: *\r\n");
-                out.write("\r\n"); // blank line between headers and content, very important !
-                // End Template
-                out.write(result.getValue());
-                out.write("\r\n");
-                out.flush();
-
-//                byte[] fileData = readFileData(file, fileLength);
-//                dataOut.write(fileData, 0, fileLength);
-                dataOut.flush();
             } else if (method.equals("GET")) {
-                // GET or HEAD method
+                // GET method
                 /**
                  * Divider cases for GET: -
                  * **/
                 // Case 1:
-                if (url.equals("cinema") ) result = new CinemaServer().CinemaList();
+                if (url.equals("cinema") && (id == null)) result = new CinemaServer().CinemaList();
+                else if (url.equals("cinema") && (id != null))
+                    result = new CinemaServer().CinemaDetails(Integer.parseInt(id));
 
+            } else if (method.equals("PATCH")){
+                /**
+                 * Divider cases for PATCH: -
+                 * **/
+                // Case 1:
+                if (url.equals("cinema") && (id != null)) result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
 
+            } else if (method.equals("DELETE")){
+                /**
+                 * Divider cases for DELETE: -
+                 * **/
+                // Case 1:
+                if (url.equals("cinema") && (id != null)) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
 
             } else {
                 System.out.println("501 Not Implemented : " + method + " method.");
@@ -140,6 +145,26 @@ public class JavaHTTPServer implements Runnable {
 //                dataOut.write(fileData, 0, fileLength);
                 dataOut.flush();
 
+            }
+            if (result != null){
+                out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
+                out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+                out.write("Date: " + new Date()+"\r\n");
+                out.write("Connection: close\r\n");
+                out.write("Content-type: application/json\r\n");
+                out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
+                out.write("Access-Control-Allow-Origin: *\r\n");
+                out.write("\r\n"); // blank line between headers and content, very important !
+                // End Template
+                out.write(result.getValue());
+                out.write("\r\n");
+                out.flush();
+//                byte[] fileData = readFileData(file, fileLength);
+//                dataOut.write(fileData, 0, fileLength);
+                dataOut.flush();
+            }
+            else{
+                // Implement!!!
             }
 
 

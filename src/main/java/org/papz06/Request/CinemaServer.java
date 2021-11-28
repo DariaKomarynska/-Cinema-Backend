@@ -21,15 +21,16 @@ public class CinemaServer {
         //
         return null;
     }
-    public KeyValue<Integer, String> CinemaDetails(){
+    public KeyValue<Integer, String> CinemaDetails(int id){
         //
         return null;
     }
-    public KeyValue<Integer, String> CinemaUpdate(){
+    public KeyValue<Integer, String> CinemaUpdate(int id, String requesBody){
         //
         return null;
     }
-    public void CinemaDelete(){
+    public KeyValue<Integer, String> CinemaDelete(int id){
         //
+        return null;
     }
 }
