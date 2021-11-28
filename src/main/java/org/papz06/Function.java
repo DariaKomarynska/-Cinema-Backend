@@ -15,9 +15,15 @@ public class Function {
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
     }
-    public String getSecret(){
+    public static String getSecret(){
         return secret;
     }
+
+    public static String getEnv(String key) {
+        String env = System.getenv(key);
+        return env;
+    }
+
     public void closeQuery() throws Exception{
         con.close();
     }

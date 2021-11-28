@@ -2,17 +2,16 @@ package org.papz06.Request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.util.Pair;
 import org.json.JSONObject;
 import org.papz06.Controllers.UserController;
 import org.papz06.Function;
+import org.papz06.KeyValue;
 import org.papz06.Utils;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.util.*;
 
 public class UserServer {
-    public Pair<Integer, String> login(String parametr) {
+    public KeyValue<Integer, String> login(String parametr) {
         /**
         Pair to return status number and JWT token.
         * */
@@ -30,11 +29,11 @@ public class UserServer {
         // No!
         if (!usCon.checkExist(loginData, passAfterHash)) {
             data.put("JWTToken", "Wrong bro!");
-            return new Pair <Integer, String>(452, new JSONObject(data).toString());
+            return new KeyValue <Integer, String>(452, new JSONObject(data).toString());
         }
         // Yes
         String JWTToken = new Utils().createJWTToken(new Function().getSecret());
         data.put("JWTToken", JWTToken);
-        return new Pair <Integer, String>(200, new JSONObject(data).toString());
+        return new KeyValue <Integer, String>(200, new JSONObject(data).toString());
     }
 }

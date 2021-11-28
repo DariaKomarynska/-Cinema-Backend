@@ -1,6 +1,5 @@
 package org.papz06;
 
-import javafx.util.Pair;
 import org.papz06.Request.CinemaServer;
 import org.papz06.Request.UserServer;
 
@@ -9,6 +8,8 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Map;
 import java.util.StringTokenizer;
+import org.papz06.Function;
+import org.papz06.KeyValue;
 
 // The tutorial can be found just here on the SSaurel's Blog :
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -20,7 +21,7 @@ public class JavaHTTPServer implements Runnable {
     static final String FILE_NOT_FOUND = "404.html";
     //    static final String METHOD_NOT_SUPPORTED = "not_supported.html";
     // port to listen connection
-    static final int PORT = 8080;
+    static final int PORT = Function.getEnv("PORT") != null ? Integer.valueOf(Function.getEnv("PORT")) : 8080;
 
     // verbose mode
 //    static final boolean verbose = true;
@@ -50,11 +51,33 @@ public class JavaHTTPServer implements Runnable {
 
             // get first line of the request from the client
             String input = in.readLine();
+            if (input == null)
+                throw new IOException("Empty request!");
+            System.out.println(input);
             // we parse the request with a string tokenizer
             StringTokenizer parse = new StringTokenizer(input);
             String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
+            // Ignore header
+            while (input.length() != 0) {
+                input = in.readLine();
+            }
+            // Read body
+            String requesBody = "";
+            while (in.ready()) {
+                requesBody += (char) in.read();
+            }
+            // prepare url, queryParams,
+            String url;
+            Map<String, String> queryParams = null;
+            if (fileRequested.indexOf('?') != -1){
+                String[] pairs = fileRequested.split("\\?");
+                url = pairs[0];
+                queryParams = new Utils().splitQuery(pairs[1]);
+            }
+            else url = fileRequested.substring(1);
+            KeyValue<Integer, String> result = new KeyValue<Integer, String> (200, "");
 
             while (input.length() != 0) {
                 input = in.readLine();
@@ -76,30 +99,33 @@ public class JavaHTTPServer implements Runnable {
             Pair<Integer, String> result = new Pair<Integer, String> (200, "");
 
             if (method.equals("POST")) {
-
                 /**
                  * Divider cases for PORT: - login
                  * **/
                 // Case 1:
-                if (url.equals("/login")) result= new UserServer().login(requesBody);
+                if (url.equals("login")) result= new UserServer().login(requesBody);
                 // Case 2:
-                if (url.equals("/cinema") ) result = new CinemaServer().CinemaCreate(requesBody);
+                if (url.equals("cinema") ) result = new CinemaServer().CinemaCreate(requesBody);
                 // Case 3:
                 // Case 4:
                 // Case 5:
                 // Case 6:
                 // Template
-                out.println("HTTP/1.1 " + result.getKey() + " OK ");
-                out.println("Server: Java HTTP Server from SSaurel : 1.0");
-                out.println("Date: " + new Date());
-                out.println("Content-type: application/json");
-                out.println("Content-length: " + result.getValue().length());
-                out.println("Access-Control-Allow-Origin: *");
-                out.println(); // blank line between headers and content, very important !
-                out.flush(); // flush character output stream buffer
+                out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
+                out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+                out.write("Date: " + new Date()+"\r\n");
+                out.write("Connection: close\r\n");
+                out.write("Content-type: application/json\r\n");
+                out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
+                out.write("Access-Control-Allow-Origin: *\r\n");
+                out.write("\r\n"); // blank line between headers and content, very important !
                 // End Template
-                out.println(result.getValue());
+                out.write(result.getValue());
+                out.write("\r\n");
                 out.flush();
+
+//                byte[] fileData = readFileData(file, fileLength);
+//                dataOut.write(fileData, 0, fileLength);
                 dataOut.flush();
             } else if (method.equals("GET")) {
                 // GET or HEAD method
@@ -107,7 +133,7 @@ public class JavaHTTPServer implements Runnable {
                  * Divider cases for GET: -
                  * **/
                 // Case 1:
-                if (url.equals("/cinema") ) result = new CinemaServer().CinemaList();
+                if (url.equals("cinema") ) result = new CinemaServer().CinemaList();
 
 
 
@@ -168,5 +194,10 @@ public class JavaHTTPServer implements Runnable {
 
         return fileData;
     }
-
+    private String getContentType(String fileRequested) {
+        if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
+            return "text/html";
+        else
+            return "text/plain";
+    }
 }
