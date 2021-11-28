@@ -1,6 +1,5 @@
 package org.papz06;
 
-import javafx.util.Pair;
 import org.papz06.Request.UserServer;
 
 import java.io.*;
@@ -8,6 +7,7 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
 import org.papz06.Function;
+import org.papz06.KeyValue;
 
 // The tutorial can be found just here on the SSaurel's Blog :
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -63,7 +63,7 @@ public class JavaHTTPServer implements Runnable {
                 while (in.ready()) {
                     sb += (char) in.read();
                 }
-                Pair<Integer, String> result = new Pair<Integer, String> (200, "");
+                KeyValue<Integer, String> result = new KeyValue<Integer, String> (200, "");
 
                 /**
                  * Divider cases for PORT: - login

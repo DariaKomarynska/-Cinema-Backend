@@ -39,18 +39,6 @@
       <artifactId>json</artifactId>
       <version>20160810</version>
     </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx</artifactId>
-      <version>11</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/javafx.base.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-base</artifactId>
-      <version>17</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -104,14 +92,6 @@
         <configuration>
           <source>8</source>
           <target>8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.8</version>
-        <configuration>
-          <mainClass>HelloFX</mainClass>
         </configuration>
       </plugin>
     </plugins>
