@@ -58,12 +58,12 @@ public class Utils {
         JSONObject payload = new JSONObject();
         JSONObject header = new JSONObject();
         long expires = (System.currentTimeMillis()+10000) / 1000L;
-        try{
-            header.put("alg", "HS256");
+//        try{
+        header.put("alg", "HS256");
 //        payload.put("sub", sub);
 //        payload.put("aud", aud);
-            payload.put("exp", expires);
-        } catch (Exception e) {}
+        payload.put("exp", expires);
+//        } catch (Exception e) {}
 
 //        String signature = hmacSha256(base64(header) + "." + base64(payload), secret);
 //        String jwtToken = base64(header) + "." + base64(payload) + "." + signature;

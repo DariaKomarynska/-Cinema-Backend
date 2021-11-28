@@ -60,8 +60,10 @@ public class JavaHTTPServer implements Runnable {
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
             // Ignore header
+            String authorization;
             while (input.length() != 0) {
                 input = in.readLine();
+
             }
             // Read body
             String requesBody = "";
@@ -91,7 +93,10 @@ public class JavaHTTPServer implements Runnable {
                 // Case 1:
                 switch (url.trim().toLowerCase()) {
                     case "login":
-                        result = new UserServer().login(requesBody);
+                        result = UserServer.login(requesBody);
+                        break;
+                    case "register":
+                        result = UserServer.Registration(requesBody);
                         break;
                     case "cinema":
                         result = new CinemaServer().CinemaCreate(requesBody);
