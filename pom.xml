@@ -41,8 +41,9 @@
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
-      <artifactId>javafx-base</artifactId>
-      <version>17</version>
+      <artifactId>javafx</artifactId>
+      <version>11</version>
+      <type>pom</type>
     </dependency>
   </dependencies>
 
