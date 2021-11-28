@@ -47,7 +47,19 @@ public class CinemaServer {
         return null;
     }
 
-    public void CinemaDelete() {
+    public KeyValue<Integer, String> CinemaDetails(Integer id) {
         //
+        return null;
     }
+
+    public KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
+        //
+        return null;
+    }
+
+    public KeyValue<Integer, String> CinemaDelete(Integer id) {
+        return null;
+    }
+
 }
+
