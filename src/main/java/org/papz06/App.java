@@ -19,8 +19,6 @@ public class App {
 
     public static void main(String[] args) {
         try {
-            CinemaController cinemaController = new CinemaController();
-            cinemaController.printIsEmpty();
             ServerSocket serverConnect = new ServerSocket(PORT);
             System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");
 
