@@ -89,7 +89,7 @@ public class JavaHTTPServer implements Runnable {
                 out.println("\r\n"); // blank line between headers and content, very important !
                 out.flush(); // flush character output stream buffer
                 // End Template
-                out.write(result.getValue().getBytes());
+                out.println(result.getValue());
                 out.println("\r\n");
                 out.flush();
                 dataOut.flush();
