@@ -49,6 +49,9 @@ public class JavaHTTPServer implements Runnable {
 
             // get first line of the request from the client
             String input = in.readLine();
+            if (input == null)
+                throw new IOException("Empty request!");
+            System.out.println(input);
             // we parse the request with a string tokenizer
             StringTokenizer parse = new StringTokenizer(input);
             String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
@@ -79,13 +82,14 @@ public class JavaHTTPServer implements Runnable {
                 out.println("HTTP/1.1 " + result.getKey() + " OK ");
                 out.println("Server: Java HTTP Server from SSaurel : 1.0");
                 out.println("Date: " + new Date());
+                out.println("Connection: close");
                 out.println("Content-type: application/json");
                 out.println("Content-length: " + result.getValue().length());
                 out.println("Access-Control-Allow-Origin: *");
                 out.println(); // blank line between headers and content, very important !
                 out.flush(); // flush character output stream buffer
                 // End Template
-                out.println(result.getValue());
+                dataOut.write(result.getValue().getBytes());
                 out.flush();
                 dataOut.flush();
             } else if (method.equals("GET")) {
