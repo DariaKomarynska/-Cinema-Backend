@@ -77,7 +77,7 @@ public class JavaHTTPServer implements Runnable {
                 queryParams = new Utils().splitQuery(pairs[1]);
             }
             else url = fileRequested.substring(1);
-            Pair<Integer, String> result = new Pair<Integer, String> (200, "");
+            KeyValue<Integer, String> result = new KeyValue<Integer, String> (200, "");
 
             if (url.endsWith("/")) {
                 url += DEFAULT_FILE;
