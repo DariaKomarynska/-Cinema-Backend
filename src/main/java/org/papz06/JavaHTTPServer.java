@@ -124,7 +124,7 @@ public class JavaHTTPServer implements Runnable {
                 if (url.equals("cinema") && (id != null)) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
 
             } else {
-                System.out.println("501 Not Implemented : " + method + " method.");
+                System.out.println("405 Method Not Allowed : " + method + " method.");
 
                 // we return the not supported file to the client
 //                File file = new File(WEB_ROOT, METHOD_NOT_SUPPORTED);
@@ -134,15 +134,14 @@ public class JavaHTTPServer implements Runnable {
 //                byte[] fileData = readFileData(file, fileLength);
 
                 // we send HTTP Headers with data to client
-                out.println("HTTP/1.1 501 Not Implemented");
-                out.println("Server: Java HTTP Server from SSaurel : 1.0");
-                out.println("Date: " + new Date());
+                out.write("HTTP/1.1 405 Method Not Allowed\r\n");
+                out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+                out.write("Date: " + new Date()+"\r\n");
 //                out.println("Content-type: " + contentMimeType);
-//                out.println("Content-length: " + fileLength);
-                out.println(); // blank line between headers and content, very important !
+                out.write("Content-length: 0\r\n");
+                out.write("Access-Control-Allow-Origin: *\r\n");
+                out.write("\r\n"); // blank line between headers and content, very important !
                 out.flush(); // flush character output stream buffer
-                // file
-//                dataOut.write(fileData, 0, fileLength);
                 dataOut.flush();
 
             }
@@ -151,7 +150,6 @@ public class JavaHTTPServer implements Runnable {
                 out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
                 out.write("Date: " + new Date()+"\r\n");
                 out.write("Connection: close\r\n");
-                out.write("Content-type: application/json\r\n");
                 out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
                 out.write("Access-Control-Allow-Origin: *\r\n");
                 out.write("\r\n"); // blank line between headers and content, very important !
@@ -170,6 +168,17 @@ public class JavaHTTPServer implements Runnable {
 
         } catch (IOException ioe) {
             System.err.println("Server error : " + ioe);
+            String err = ioe.toString();
+            out.write("HTTP/1.1 500 Internal Server Error\r\n");
+            out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+            out.write("Date: " + new Date()+"\r\n");
+            out.write("Connection: close\r\n");
+            out.write("Content-length: " +err.getBytes().length+ "\r\n");
+            out.write("Access-Control-Allow-Origin: *\r\n");
+            out.write("\r\n"); // blank line between headers and content, very important !
+            out.write(err);
+            out.write("\r\n");
+            out.flush();
         } finally {
             try {
                 in.close();
@@ -179,7 +188,6 @@ public class JavaHTTPServer implements Runnable {
             } catch (Exception e) {
                 System.err.println("Error closing stream : " + e.getMessage());
             }
-
             System.out.println("Connection closed.\n");
         }
 
