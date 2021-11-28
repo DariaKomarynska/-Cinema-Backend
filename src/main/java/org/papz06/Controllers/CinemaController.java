@@ -28,7 +28,7 @@ public class CinemaController {
             }
             fc.closeQuery();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Execption: "+ e);
         }
     }
 

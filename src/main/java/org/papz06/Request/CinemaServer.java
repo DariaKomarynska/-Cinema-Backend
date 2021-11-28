@@ -15,12 +15,13 @@ public class CinemaServer {
         CinemaController cinControl = new CinemaController();
         Map<Integer, String> result = new HashMap<Integer, String>();
         Map<Integer, String> data = cinControl.getListOfCinemas();
-        if (cinControl.isEmptyList()) {
+        if (data.isEmpty()) {
             result.put(0, "Permission denied...Oops");
             return new KeyValue<Integer, String>(403, new JSONObject(result).toString());
         }
         result = data;
         return new KeyValue<>(200, new JSONObject(result).toString());
+//        return null;/*/
     }
 
     public KeyValue<Integer, String> CinemaCreate(String requestBody) {
@@ -35,6 +36,7 @@ public class CinemaServer {
         // else if (permission denied)
         result = cinControl.insertNewRow(requestBody);
         return new KeyValue<Integer, String>(200, new JSONObject(result).toString());
+//        return null;
     }
 
     public KeyValue<Integer, String> CinemaDetails() {

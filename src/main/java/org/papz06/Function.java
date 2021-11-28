@@ -18,6 +18,7 @@ public class Function {
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
     }
+
     public ResultSet insertQuery(String tableName, List<Object> newData) throws SQLException, ClassNotFoundException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con = DriverManager.getConnection(

@@ -3,6 +3,7 @@ package org.papz06;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.papz06.Controllers.CinemaController;
+import org.papz06.Models.Cinema;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,6 +20,8 @@ public class App {
 
     public static void main(String[] args) {
         try {
+            CinemaController cin = new CinemaController();
+            cin.displayCinemas();
             ServerSocket serverConnect = new ServerSocket(PORT);
             System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");
 
