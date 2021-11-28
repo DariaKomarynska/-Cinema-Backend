@@ -1,3 +1,7 @@
+delete from Purchases;
+delete from Schedules;
+delete from Tickets;
+
 -------------------------
 insert into users values (0001, 'Bob', 'WILSON', 'bow11', 'bo56wil'); 
 insert into users values (0002, 'Betty', 'BROWN', 'bow12', 'bo526wil'); 
@@ -15,6 +19,83 @@ insert into users values (0013, 'Bob', 'BROWN', 'bow51', 'bo46wil');
 insert into users values (0014, 'Betty', 'ROBERTSON', 'bow51', 'bo96wil'); 
 insert into users values (0015, 'Otis', 'WILSON', 'bow71', 'bo86wil'); 
 insert into users values (0016, 'John', 'Wick', 'admin', '21232f297a57a5a743894a0e4a801fc3'); 
+commit;
+-------------------------
+
+-------------------------
+--work
+insert into cinemas values (0001, 0001, 'Warszawa Centralna');
+insert into cinemas values (0002, 0002, 'Atlantic Kino');
+insert into cinemas values (0003, 0003, 'Multikino');
+commit;
+-------------------------
+--work
+insert into rooms values (1, 'Room 1', 12, 20, 1);
+insert into rooms values (2, 'Room 2', 24, 40, 1);
+insert into rooms values (3, 'Room 3', 20, 30, 1);
+insert into rooms values (4, 'Room 1', 12, 20, 2);
+insert into rooms values (5, 'Room 2', 24, 40, 2);
+insert into rooms values (6, 'Room 1', 20, 30, 3);
+insert into rooms values (7, 'Room 2', 24, 30, 3);
+commit;
+-------------------------
+--work
+insert into seats values (1, 1, 2, 2, 'comfort');
+insert into seats values (2, 1, 2, 3, 'comfort');
+insert into seats values (3, 1, 2, 4, 'comfort');
+insert into seats values (4, 1, 2, 5, 'luxury');
+
+insert into seats values (5, 2, 1, 2, 'comfort');
+insert into seats values (6, 2, 1, 3, 'comfort');
+insert into seats values (7, 2, 2, 1, 'comfort');
+insert into seats values (8, 2, 3, 6, 'comfort');
+insert into seats values (9, 2, 3, 7, 'comfort');
+insert into seats values (10, 2, 3, 8, 'comfort');
+insert into seats values (11, 2, 3, 9, 'luxury');
+insert into seats values (12, 2, 4, 1, 'luxury');
+
+insert into seats values (13, 3, 2, 5, 'comfort');
+insert into seats values (14, 3, 2, 6, 'comfort');
+insert into seats values (15, 3, 2, 7, 'luxury');
+insert into seats values (16, 3, 2, 8, 'luxury');
+insert into seats values (17, 3, 2, 9, 'luxury');
+insert into seats values (18, 3, 2, 10, 'luxury');
+
+insert into seats values (19, 4, 1, 2, 'comfort');
+insert into seats values (20, 4, 2, 3, 'comfort');
+--insert into seats values (21, 4, 'west', 'seat', 'comfort');
+--insert into seats values (22, 4, 'west', 'seat', 'comfort');
+--insert into seats values (23, 4, 'east', 'seat', 'comfort');
+--insert into seats values (24, 4, 'east', 'seat', 'luxury');
+--
+--insert into seats values (25, 5, 'north', 'seat', 'comfort');
+--insert into seats values (26, 5, 'west', 'seat', 'comfort');
+--insert into seats values (27, 5, 'west', 'seat', 'comfort');
+--insert into seats values (28, 5, 'west', 'seat', 'luxury');
+--insert into seats values (29, 5, 'east', 'seat', 'luxury');
+--
+--insert into seats values (30, 6, 'north', 'seat', 'comfort');
+--insert into seats values (31, 6, 'west', 'seat', 'comfort');
+--insert into seats values (32, 6, 'west', 'seat', 'comfort');
+--insert into seats values (33, 6, 2, 'seat', 'comfort');
+--insert into seats values (34, 6, 'east', 'seat', 'luxury');
+--insert into seats values (35, 6, 'east', 'seat', 'luxury');
+--
+--insert into seats values (36, 7, 'north', 'seat', 'comfort');
+--insert into seats values (37, 7, 'west', 'seat', 'comfort');
+--insert into seats values (38, 7, 2, 'seat', 'comfort');
+--insert into seats values (39, 7, 'east', 'seat', 'luxury');
+
+commit;
+-------------------------
+--work
+insert into MovieCategories values (1, 'Horror', 'funny', 1);
+insert into MovieCategories values (2, 'Romance', 'funny', 1);
+insert into MovieCategories values (3, 'Thriller', 'funny', 1);
+insert into MovieCategories values (4, 'drama', 'funny', 2);
+insert into MovieCategories values (5, 'film', 'funny', 2);
+insert into MovieCategories values (6, 'Action', 'funny', 3);
+insert into MovieCategories values (7, 'romantic', 'funny', 3);
 commit;
 -------------------------
 
@@ -36,101 +117,38 @@ insert into movies values (0015, 90, 6, 1, 'Evil 3', 'romantic');
 commit;
 -------------------------
 
-insert into cinemas values (0001, 0001, 'Warszawa Centralna');
-insert into cinemas values (0002, 0002, 'Atlantic Kino');
-insert into cinemas values (0003, 0003, 'Multikino');
+insert into Schedules values (1, 1638057506,  1, 1, 1628935106, 1629107906, 2);
+insert into Schedules values (2, 1637971106,  1, 2, 1621159106, 1621589106, 2);
+insert into Schedules values (3, 1635292706,  1, 2, 1621763906, 1621764506, 2);
+insert into Schedules values (4, 1635260306,  2, 3, 1619168400, 1619258400, 2);
+insert into Schedules values (5, 1635245906,  2, 3, 1618390800, 1618342800, 2);
+insert into Schedules values (6, 1635159506,  3, 4, 1618230800, 1618375800, 2);
 commit;
 -------------------------
 
-insert into rooms values (1, 'Room 1', 12, 20, 1);
-insert into rooms values (2, 'Room 2', 24, 40, 1);
-insert into rooms values (3, 'Room 3', 20, 30, 1);
-insert into rooms values (4, 'Room 1', 12, 20, 2);
-insert into rooms values (5, 'Room 2', 24, 40, 2);
-insert into rooms values (6, 'Room 1', 20, 30, 3);
-insert into rooms values (7, 'Room 2', 24, 30, 3);
+insert into Purchases values (1, 1635159506, 80.00, 'Credit card', 'usd', 1);
+insert into Purchases values (2, 1632567506, 40.00, 'Cash', 'uah', 1);
+insert into Purchases values (3, 1631617106, 80.00, 'Credit card', 'usd', 2);
+insert into Purchases values (4, 1631620706, 40.00,'Credit card', 'pln', 2);
+insert into Purchases values (5, 1631617106, 40.00, 'Cash', 'uah', 2);
+insert into Purchases values (6, 1631613506, 80.00, 'Credit card', 'usd', 3);
 commit;
 -------------------------
 
-insert into seats values (1, 1, 'north', 'seat', 'comfort');
-insert into seats values (2, 1, 'north', 'seat', 'comfort');
-insert into seats values (3, 1, 'south', 'seat', 'comfort');
-insert into seats values (4, 1, 'west', 'seat', 'luxury');
-
-insert into seats values (1, 2, 'north', 'seat', 'comfort');
-insert into seats values (2, 2, 'north', 'seat', 'comfort');
-insert into seats values (3, 2, 'north', 'seat', 'comfort');
-insert into seats values (4, 2, 'south', 'seat', 'comfort');
-insert into seats values (5, 2, 'south', 'seat', 'comfort');
-insert into seats values (6, 2, 'west', 'seat', 'comfort');
-insert into seats values (7, 2, 'east', 'seat', 'luxury');
-insert into seats values (8, 2, 'east', 'seat', 'luxury');
-
-insert into seats values (1, 3, 'south', 'seat', 'comfort');
-insert into seats values (2, 3, 'south', 'seat', 'comfort');
-insert into seats values (3, 3, 'south', 'seat', 'luxury');
-insert into seats values (4, 3, 'west', 'seat', 'luxury');
-insert into seats values (5, 3, 'east', 'seat', 'luxury');
-insert into seats values (6, 3, 'east', 'seat', 'luxury');
-
-insert into seats values (1, 4, 'north', 'seat', 'comfort');
-insert into seats values (2, 4, 'south', 'seat', 'comfort');
-insert into seats values (3, 4, 'west', 'seat', 'comfort');
-insert into seats values (4, 4, 'west', 'seat', 'comfort');
-insert into seats values (5, 4, 'east', 'seat', 'comfort');
-insert into seats values (6, 4, 'east', 'seat', 'luxury');
-
-insert into seats values (1, 5, 'north', 'seat', 'comfort');
-insert into seats values (2, 5, 'west', 'seat', 'comfort');
-insert into seats values (3, 5, 'west', 'seat', 'comfort');
-insert into seats values (4, 5, 'west', 'seat', 'luxury');
-insert into seats values (5, 5, 'east', 'seat', 'luxury');
-
-insert into seats values (1, 6, 'north', 'seat', 'comfort');
-insert into seats values (2, 6, 'west', 'seat', 'comfort');
-insert into seats values (3, 6, 'west', 'seat', 'comfort');
-insert into seats values (4, 6, 'south', 'seat', 'comfort');
-insert into seats values (5, 6, 'east', 'seat', 'luxury');
-insert into seats values (6, 6, 'east', 'seat', 'luxury');
-
-insert into seats values (1, 7, 'north', 'seat', 'comfort');
-insert into seats values (2, 7, 'west', 'seat', 'comfort');
-insert into seats values (3, 7, 'south', 'seat', 'comfort');
-insert into seats values (4, 7, 'east', 'seat', 'luxury');
-
+insert into TicketTypes values (1, 'adult', 80.00, 1);
+insert into TicketTypes values (2, 'child', 40.00, 1);
+insert into TicketTypes values (3, 'adult', 60.00, 2);
+insert into TicketTypes values (4, 'child', 30.00, 2);
+insert into TicketTypes values (5, 'adult', 70.00, 3);
+insert into TicketTypes values (6, 'child', 20.00, 3);
 commit;
 -------------------------
 
-insert into MovieCategories values (1, 'Horror', 'funny', 1);
-insert into MovieCategories values (2, 'Romance', 'funny', 1);
-insert into MovieCategories values (3, 'Thriller', 'funny', 1);
-insert into MovieCategories values (4, 'drama', 'funny', 2);
-insert into MovieCategories values (5, 'film', 'funny', 2);
-insert into MovieCategories values (6, 'Action', 'funny', 3);
-insert into MovieCategories values (7, 'romantic', 'funny', 3);
+insert into Tickets values (1, 1, 2, 1, 1);
+insert into Tickets values (2, 1, 3, 1, 2);
+insert into Tickets values (3, 2, 6, 4, 2);
+insert into Tickets values (4, 2, 7, 3, 3);
+insert into Tickets values (5, 2, 8, 4, 3);
+insert into Tickets values (6, 3, 14, 6, 4);
 commit;
 -------------------------
-
-insert into Schedules values (1, '2021-01-21 20:00', 1, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (2, '2021-02-21 20:30', 1, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (3, '2021-03-21 21:00', 1, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (4, '2021-03-21 21:00', 2, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (5, '2021-03-21 21:00', 2, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (6, '2021-03-21 20:00', 3, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (7, '2021-03-21 20:00', 3, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (8, '2021-04-21 20:00', 4, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (9, '2021-04-21 20:00', 5, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (10, '2021-04-21 21:00', 6, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (11, '2021-04-21 20:00', 6, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (12, '2021-04-21 21:00', 6, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (13, '2021-04-21 21:00', 7, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (14, '2021-04-21 21:00', 8, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (15, '2021-04-21 21:00', 9, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (16, '2021-04-21 20:00', 10, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (17, '2021-04-21 20:00', 11, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (18, '2021-04-21 21:00', 12, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (19, '2021-04-21 20:00', 13, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (20, '2021-04-21 20:00', 14, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (21, '2021-04-21 21:00', 15, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (22, '2021-04-21 20:00', 1, 1, 'now', 'tomorrow', 2);
-commit;
