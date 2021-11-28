@@ -55,14 +55,16 @@ public class JavaHTTPServer implements Runnable {
             String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
-
+            // Ignore header
             while (input.length() != 0) {
                 input = in.readLine();
             }
+            // Read body
             String requesBody = "";
             while (in.ready()) {
                 requesBody += (char) in.read();
             }
+            // prepare url, queryParams,
             String url;
             Map<String, String> queryParams = null;
             if (fileRequested.indexOf('?') != -1){
@@ -70,10 +72,14 @@ public class JavaHTTPServer implements Runnable {
                 url = pairs[0];
                 queryParams = new Utils().splitQuery(pairs[1]);
             }
-            else url = fileRequested;
-            System.out.println(url);
-            System.out.println(queryParams);
+            else url = fileRequested.substring(1);
             Pair<Integer, String> result = new Pair<Integer, String> (200, "");
+
+            if (url.endsWith("/")) {
+                url += DEFAULT_FILE;
+            }
+            File file = new File(WEB_ROOT, url);
+            int fileLength = (int) file.length();
 
             if (method.equals("POST")) {
 
@@ -81,9 +87,9 @@ public class JavaHTTPServer implements Runnable {
                  * Divider cases for PORT: - login
                  * **/
                 // Case 1:
-                if (url.equals("/login")) result= new UserServer().login(requesBody);
+                if (url.equals("login")) result= new UserServer().login(requesBody);
                 // Case 2:
-                if (url.equals("/cinema") ) result = new CinemaServer().CinemaCreate(requesBody);
+                if (url.equals("cinema") ) result = new CinemaServer().CinemaCreate(requesBody);
                 // Case 3:
                 // Case 4:
                 // Case 5:
@@ -100,6 +106,9 @@ public class JavaHTTPServer implements Runnable {
                 // End Template
                 out.println(result.getValue());
                 out.flush();
+
+//                byte[] fileData = readFileData(file, fileLength);
+//                dataOut.write(fileData, 0, fileLength);
                 dataOut.flush();
             } else if (method.equals("GET")) {
                 // GET or HEAD method
@@ -107,7 +116,7 @@ public class JavaHTTPServer implements Runnable {
                  * Divider cases for GET: -
                  * **/
                 // Case 1:
-                if (url.equals("/cinema") ) result = new CinemaServer().CinemaList();
+                if (url.equals("cinema") ) result = new CinemaServer().CinemaList();
 
 
 
@@ -168,5 +177,10 @@ public class JavaHTTPServer implements Runnable {
 
         return fileData;
     }
-
+    private String getContentType(String fileRequested) {
+        if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
+            return "text/html";
+        else
+            return "text/plain";
+    }
 }
