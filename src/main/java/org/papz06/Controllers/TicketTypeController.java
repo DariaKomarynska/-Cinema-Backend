@@ -13,7 +13,7 @@ public class TicketTypeController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("ticketTypes");
+            rs = fc.executeQuery("select * from ticketTypes");
             while (rs.next()) {
                 ticketTypeList.add(
                         new TicketType(rs.getInt(1),

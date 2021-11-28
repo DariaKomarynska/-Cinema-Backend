@@ -14,7 +14,7 @@ public class ScheduleController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("schedules");
+            rs = fc.executeQuery("select * from schedules");
             while (rs.next()) {
                 scheduleList.add(
                         new Schedule(rs.getInt(1),

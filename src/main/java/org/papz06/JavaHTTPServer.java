@@ -1,6 +1,7 @@
 package org.papz06;
 
 import org.papz06.Request.CinemaServer;
+import org.papz06.Request.MovieServer;
 import org.papz06.Request.RoomServer;
 import org.papz06.Request.UserServer;
 
@@ -9,8 +10,6 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Map;
 import java.util.StringTokenizer;
-import org.papz06.Function;
-import org.papz06.KeyValue;
 
 // The tutorial can be found just here on the SSaurel's Blog :
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -81,11 +80,9 @@ public class JavaHTTPServer implements Runnable {
             KeyValue<Integer, String> result = null;
             if (url.indexOf('/') != -1) {
                 int lx = url.lastIndexOf('/');
-                id = url.substring(lx+1);
+                id = url.substring(lx + 1);
                 url = url.substring(0, lx);
             }
-            System.out.println(url);
-            System.out.println(id);
 
             if (method.equals("POST")) {
                 /**
@@ -94,13 +91,16 @@ public class JavaHTTPServer implements Runnable {
                 // Case 1:
                 switch (url.trim().toLowerCase()) {
                     case "login":
-                        result= new UserServer().login(requesBody);
+                        result = new UserServer().login(requesBody);
                         break;
                     case "cinema":
                         result = new CinemaServer().CinemaCreate(requesBody);
                         break;
                     case "rooms":
-                        result = new RoomServer().RoomCreate(requesBody);
+                        result = RoomServer.RoomCreate(requesBody);
+                        break;
+                    case "movies":
+                        result = MovieServer.MovieCreate(requesBody);
                         break;
                 }
             } else if (method.equals("GET")) {
@@ -114,28 +114,60 @@ public class JavaHTTPServer implements Runnable {
                                 new CinemaServer().CinemaDetails(Integer.parseInt(id));
                         break;
                     case "rooms":
-                        result = (id == null) ? new RoomServer().RoomList(Integer.parseInt(id)) :
-                                new RoomServer().RoomList(Integer.parseInt(id));
+                        if (id != null)
+                            result = RoomServer.RoomList(Integer.parseInt(id));
                         break;
-                    default:
-                        result = new KeyValue<Integer, String>(200,
-                                "{ \"status\": \"success\", \"message\": \"Hello from Group Z06.\"}");
+                    case "room":
+                        if (id != null)
+                            result = RoomServer.RoomDetails(Integer.parseInt(id));
+                        break;
+                    case "movies":
+                        if (id != null)
+                            result = MovieServer.MovieList(Integer.parseInt(id));
+                        break;
+                    case "movie":
+                        if (id != null)
+                            result = MovieServer.MovieDetails(Integer.parseInt(id), requesBody);
+                        break;
+                    case "movies/categories":
+                        if (id != null)
+                            result = MovieServer.MovieCategoryList(Integer.parseInt(id));
                         break;
                 }
 
-            } else if (method.equals("PATCH")){
+            } else if (method.equals("PATCH")) {
                 /**
                  * Divider cases for PATCH: -
                  * **/
-                if (url.equals("cinema") && (id != null)) result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
+                switch (url.trim().toLowerCase()){
+                    case "cinema":
+                        if (id != null)
+                            result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
+                        break;
+                    case "room":
+                        result = RoomServer.RoomUpdate(Integer.parseInt(id), requesBody);
+                        break;
+                    case "movie":
+                        if (id != null)
+                            result = MovieServer.MovieUpdate(Integer.parseInt(id), requesBody);
+                        break;
+                }
 
-            } else if (method.equals("DELETE")){
+            } else if (method.equals("DELETE")) {
                 /**
                  * Divider cases for DELETE: -
                  * **/
-                // Case 1:
-                if (url.equals("cinema") && (id != null)) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
-
+                switch (url.trim().toLowerCase()) {
+                    case "cinema":
+                        if (id != null) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
+                        break;
+                    case "room":
+                        if (id != null) result = RoomServer.RoomDelete(Integer.parseInt(id));
+                        break;
+                    case "movie":
+                        if (id != null) result = MovieServer.MovieDelete(Integer.parseInt(id));
+                        break;
+                }
             } else {
                 System.out.println("405 Method Not Allowed : " + method + " method.");
 
@@ -149,7 +181,7 @@ public class JavaHTTPServer implements Runnable {
                 // we send HTTP Headers with data to client
                 out.write("HTTP/1.1 405 Method Not Allowed\r\n");
                 out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
-                out.write("Date: " + new Date()+"\r\n");
+                out.write("Date: " + new Date() + "\r\n");
 //                out.println("Content-type: " + contentMimeType);
                 out.write("Content-length: 0\r\n");
                 out.write("Access-Control-Allow-Origin: *\r\n");
@@ -158,26 +190,24 @@ public class JavaHTTPServer implements Runnable {
                 dataOut.flush();
 
             }
-            if (result != null){
-                out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
-                out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
-                out.write("Date: " + new Date()+"\r\n");
-                out.write("Connection: close\r\n");
-                out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
-                out.write("Access-Control-Allow-Origin: *\r\n");
-                out.write("Content-type: application/json\r\n");
-                out.write("\r\n"); // blank line between headers and content, very important !
-                // End Template
-                out.write(result.getValue());
-                out.write("\r\n");
-                out.flush();
+            if (result == null)
+                result = new KeyValue<Integer, String>(200,
+                        "{ \"status\": \"success\", \"message\": \"Hello from Group Z06.\"}");
+            out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
+            out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+            out.write("Date: " + new Date() + "\r\n");
+            out.write("Connection: close\r\n");
+            out.write("Content-length: " + result.getValue().getBytes().length + "\r\n");
+            out.write("Access-Control-Allow-Origin: *\r\n");
+            out.write("Content-type: application/json\r\n");
+            out.write("\r\n"); // blank line between headers and content, very important !
+            // End Template
+            out.write(result.getValue());
+            out.write("\r\n");
+            out.flush();
 //                byte[] fileData = readFileData(file, fileLength);
 //                dataOut.write(fileData, 0, fileLength);
-                dataOut.flush();
-            }
-            else{
-                // Implement!!!
-            }
+            dataOut.flush();
 
 
         } catch (IOException ioe) {
@@ -185,9 +215,9 @@ public class JavaHTTPServer implements Runnable {
             String err = ioe.toString();
             out.write("HTTP/1.1 500 Internal Server Error\r\n");
             out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
-            out.write("Date: " + new Date()+"\r\n");
+            out.write("Date: " + new Date() + "\r\n");
             out.write("Connection: close\r\n");
-            out.write("Content-length: " +err.getBytes().length+ "\r\n");
+            out.write("Content-length: " + err.getBytes().length + "\r\n");
             out.write("Access-Control-Allow-Origin: *\r\n");
             out.write("\r\n"); // blank line between headers and content, very important !
             out.write(err);
@@ -222,8 +252,9 @@ public class JavaHTTPServer implements Runnable {
 
         return fileData;
     }
+
     private String getContentType(String fileRequested) {
-        if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
+        if (fileRequested.endsWith(".htm") || fileRequested.endsWith(".html"))
             return "text/html";
         else
             return "text/plain";
