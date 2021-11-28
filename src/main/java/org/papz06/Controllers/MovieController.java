@@ -14,7 +14,7 @@ public class MovieController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("movies");
+            rs = fc.executeQuery("select * from movies");
             while (rs.next()) {
                 moviesList.add(
                         new Movie(rs.getInt(1),

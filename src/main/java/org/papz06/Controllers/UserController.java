@@ -14,7 +14,7 @@ public class UserController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("users");
+            rs = fc.executeQuery("select * from users");
             while (rs.next()) {
                 userList.add(
                         new User(rs.getInt(1),

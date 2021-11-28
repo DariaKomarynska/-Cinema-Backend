@@ -12,7 +12,7 @@ public class TicketController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("tickets");
+            rs = fc.executeQuery("select * from tickets");
             while (rs.next()) {
                 ticketList.add(
                         new Ticket(rs.getInt(1),

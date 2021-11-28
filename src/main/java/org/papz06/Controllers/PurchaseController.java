@@ -14,7 +14,7 @@ public class PurchaseController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("purchases");
+            rs = fc.executeQuery("select * from purchases");
             while (rs.next()) {
                 purchasesList.add(
                         new Purchase(rs.getInt(1),

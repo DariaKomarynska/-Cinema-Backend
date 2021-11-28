@@ -13,7 +13,7 @@ public class SeatController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("seats");
+            rs = fc.executeQuery("select * from seats");
             while (rs.next()) {
                 seatsList.add(
                         new Seat(rs.getInt(1),
