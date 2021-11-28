@@ -3,22 +3,22 @@ delete from Schedules;
 delete from Tickets;
 
 -------------------------
---work
-insert into users values (0001, 'Bob', 'WILSON', 'bow11', 'bo56wil');
-insert into users values (0002, 'Betty', 'BROWN', 'bow12', 'bo526wil');
-insert into users values (0003, 'Luther', 'WOOD', 'bow13', 'bo536wil');
-insert into users values (0004, 'Nick', 'THOMSON', 'bow14', 'bo546wil');
-insert into users values (0005, 'Charles', 'ROBERTSON', 'bow15', 'bo556wil');
-insert into users values (0006, 'Ara', 'CAMPBELL', 'bow16', 'bo566wil');
-insert into users values (0007, 'Bob', 'STEWART', 'bow17', 'bo576wil');
-insert into users values (0008, 'Jeff', 'ANDERSON', 'bow18', 'bo586wil');
-insert into users values (0009, 'James', 'WILSON', 'bow19', 'bo596wil');
-insert into users values (0010, 'Sonny', 'BROWN', 'bow21', 'bo16wil');
-insert into users values (0011, 'Luther', 'THOMSON', 'bow31', 'bo26wil');
-insert into users values (0012, 'Charles', 'WOOD', 'bow41', 'bo36wil');
-insert into users values (0013, 'Bob', 'BROWN', 'bow51', 'bo46wil');
-insert into users values (0014, 'Betty', 'ROBERTSON', 'bow51', 'bo96wil');
-insert into users values (0015, 'Otis', 'WILSON', 'bow71', 'bo86wil');
+insert into users values (0001, 'Bob', 'WILSON', 'bow11', 'bo56wil'); 
+insert into users values (0002, 'Betty', 'BROWN', 'bow12', 'bo526wil'); 
+insert into users values (0003, 'Luther', 'WOOD', 'bow13', 'bo536wil'); 
+insert into users values (0004, 'Nick', 'THOMSON', 'bow14', 'bo546wil'); 
+insert into users values (0005, 'Charles', 'ROBERTSON', 'bow15', 'bo556wil'); 
+insert into users values (0006, 'Ara', 'CAMPBELL', 'bow16', 'bo566wil'); 
+insert into users values (0007, 'Bob', 'STEWART', 'bow17', 'bo576wil'); 
+insert into users values (0008, 'Jeff', 'ANDERSON', 'bow18', 'bo586wil'); 
+insert into users values (0009, 'James', 'WILSON', 'bow19', 'bo596wil'); 
+insert into users values (0010, 'Sonny', 'BROWN', 'bow21', 'bo16wil'); 
+insert into users values (0011, 'Luther', 'THOMSON', 'bow31', 'bo26wil'); 
+insert into users values (0012, 'Charles', 'WOOD', 'bow41', 'bo36wil'); 
+insert into users values (0013, 'Bob', 'BROWN', 'bow51', 'bo46wil'); 
+insert into users values (0014, 'Betty', 'ROBERTSON', 'bow51', 'bo96wil'); 
+insert into users values (0015, 'Otis', 'WILSON', 'bow71', 'bo86wil'); 
+insert into users values (0016, 'John', 'Wick', 'admin', '21232f297a57a5a743894a0e4a801fc3'); 
 commit;
 -------------------------
 
@@ -152,4 +152,3 @@ insert into Tickets values (5, 2, 8, 4, 3);
 insert into Tickets values (6, 3, 14, 6, 4);
 commit;
 -------------------------
-
