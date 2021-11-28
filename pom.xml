@@ -46,6 +46,11 @@
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/javafx.base.jar</systemPath>
     </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-base</artifactId>
+      <version>17</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -98,6 +103,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>8</source>
+          <target>8</target>
         </configuration>
       </plugin>
       <plugin>
