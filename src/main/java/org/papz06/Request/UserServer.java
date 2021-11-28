@@ -24,14 +24,16 @@ public class UserServer {
         String passAfterHash = new Utils().MD5(passwordData);
         UserController usCon = new UserController();
         // Parse to json
-        JSONObject jo = new JSONObject(retMap);
+        Map<String, String> data = new HashMap<String, String>();
         // Check if it exists in data base?
         // No!
         if (!usCon.checkExist(loginData, passAfterHash)) {
-            return new KeyValue <Integer, String>(452, "Wrong bro!");
+            data.put("JWTToken", "Wrong bro!");
+            return new KeyValue <Integer, String>(452, new JSONObject(data).toString());
         }
         // Yes
         String JWTToken = new Utils().createJWTToken(new Function().getSecret());
-        return new KeyValue <Integer, String>(200, JWTToken);
+        data.put("JWTToken", JWTToken);
+        return new KeyValue <Integer, String>(200, new JSONObject(data).toString());
     }
 }
