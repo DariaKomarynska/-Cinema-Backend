@@ -152,7 +152,7 @@ public class JavaHTTPServer implements Runnable {
                 out.write("Connection: close\r\n");
                 out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
                 out.write("Access-Control-Allow-Origin: *\r\n");
-                out.write("Content-type: application/json");
+                out.write("Content-type: application/json\r\n");
                 out.write("\r\n"); // blank line between headers and content, very important !
                 // End Template
                 out.write(result.getValue());
