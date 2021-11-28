@@ -32,7 +32,7 @@ public class UserController {
 
     public boolean checkExist(String user, String password) {
         for (User us : userList){
-            if ((us.getLogin() == user) && (us.getPassword() == password))
+            if ((us.getLogin().equals(user)) && (us.getPassword().equals(password)))
                 return true;
         }
         return false;
