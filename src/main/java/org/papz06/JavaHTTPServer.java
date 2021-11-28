@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
+import org.papz06.Function;
 
 // The tutorial can be found just here on the SSaurel's Blog :
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -18,7 +19,7 @@ public class JavaHTTPServer implements Runnable {
     static final String FILE_NOT_FOUND = "404.html";
     //    static final String METHOD_NOT_SUPPORTED = "not_supported.html";
     // port to listen connection
-    static final int PORT = 8080;
+    static final int PORT = Function.getEnv("PORT") != null ? Integer.valueOf(Function.getEnv("PORT")) : 8080;
 
     // verbose mode
 //    static final boolean verbose = true;
