@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS --module-path /lib --add-modules javafx.base -cp target/classes:target/dependency/* org.papz06.App
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* org.papz06.App
