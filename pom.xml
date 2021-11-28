@@ -43,7 +43,6 @@
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-base</artifactId>
       <version>17</version>
-      <systemPath>${project.basedir}/lib/favafx.base.jar</systemPath>
     </dependency>
   </dependencies>
 
