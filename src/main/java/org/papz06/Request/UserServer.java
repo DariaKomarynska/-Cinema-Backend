@@ -32,7 +32,7 @@ public class UserServer {
             return new KeyValue <Integer, String>(452, new JSONObject(data).toString());
         }
         // Yes
-        String JWTToken = new Utils().createJWTToken(new Function().getSecret());
+        String JWTToken = Utils.createJWTToken(new Function().getSecret());
         data.put("JWTToken", JWTToken);
         return new KeyValue <Integer, String>(200, new JSONObject(data).toString());
     }
