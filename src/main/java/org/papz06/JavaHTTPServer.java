@@ -80,6 +80,7 @@ public class JavaHTTPServer implements Runnable {
                 out.println("Date: " + new Date());
                 out.println("Content-type: application/json");
                 out.println("Content-length: " + result.getValue().length());
+                out.println("Access-Control-Allow-Origin: *");
                 out.println(); // blank line between headers and content, very important !
                 out.flush(); // flush character output stream buffer
                 // End Template
