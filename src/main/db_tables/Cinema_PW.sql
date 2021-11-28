@@ -54,18 +54,18 @@ create table MovieCategories
 create table Schedules
 (
     Schedule_id number not null constraint Schedule_pk primary key,
-    datetime DATE not null,
+    datetime number not null,
     movie_ID NUMBER NOT NULL CONSTRAINT mov_sched_fk REFERENCES movies (movie_ID),
     room_ID NUMBER NOT NULL CONSTRAINT room_sched_fk REFERENCES rooms (room_ID),
-    openSale varchar2(60) not null,
-    closeSale varchar2(60) not null,
+    openSale number not null,
+    closeSale number not null,
     seatLeft number(4) not null
 );
 
 create table Purchases
 (
     Purchase_id number not null constraint Purchase_pk primary key,
-    datetime date not null,
+    datetime NUMBER not null,
     amount float(2) not null,
     paymentMethod varchar2(40),
     currency VARCHAR2(10),

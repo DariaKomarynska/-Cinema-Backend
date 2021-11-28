@@ -117,43 +117,21 @@ insert into movies values (0015, 90, 6, 1, 'Evil 3', 'romantic');
 commit;
 -------------------------
 
-insert into Schedules values (1, to_date('17-01-2021 12:00', 'dd-mm-yyyy hh24:mi'), 1, 1, 'now', 'tomorrow', 2);
-insert into Schedules values (2, to_date('16-01-2021 14:00', 'dd-mm-yyyy hh24:mi'), 1, 2, 'now', 'tomorrow', 2);
-insert into Schedules values (3, to_date('13-01-2021 12:00', 'dd-mm-yyyy hh24:mi'), 1, 2, 'now', 'tomorrow', 2);
-insert into Schedules values (4, to_date('03-01-2021 18:00', 'dd-mm-yyyy hh24:mi'), 2, 3, 'now', 'tomorrow', 2);
-insert into Schedules values (5, to_date('13-01-2021 18:30', 'dd-mm-yyyy hh24:mi'), 2, 3, 'now', 'tomorrow', 2);
-insert into Schedules values (6, to_date('18-01-2021 14:30', 'dd-mm-yyyy hh24:mi'), 3, 4, 'now', 'tomorrow', 2);
---insert into Schedules values (7, to_date('15-01-2021 12:00', 'dd-mm-yyyy hh24:mi'), 3, 4, 'now', 'tomorrow', 2);
---insert into Schedules values (8, to_date('13-01-2021 14:00', 'dd-mm-yyyy hh24:mi'), 4, 3, 'now', 'tomorrow', 2);
---insert into Schedules values (9, to_date('14-01-2021 12:30', 'dd-mm-yyyy hh24:mi'), 5, 2, 'now', 'tomorrow', 2);
---insert into Schedules values (10, to_date('13-01-2021 14:00', 'dd-mm-yyyy hh24:mi'), 6, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (11, to_date('14-01-2021 18:30', 'dd-mm-yyyy hh24:mi'), 6, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (12, to_date('13-01-2021 18:30', 'dd-mm-yyyy hh24:mi'), 6, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (13, '2021-04-21 21:00', 7, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (14, '2021-04-21 21:00', 8, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (15, '2021-04-21 21:00', 9, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (16, '2021-04-21 20:00', 10, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (17, '2021-04-21 20:00', 11, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (18, '2021-04-21 21:00', 12, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (19, '2021-04-21 20:00', 13, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (20, '2021-04-21 20:00', 14, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (21, '2021-04-21 21:00', 15, 1, 'now', 'tomorrow', 2);
---insert into Schedules values (22, '2021-04-21 20:00', 1, 1, 'now', 'tomorrow', 2);
+insert into Schedules values (1, 1638057506,  1, 1, 1628935106, 1629107906, 2);
+insert into Schedules values (2, 1637971106,  1, 2, 1621159106, 1621589106, 2);
+insert into Schedules values (3, 1635292706,  1, 2, 1621763906, 1621764506, 2);
+insert into Schedules values (4, 1635260306,  2, 3, 1619168400, 1619258400, 2);
+insert into Schedules values (5, 1635245906,  2, 3, 1618390800, 1618342800, 2);
+insert into Schedules values (6, 1635159506,  3, 4, 1618230800, 1618375800, 2);
 commit;
 -------------------------
 
-insert into Purchases values (1, to_date('17-01-2021 12:28', 'dd-mm-yyyy hh24:mi'), 80.00, 'Credit card', 'usd', 1);
-insert into Purchases values (2, to_date('16-01-2021 14:28', 'dd-mm-yyyy hh24:mi'), 40.00, 'Cash', 'uah', 1);
-insert into Purchases values (3, to_date('13-01-2021 12:27', 'dd-mm-yyyy hh24:mi'), 80.00, 'Credit card', 'usd', 2);
-insert into Purchases values (4, to_date('03-01-2021 18:39', 'dd-mm-yyyy hh24:mi'), 40.00,'Credit card', 'pln', 2);
-insert into Purchases values (5, to_date('13-01-2021 18:28', 'dd-mm-yyyy hh24:mi'), 40.00, 'Cash', 'uah', 2);
-insert into Purchases values (6, to_date('18-01-2021 14:14', 'dd-mm-yyyy hh24:mi'), 80.00, 'Credit card', 'usd', 3);
---insert into Purchases values (7, to_date('15-01-2021 12:35', 'dd-mm-yyyy hh24:mi'), 40.00, 'Credit card', 'usd', 3);
---insert into Purchases values (8, to_date('13-01-2021 14:39', 'dd-mm-yyyy hh24:mi'), 40.00, 'Cash', 'usd', 4);
---insert into Purchases values (9, to_date('14-01-2021 12:52', 'dd-mm-yyyy hh24:mi'), 80.00, 'Credit card', 'pln', 4);
---insert into Purchases values (10, to_date('13-01-2021 14:13', 'dd-mm-yyyy hh24:mi'), 40.00, 'Credit card', 'uah', 4);
---insert into Purchases values (11, to_date('14-01-2021 18:24', 'dd-mm-yyyy hh24:mi'), 40.00, 'Credit card', 'pln', 5);
---insert into Purchases values (12, to_date('13-01-2021 18:53', 'dd-mm-yyyy hh24:mi'), 40.00, 'Credit card', 'usd', 5);
+insert into Purchases values (1, 1635159506, 80.00, 'Credit card', 'usd', 1);
+insert into Purchases values (2, 1632567506, 40.00, 'Cash', 'uah', 1);
+insert into Purchases values (3, 1631617106, 80.00, 'Credit card', 'usd', 2);
+insert into Purchases values (4, 1631620706, 40.00,'Credit card', 'pln', 2);
+insert into Purchases values (5, 1631617106, 40.00, 'Cash', 'uah', 2);
+insert into Purchases values (6, 1631613506, 80.00, 'Credit card', 'usd', 3);
 commit;
 -------------------------
 
