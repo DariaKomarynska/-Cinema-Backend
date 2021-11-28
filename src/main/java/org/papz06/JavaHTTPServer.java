@@ -74,7 +74,7 @@ public class JavaHTTPServer implements Runnable {
             if (fileRequested.indexOf('?') != -1) {
                 String[] pairs = fileRequested.split("\\?");
                 url = pairs[0];
-                queryParams = new Utils().splitQuery(pairs[1]);
+                queryParams = Utils.splitQuery(pairs[1]);
             } else url = fileRequested.substring(1);
             String id = null;
             KeyValue<Integer, String> result = null;
@@ -152,6 +152,7 @@ public class JavaHTTPServer implements Runnable {
                 out.write("Connection: close\r\n");
                 out.write("Content-length: " + result.getValue().getBytes().length+"\r\n");
                 out.write("Access-Control-Allow-Origin: *\r\n");
+                out.write("Content-type: application/json");
                 out.write("\r\n"); // blank line between headers and content, very important !
                 // End Template
                 out.write(result.getValue());

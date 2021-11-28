@@ -21,7 +21,7 @@ public class UserServer {
         // Get data
         String loginData = retMap.get("login");
         String passwordData = retMap.get("password");
-        String passAfterHash = new Utils().MD5(passwordData);
+        String passAfterHash = Utils.MD5(passwordData);
         UserController usCon = new UserController();
         // Parse to json
         Map<String, String> data = new HashMap<String, String>();

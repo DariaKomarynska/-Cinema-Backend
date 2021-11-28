@@ -18,7 +18,7 @@ public class Utils {
 //    private static String encode(byte[] bytes) {
 //        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
 //    }
-    private String hmacSha256(String data, String secret) {
+    private static String hmacSha256(String data, String secret) {
         try {
 
             byte[] hash = secret.getBytes(StandardCharsets.UTF_8);
@@ -40,7 +40,7 @@ public class Utils {
         }
     }
 
-    public String MD5(String md5) {
+    public static String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
@@ -54,7 +54,7 @@ public class Utils {
         return null;
     }
 
-    public String createJWTToken(String secret){
+    public static String createJWTToken(String secret){
         JSONObject payload = new JSONObject();
         JSONObject header = new JSONObject();
         long expires = (System.currentTimeMillis()+10000) / 1000L;
