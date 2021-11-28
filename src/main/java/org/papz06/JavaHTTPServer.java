@@ -82,15 +82,14 @@ public class JavaHTTPServer implements Runnable {
                 out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
                 out.println("Server: Java HTTP Server from SSaurel : 1.0\n\n");
                 out.println("Date: " + new Date()+"\r\n");
-                out.println("Connection: close\n\n");
-                out.println("Content-type: application/json\n\n");
-                out.println("Content-length: " + result.getValue().length()+"\r\n");
-                out.println("Access-Control-Allow-Origin: *\n\n");
+                out.println("Connection: close\r\n");
+                out.println("Content-type: application/json\r\n");
+                out.println("Content-length: " + result.getValue().getBytes().length+"\r\n");
+                out.println("Access-Control-Allow-Origin: *\r\n");
                 out.println("\r\n"); // blank line between headers and content, very important !
-                out.flush(); // flush character output stream buffer
                 // End Template
                 out.println(result.getValue());
-                out.println("\r\n\r\n");
+                out.println("\r\n");
                 out.flush();
                 dataOut.flush();
             } else if (method.equals("GET")) {
