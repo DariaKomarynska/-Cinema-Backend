@@ -14,6 +14,7 @@ insert into users values (0012, 'Charles', 'WOOD', 'bow41', 'bo36wil');
 insert into users values (0013, 'Bob', 'BROWN', 'bow51', 'bo46wil'); 
 insert into users values (0014, 'Betty', 'ROBERTSON', 'bow51', 'bo96wil'); 
 insert into users values (0015, 'Otis', 'WILSON', 'bow71', 'bo86wil'); 
+insert into users values (0016, 'John', 'Wick', 'admin', '21232f297a57a5a743894a0e4a801fc3'); 
 commit;
 -------------------------
 

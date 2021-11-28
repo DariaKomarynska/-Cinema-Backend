@@ -1,5 +1,8 @@
 package org.papz06;
 
+import javafx.util.Pair;
+import org.papz06.Request.UserServer;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
@@ -51,51 +54,55 @@ public class JavaHTTPServer implements Runnable {
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
 
-            if (method.equals("POST"))
-            {
-                System.out.println(input);
-                input = in.readLine();
-                while (true){
-                    if (input.length() == 0) break;
+            if (method.equals("POST")) {
+                while (input.length() != 0) {
                     input = in.readLine();
                 }
-                String body = "";
-                input = in.readLine();
-                while ((input = in.readLine()) != null){
-                    if (input.length() == 0) break;
-                    System.out.println(input);
-                    body += input;
+                String sb = "";
+                while (in.ready()) {
+                    sb += (char) in.read();
                 }
-                System.out.println(body);
-//                System.out.println(parse.nextToken());
-//                System.out.println(parse.nextToken());
-            } else if (method.equals("GET") || method.equals("HEAD")) {
+                Pair<Integer, String> result = new Pair<Integer, String> (200, "");
+
+                /**
+                 * Divider cases for PORT: - login
+                 * **/
+                // Case 1:
+                if (fileRequested.equals("/login") ) result= new UserServer().login(sb);
+                // Case 2:
+                // Case 3:
+                // Case 4:
+                // Case 5:
+                // Case 6:
+                // Template
+                out.println("HTTP/1.1 " + result.getKey() + " OK ");
+                out.println("Server: Java HTTP Server from SSaurel : 1.0");
+                out.println("Date: " + new Date());
+                out.println("Content-type: application/json");
+                out.println("Content-length: " + result.getValue().length());
+                out.println(); // blank line between headers and content, very important !
+                out.flush(); // flush character output stream buffer
+                // End Template
+                out.println(result.getValue());
+                out.flush();
+                dataOut.flush();
+            } else if (method.equals("GET")) {
                 // GET or HEAD method
-                if (fileRequested.endsWith("/")) {
-                    fileRequested += DEFAULT_FILE;
+                while (input.length() != 0) {
+                    input = in.readLine();
+                }
+                String sb = "";
+                while (in.ready()) {
+                    sb += (char) in.read();
+                }
+                /**
+                 * Divider cases for GET: -
+                 * **/
+                // Case 1:
+                if (fileRequested.equals("/cinema") ) {
+                    // Implement here
                 }
 
-                File file = new File(WEB_ROOT, fileRequested);
-                int fileLength = (int) file.length();
-                String content = getContentType(fileRequested);
-
-                if (method.equals("GET")) { // GET method so we return content
-                    byte[] fileData = readFileData(file, fileLength);
-
-                    // send HTTP Headers
-                    out.println("HTTP/1.1 200 OK");
-                    out.println("Server: Java HTTP Server from SSaurel : 1.0");
-                    out.println("Date: " + new Date());
-                    out.println("Content-type: " + content);
-                    out.println("Content-length: " + fileLength);
-                    out.println(); // blank line between headers and content, very important !
-                    out.flush(); // flush character output stream buffer
-
-                    dataOut.write(fileData, 0, fileLength);
-                    dataOut.flush();
-                }
-
-                System.out.println("File " + fileRequested + " of type " + content + " returned");
 
 
             } else {
@@ -122,12 +129,6 @@ public class JavaHTTPServer implements Runnable {
 
             }
 
-//        } catch (FileNotFoundException fnfe) {
-//            try {
-//                fileNotFound(out, dataOut, fileRequested);
-//            } catch (IOException ioe) {
-//                System.err.println("Error with file not found exception : " + ioe.getMessage());
-//            }
 
         } catch (IOException ioe) {
             System.err.println("Server error : " + ioe);
@@ -160,34 +161,6 @@ public class JavaHTTPServer implements Runnable {
         }
 
         return fileData;
-    }
-
-    // return supported MIME Types
-    private String getContentType(String fileRequested) {
-        if (fileRequested.endsWith(".htm") || fileRequested.endsWith(".html"))
-            return "text/html";
-        else
-            return "text/plain";
-    }
-
-    private void getContentType(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException {
-        File file = new File(WEB_ROOT, FILE_NOT_FOUND);
-        int fileLength = (int) file.length();
-        String content = "text/html";
-        byte[] fileData = readFileData(file, fileLength);
-
-        out.println("HTTP/1.1 404 File Not Found");
-        out.println("Server: Java HTTP Server from SSaurel : 1.0");
-        out.println("Date: " + new Date());
-        out.println("Content-type: " + content);
-        out.println("Content-length: " + fileLength);
-        out.println(); // blank line between headers and content, very important !
-        out.flush(); // flush character output stream buffer
-
-        dataOut.write(fileData, 0, fileLength);
-        dataOut.flush();
-
-        System.out.println("File " + fileRequested + " not found");
     }
 
 }

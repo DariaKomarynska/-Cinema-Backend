@@ -2,7 +2,6 @@ package org.papz06.Controllers;
 
 import org.papz06.Function;
 import org.papz06.Models.Cinema;
-import org.papz06.Models.Movie;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

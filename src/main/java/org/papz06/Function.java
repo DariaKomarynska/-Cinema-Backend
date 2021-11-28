@@ -5,6 +5,7 @@ import java.sql.*;
 
 public class Function {
     Connection con;
+    static private String secret = "SuperScretKey123123";
     public ResultSet executeQuery(String tableName) throws SQLException, ClassNotFoundException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con=DriverManager.getConnection(
@@ -13,6 +14,9 @@ public class Function {
         String sql = "select * from " + tableName;
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
+    }
+    public String getSecret(){
+        return secret;
     }
     public void closeQuery() throws Exception{
         con.close();
