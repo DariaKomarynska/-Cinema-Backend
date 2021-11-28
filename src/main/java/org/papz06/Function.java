@@ -12,7 +12,7 @@ public class Function {
     public ResultSet executeQuery(String sql) throws SQLException, ClassNotFoundException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@oracle-59559-0.cloudclusters.net:11002/XE", "admin", "7R2u6S@c8Bzbspf");
+                "jdbc:oracle:thin:@ora4.ii.pw.edu.pl:1521/pdb1.ii.pw.edu.pl", "z06", "t4jzpt");
         Statement stmt = con.createStatement();
 //        String sql = "select * from " + tableName;
         ResultSet rs = stmt.executeQuery(sql);
@@ -21,7 +21,7 @@ public class Function {
     public ResultSet insertQuery(String tableName, List<Object> newData) throws SQLException, ClassNotFoundException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@oracle-59559-0.cloudclusters.net:11002/XE", "admin", "7R2u6S@c8Bzbspf");
+                "jdbc:oracle:thin:@ora4.ii.pw.edu.pl:1521/pdb1.ii.pw.edu.pl", "z06", "t4jzpt");
         Statement stmt = con.createStatement();
         String sql = "insert into " + tableName + "values (";
         for (Object newElement : newData){
