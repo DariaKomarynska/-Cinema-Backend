@@ -1,6 +1,7 @@
 package org.papz06;
 
 import org.papz06.Request.CinemaServer;
+import org.papz06.Request.RoomServer;
 import org.papz06.Request.UserServer;
 
 import java.io.*;
@@ -91,29 +92,41 @@ public class JavaHTTPServer implements Runnable {
                  * Divider cases for PORT: - login
                  * **/
                 // Case 1:
-                if (url.equals("login")) result= new UserServer().login(requesBody);
-                // Case 2:
-                if (url.equals("cinema") ) result = new CinemaServer().CinemaCreate(requesBody);
-                // Case 3:
-                // Case 4:
-                // Case 5:
-                // Case 6:
-                // Template
+                switch (url.trim().toLowerCase()) {
+                    case "login":
+                        result= new UserServer().login(requesBody);
+                        break;
+                    case "cinema":
+                        result = new CinemaServer().CinemaCreate(requesBody);
+                        break;
+                    case "rooms":
+                        result = new RoomServer().RoomCreate(requesBody);
+                        break;
+                }
             } else if (method.equals("GET")) {
                 // GET method
                 /**
                  * Divider cases for GET: -
                  * **/
-                // Case 1:
-                if (url.equals("cinema") && (id == null)) result = new CinemaServer().CinemaList();
-                else if (url.equals("cinema") && (id != null))
-                    result = new CinemaServer().CinemaDetails(Integer.parseInt(id));
+                switch (url.trim().toLowerCase()) {
+                    case "cinema":
+                        result = (id == null) ? new CinemaServer().CinemaList() :
+                                new CinemaServer().CinemaDetails(Integer.parseInt(id));
+                        break;
+                    case "rooms":
+                        result = (id == null) ? new RoomServer().RoomList(Integer.parseInt(id)) :
+                                new RoomServer().RoomList(Integer.parseInt(id));
+                        break;
+                    default:
+                        result = new KeyValue<Integer, String>(200,
+                                "{ \"status\": \"success\", \"message\": \"Hello from Group Z06.\"}");
+                        break;
+                }
 
             } else if (method.equals("PATCH")){
                 /**
                  * Divider cases for PATCH: -
                  * **/
-                // Case 1:
                 if (url.equals("cinema") && (id != null)) result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
 
             } else if (method.equals("DELETE")){
