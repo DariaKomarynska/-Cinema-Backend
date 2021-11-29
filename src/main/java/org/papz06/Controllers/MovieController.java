@@ -104,7 +104,6 @@ public class MovieController {
 
     public static JSONObject updateMovie(Movie mv){
         Function fc = new Function();
-        ResultSet rs;
         try {
             String sql = "update movies set" +
                     " length = " + mv.getLength() +
@@ -113,7 +112,6 @@ public class MovieController {
                     "\', description = \'" + mv.getDescription() +
                     "\', moviecate_id = " + mv.getMovieCateId() +
                     " where available = 1 and movie_id = " + mv.getId();
-            System.out.println(sql);
             fc.executeQuery(sql);
             fc.closeQuery();
             return mv.toJson();
@@ -121,5 +119,24 @@ public class MovieController {
             System.out.println(e);
             return null;
         }
+    }
+
+    public static boolean deleteMovie(int id){
+        Function fc = new Function();
+        try {
+            String sql = "select count(*) from movies where available =1 and movie_id = " + id;
+
+            ResultSet rs = fc.executeQuery(sql);
+            rs.next();
+            if (rs.getInt(1) == 0)
+                return false;
+            sql = "update movies set available = 0  where movie_id = " + id;
+            fc.executeQuery(sql);
+            fc.closeQuery();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
     }
 }

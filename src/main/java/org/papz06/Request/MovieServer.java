@@ -61,14 +61,17 @@ public class MovieServer {
             result = MovieController.updateMovie(myMovie);
         } catch (Exception e){
             System.out.println(e);
+            return new KeyValue<>(400, "");
         }
         if (result == null)
-            return new KeyValue<>(400, "");
+            return new KeyValue<>(404, "");
         return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> MovieDelete(int id) {
-        return null;
+        if (MovieController.deleteMovie(id))
+            return new KeyValue<>(200, "");
+        return new KeyValue<>(404, "");
     }
 
     public static KeyValue<Integer, String> MovieCategoryList(int cinema_id) {
