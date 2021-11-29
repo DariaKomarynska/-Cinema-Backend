@@ -3,6 +3,7 @@ package org.papz06;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.papz06.Controllers.CinemaController;
+import org.papz06.Models.Cinema;
 
 import java.io.IOException;
 import java.net.ServerSocket;
