@@ -53,7 +53,6 @@ public class JavaHTTPServer implements Runnable {
             String input = in.readLine();
             if (input == null)
                 throw new IOException("Empty request!");
-            System.out.println(input);
             // we parse the request with a string tokenizer
             StringTokenizer parse = new StringTokenizer(input);
             String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
@@ -87,8 +86,23 @@ public class JavaHTTPServer implements Runnable {
                 id = url.substring(lx + 1);
                 url = url.substring(0, lx);
             }
+            if (method.equals("POST") && (url.equals("login") || url.equals("register"))){
 
-            if (method.equals("POST")) {
+                switch (url.trim().toLowerCase()) {
+                    case "login":
+                        result = UserServer.login(requesBody);
+                        break;
+                    case "register":
+                        result = UserServer.Registration(requesBody);
+                        break;
+                }
+            }
+            boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
+            if (!validJWT){
+                result = new KeyValue<Integer, String>(452,
+                        "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
+            }
+            else if (method.equals("POST")) {
                 /**
                  * Divider cases for PORT: - login
                  * **/

@@ -57,13 +57,14 @@ public class Function {
         con.close();
     }
 
-    public boolean checkValidJWT(String token){
+    static public boolean checkValidJWT(String token){
+        System.out.println(token);
         String[] parts = token.split("\\.");
         JSONObject header = new JSONObject(decode(parts[0]));
         JSONObject payload = new JSONObject(decode(parts[1]));
         String signature = decode(parts[2]);
         if (payload.getLong("exp") > (System.currentTimeMillis() / 1000)) return false;
-//        String headerAndPayloadHashed = Utils.hmacSha256(parts[0] + "." + parts[1]);
+        String headerAndPayloadHashed = Utils.hmacSha256(parts[0] + "." + parts[1], secret);
 //        if (signature.equals(headerAndPayloadHashed, secret)) return true;
         return false;
     }
