@@ -7,11 +7,12 @@ import org.papz06.Controllers.UserController;
 import org.papz06.Function;
 import org.papz06.KeyValue;
 import org.papz06.Utils;
+import org.papz06.Models.*;
 
 import java.util.*;
 
 public class UserServer {
-    public KeyValue<Integer, String> login(String parametr) {
+    public static KeyValue<Integer, String> login(String parametr) {
         /**
         Pair to return status number and JWT token.
         * */
@@ -32,8 +33,27 @@ public class UserServer {
             return new KeyValue <Integer, String>(452, new JSONObject(data).toString());
         }
         // Yes
-        String JWTToken = Utils.createJWTToken(new Function().getSecret());
+        String JWTToken = Utils.createJWTToken(Function.getSecret());
         data.put("JWTToken", JWTToken);
         return new KeyValue <Integer, String>(200, new JSONObject(data).toString());
+    }
+    public static KeyValue<Integer, String> Registration(String requestBody) {
+        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+        }.getType());
+        String firstName = retMap.get("firstName");
+        String lastName = retMap.get("lastName");
+        String loginData = retMap.get("login");
+        String passwordData = retMap.get("password");
+        Map<String, String> data = new HashMap<String, String>();
+        UserController usCon = new UserController();
+        if (usCon.checkExistUser(loginData)){
+            data.put("JWTToken", "User's already existed!");
+            return new KeyValue<>(452, new JSONObject(data).toString());
+        }
+        String passwordAfterHash = Utils.MD5(passwordData);
+        new UserController().registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
+        String JWTToken = Utils.createJWTToken(Function.getSecret());
+        data.put("JWTToken", JWTToken);
+        return new KeyValue <>(200, new JSONObject(data).toString());
     }
 }

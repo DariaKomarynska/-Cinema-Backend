@@ -53,15 +53,18 @@ public class JavaHTTPServer implements Runnable {
             String input = in.readLine();
             if (input == null)
                 throw new IOException("Empty request!");
-            System.out.println(input);
             // we parse the request with a string tokenizer
             StringTokenizer parse = new StringTokenizer(input);
             String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
             // Ignore header
+            String authorization = null;
             while (input.length() != 0) {
                 input = in.readLine();
+                if (input.toLowerCase().contains("authorization")){
+                    authorization = input.split(" ")[2];
+                }
             }
             // Read body
             String requesBody = "";
@@ -83,15 +86,33 @@ public class JavaHTTPServer implements Runnable {
                 id = url.substring(lx + 1);
                 url = url.substring(0, lx);
             }
+            if (method.equals("POST") && (url.equals("login") || url.equals("register"))){
 
-            if (method.equals("POST")) {
+                switch (url.trim().toLowerCase()) {
+                    case "login":
+                        result = UserServer.login(requesBody);
+                        break;
+                    case "register":
+                        result = UserServer.Registration(requesBody);
+                        break;
+                }
+            }
+            boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
+            if (!validJWT){
+                result = new KeyValue<Integer, String>(452,
+                        "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
+            }
+            else if (method.equals("POST")) {
                 /**
                  * Divider cases for PORT: - login
                  * **/
                 // Case 1:
                 switch (url.trim().toLowerCase()) {
                     case "login":
-                        result = new UserServer().login(requesBody);
+                        result = UserServer.login(requesBody);
+                        break;
+                    case "register":
+                        result = UserServer.Registration(requesBody);
                         break;
                     case "cinema":
                         result = new CinemaServer().CinemaCreate(requesBody);

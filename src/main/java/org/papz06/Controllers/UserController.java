@@ -25,9 +25,17 @@ public class UserController {
                         )
                 );
             }
+            fc.closeQuery();
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+    public boolean checkExistUser(String user) {
+        for (User us : userList){
+            if (us.getLogin().equals(user))
+                return true;
+        }
+        return false;
     }
 
     public boolean checkExist(String user, String password) {
@@ -36,5 +44,16 @@ public class UserController {
                 return true;
         }
         return false;
+    }
+    public void registerUser(User us){
+        Function fc = new Function();
+        try{
+            // Implement
+            fc.executeQuery("insert into users values (default, \'"
+                    + us.getFirstName() + "\', \'"
+                    + us.getLastName() + "\', \'"
+                    + us.getLogin() + "\', \'"
+                    + us.getPassword() + "\')");
+        } catch (Exception e) {System.out.println(e);}
     }
 }
