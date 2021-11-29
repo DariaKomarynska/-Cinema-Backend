@@ -26,6 +26,34 @@ public class Movie {
     public Movie() {
     }
 
+    public int getId(){
+        return id;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public String getAgeRestriction(){
+        return ageRestriction;
+    }
+
+    public int getCinemaId(){
+        return cinemaId;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public int getMovieCateId(){
+        return movieCateId;
+    }
+
     public String toString() {
         return id + " " + length
                 + " " + ageRestriction
