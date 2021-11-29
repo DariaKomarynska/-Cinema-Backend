@@ -143,7 +143,7 @@ public class JavaHTTPServer implements Runnable {
                             break;
                         case "movie":
                             if (id != null)
-                                result = MovieServer.MovieDetails(Integer.parseInt(id), requesBody);
+                                result = MovieServer.MovieDetails(Integer.parseInt(id));
                             break;
                         case "movies/categories":
                             if (id != null)

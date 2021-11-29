@@ -38,8 +38,11 @@ public class MovieServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> MovieDetails(int id, String requestBody) {
-        return null;
+    public static KeyValue<Integer, String> MovieDetails(int id) {
+        Movie result = MovieController.getMovieById(id);
+        if (result == null)
+            return new KeyValue<>(404, "");
+        return new KeyValue<>(200, result.toJson().toString());
     }
 
     public static KeyValue<Integer, String> MovieUpdate(int id, String requestBody) {

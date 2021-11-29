@@ -1,5 +1,8 @@
 package org.papz06.Models;
 
+import org.json.JSONObject;
+import org.papz06.Controllers.MovieCategoryController;
+
 public class Movie {
     int id, length, cinemaId, movieCateId;
     String name, description, ageRestriction;
@@ -21,6 +24,10 @@ public class Movie {
         this.name = name;
         this.description = description;
         this.movieCateId = movieCateId;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public Movie() {
@@ -60,5 +67,16 @@ public class Movie {
                 + " " + cinemaId
                 + " " + name
                 + " " + description;
+    }
+
+    public JSONObject toJson(){
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("description", description);
+        result.put("length", length);
+        result.put("ageRestriction", ageRestriction);
+        result.put("movieCategory", new MovieCategoryController().getMovieCategoryById(movieCateId));
+        return result;
     }
 }
