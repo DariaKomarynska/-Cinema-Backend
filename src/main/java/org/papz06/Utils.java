@@ -104,8 +104,14 @@ public class Utils {
         return query_pairs;
     }
 
-    public static Map<String, String> getValueFromRequest(String requestBody){
+    public static Map<String, String> getValueFromRequest(String requestBody) {
         Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+        }.getType());
+        return retMap;
+    }
+
+    public static Map<String, Object> parseRequestBody(String requestBody) {
+        Map<String, Object> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, Object>>() {
         }.getType());
         return retMap;
     }
