@@ -15,7 +15,7 @@ create table Cinemas
 (
     cinema_ID NUMBER GENERATED ALWAYS AS IDENTITY,
     manager_ID number,
-    name varchar2(30) not null
+    name varchar2(100) not null
 );
 ALTER TABLE Cinemas ADD (
   CONSTRAINT Cinemas_pk PRIMARY KEY (cinema_ID));

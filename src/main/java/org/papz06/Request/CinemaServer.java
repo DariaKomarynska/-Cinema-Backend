@@ -1,47 +1,51 @@
 package org.papz06.Request;
 
+import org.json.JSONArray;
 import org.papz06.Controllers.CinemaController;
 import org.json.JSONObject;
 import org.papz06.KeyValue;
+import org.papz06.Models.Cinema;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CinemaServer {
+
     public KeyValue<Integer, String> CinemaList() {
-                /*
+        /** GET
          Returns list of cinemas managed by the user.
-        */
+         **/
         CinemaController cinControl = new CinemaController();
-        Map<Integer, String> result = new HashMap<Integer, String>();
-        Map<Integer, String> data = cinControl.getListOfCinemas();
-        if (data.isEmpty()) {
-            result.put(0, "Permission denied...Oops");
-            return new KeyValue<Integer, String>(403, new JSONObject(result).toString());
+        JSONArray result = new JSONArray();
+        JSONArray data = cinControl.getCinemaData();
+        if (cinControl.isEmptyList()) {
+            result.put(new JSONObject().put("error", "Permission denied.."));
+            return new KeyValue<Integer, String>(403, result.toString());
         }
         result = data;
-        return new KeyValue<>(200, new JSONObject(result).toString());
-//        return null;/*/
+        return new KeyValue<>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaCreate(String requestBody) {
+    public KeyValue<Integer, String> CinemaCreate(String cinemaName) {
+        /** POST
+         Creates new cinema.
+         **/
         CinemaController cinControl = new CinemaController();
-        Map<Integer, String> result = new HashMap<Integer, String>();
-
-        if (!cinControl.sizeNewNameCinema(requestBody)) {
-            // size of cinema name == 0
-            result.put(0, "Empty name, change it!");
-            return new KeyValue<Integer, String>(400, new JSONObject(result).toString());
+        JSONArray result = new JSONArray();
+        JSONArray data = cinControl.getInsertedNewCinema(cinemaName);
+        if (cinControl.isEmptyList()) {
+            result.put(new JSONObject().put("error", "Permission denied.."));
+            return new KeyValue<Integer, String>(403, result.toString());
         }
-        // else if (permission denied)
-        result = cinControl.insertNewRow(requestBody);
-        return new KeyValue<Integer, String>(200, new JSONObject(result).toString());
-//        return null;
-    }
-
-    public KeyValue<Integer, String> CinemaDetails() {
-        //
-        return null;
+        else if (cinControl.checkExist(cinemaName)){
+            result.put(new JSONObject().put("error", "BAD_REQUEST, already exists"));
+            return new KeyValue<Integer, String>(400, result.toString());
+        }
+        else if (!cinControl.sizeNewNameCinema(cinemaName)){
+            result.put(new JSONObject().put("error", "BAD_REQUEST, name is empty"));
+            return new KeyValue<Integer, String>(400, result.toString());
+        }
+        result = data;
+        return new KeyValue<>(200, result.toString());
     }
 
     public KeyValue<Integer, String> CinemaUpdate() {
@@ -50,8 +54,22 @@ public class CinemaServer {
     }
 
     public KeyValue<Integer, String> CinemaDetails(Integer id) {
-        //
-        return null;
+        /** GET
+         Returns cinema details.
+         **/
+        CinemaController cinControl = new CinemaController();
+        JSONArray result = new JSONArray();
+        JSONArray data = cinControl.getCinemaById(id);
+        if (cinControl.isEmptyList()) {
+            result.put(new JSONObject().put("error", "Permission denied"));
+            return new KeyValue<Integer, String>(403, result.toString());
+        }
+        else if (!cinControl.checkExist(id)){
+            result.put(new JSONObject().put("error", "NOT_FOUND"));
+            return new KeyValue<Integer, String>(404, result.toString());
+        }
+        result = data;
+        return new KeyValue<>(200, result.toString());
     }
 
     public KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
