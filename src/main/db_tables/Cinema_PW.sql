@@ -20,18 +20,6 @@ create table Cinemas
 ALTER TABLE Cinemas ADD (
   CONSTRAINT Cinemas_pk PRIMARY KEY (cinema_ID));
 
-create table movies
-(
-    movie_ID  NUMBER GENERATED ALWAYS AS IDENTITY,
-    length  NUMBER (4) not null,
-    ageRestriction number,
-    cinema_ID number CONSTRAINT cin_mov_fk REFERENCES cinemas (cinema_ID),
-    name varchar2(30) not null,
-    description varchar2(100)
-);
-ALTER TABLE movies ADD (
-  CONSTRAINT movies_pk PRIMARY KEY (movie_ID));
-
 create table rooms
 (
     room_id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -58,11 +46,23 @@ create table MovieCategories
 (
     MovieCategory_id NUMBER GENERATED ALWAYS AS IDENTITY,
     name varchar2(100) not null,
-    description varchar2(100),
-    cinema_ID NUMBER NOT NULL CONSTRAINT cin_mov_cat_fk REFERENCES cinemas (cinema_ID)
+    description varchar2(100)
 );
 ALTER TABLE MovieCategories ADD (
   CONSTRAINT MovieCategories_pk PRIMARY KEY (MovieCategory_id));
+
+create table movies
+(
+    movie_ID  NUMBER GENERATED ALWAYS AS IDENTITY,
+    length  NUMBER (4) not null,
+    ageRestriction number,
+    cinema_ID number CONSTRAINT cin_mov_fk REFERENCES cinemas (cinema_ID),
+    name varchar2(30) not null,
+    description varchar2(100),
+    movieCate_id number constraint mov_cate_fk references MovieCategories (MovieCategory_id)
+);
+ALTER TABLE movies ADD (
+  CONSTRAINT movies_pk PRIMARY KEY (movie_ID));
 
 create table Schedules
 (

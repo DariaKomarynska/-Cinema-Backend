@@ -74,31 +74,31 @@ insert into seats values (default, 4, 2, 3, 'comfort');
 commit;
 -------------------------
 --work
-insert into MovieCategories values (default, 'Horror', 'funny', 1);
-insert into MovieCategories values (default, 'Romance', 'funny', 1);
-insert into MovieCategories values (default, 'Thriller', 'funny', 1);
-insert into MovieCategories values (default, 'drama', 'funny', 2);
-insert into MovieCategories values (default, 'film', 'funny', 2);
-insert into MovieCategories values (default, 'Action', 'funny', 3);
-insert into MovieCategories values (default, 'romantic', 'funny', 3);
+insert into MovieCategories values (default, 'Horror', 'funny');
+insert into MovieCategories values (default, 'Romance', 'funny');
+insert into MovieCategories values (default, 'Thriller', 'funny');
+insert into MovieCategories values (default, 'drama', 'funny');
+insert into MovieCategories values (default, 'film', 'funny');
+insert into MovieCategories values (default, 'Action', 'funny');
+insert into MovieCategories values (default, 'romantic', 'funny');
 commit;
 -------------------------
 
-insert into movies values (default, 90, 14, 1, '50 shades of grey', 'romantic');
-insert into movies values (default, 120, 18, 1, '51 shades of grey', 'drama');
-insert into movies values (default, 140, 18, 1, '52 shades of grey', 'film');
-insert into movies values (default, 120, 14, 2, '53 shades of grey', 'Horror');
-insert into movies values (default, 135, 16, 1, 'Spider-Man 1', 'Action');
-insert into movies values (default, 140, 18, 2, 'Spider-Man 2', 'Romance');
-insert into movies values (default, 90, 18, 1, 'Spider-Man 3', 'Thriller');
-insert into movies values (default, 90, 16, 2, 'The Matrix 1', 'romantic');
-insert into movies values (default, 140, 6, 1, 'The Matrix 2', 'Horror');
-insert into movies values (default, 120, 14, 3, 'The Matrix 3', 'Romance');
-insert into movies values (default, 135, 18, 3, 'The Matrix 4', 'Thriller');
-insert into movies values (default, 140, 14, 3, 'The Matrix 5', 'drama');
-insert into movies values (default, 135, 6, 2, 'Evil 1', 'film');
-insert into movies values (default, 140, 18, 1, 'Evil 2', 'Action');
-insert into movies values (default, 90, 6, 1, 'Evil 3', 'romantic');
+insert into movies values (default, 90, 14, 1, '50 shades of grey', 'romantic', 1);
+insert into movies values (default, 120, 18, 1, '51 shades of grey', 'drama', 3);
+insert into movies values (default, 140, 18, 1, '52 shades of grey', 'film', 2);
+insert into movies values (default, 120, 14, 2, '53 shades of grey', 'Horror', 4);
+insert into movies values (default, 135, 16, 1, 'Spider-Man 1', 'Action', 6);
+insert into movies values (default, 140, 18, 2, 'Spider-Man 2', 'Romance', 5);
+insert into movies values (default, 90, 18, 1, 'Spider-Man 3', 'Thriller', 7);
+insert into movies values (default, 90, 16, 2, 'The Matrix 1', 'romantic', 5);
+insert into movies values (default, 140, 6, 1, 'The Matrix 2', 'Horror', 7);
+insert into movies values (default, 120, 14, 3, 'The Matrix 3', 'Romance', 3);
+insert into movies values (default, 135, 18, 3, 'The Matrix 4', 'Thriller', 3);
+insert into movies values (default, 140, 14, 3, 'The Matrix 5', 'drama', 1);
+insert into movies values (default, 135, 6, 2, 'Evil 1', 'film', 2);
+insert into movies values (default, 140, 18, 1, 'Evil 2', 'Action', 5);
+insert into movies values (default, 90, 6, 1, 'Evil 3', 'romantic', 6);
 commit;
 -------------------------
 

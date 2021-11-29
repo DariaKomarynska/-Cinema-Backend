@@ -66,7 +66,7 @@ public class Utils {
     public static String createJWTToken(User myUser, String secret) {
         JSONObject payload = new JSONObject();
         JSONObject header = new JSONObject();
-        long expires = (System.currentTimeMillis()) / 1000L + 3600; // by second
+        long expires = (System.currentTimeMillis()) / 1000L + 86400; // Key valid in 24h
 
         header.put("alg", "HS256");
         payload.put("id", myUser.getId());

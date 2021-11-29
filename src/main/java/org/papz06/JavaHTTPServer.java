@@ -23,9 +23,6 @@ public class JavaHTTPServer implements Runnable {
     // port to listen connection
     static final int PORT = Function.getEnv("PORT") != null ? Integer.valueOf(Function.getEnv("PORT")) : 8080;
 
-    // verbose mode
-//    static final boolean verbose = true;
-
     // Client Connection via Socket Class
     private final Socket connect;
 
@@ -105,16 +102,10 @@ public class JavaHTTPServer implements Runnable {
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
                     /**
-                     * Divider cases for PORT: - login
+                     * Divider cases for PORT:
                      * **/
                     // Case 1:
                     switch (url.trim().toLowerCase()) {
-                        case "login":
-                            result = UserServer.login(requesBody);
-                            break;
-                        case "register":
-                            result = UserServer.Registration(requesBody);
-                            break;
                         case "cinema":
                             result = new CinemaServer().CinemaCreate(requesBody);
                             break;
@@ -123,6 +114,9 @@ public class JavaHTTPServer implements Runnable {
                             break;
                         case "movies":
                             result = MovieServer.MovieCreate(requesBody);
+                            break;
+                        case "movies/categories":
+                            result = MovieServer.MovieCategoryCreate(requesBody);
                             break;
                     }
                 } else if (method.equals("GET")) {
@@ -172,6 +166,10 @@ public class JavaHTTPServer implements Runnable {
                         case "movie":
                             if (id != null)
                                 result = MovieServer.MovieUpdate(Integer.parseInt(id), requesBody);
+                            break;
+                        case "movies/category":
+                            if (id != null)
+                                result = MovieServer.MovieCategoryUpdate(Integer.parseInt(id), requesBody);
                             break;
                     }
 

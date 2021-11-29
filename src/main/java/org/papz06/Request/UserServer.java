@@ -25,17 +25,17 @@ public class UserServer {
         String passAfterHash = Utils.MD5(passwordData);
         UserController usCon = new UserController();
         // Parse to json
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         // Check if it exists in data base?
         // No!
         if (!usCon.checkExist(loginData, passAfterHash)) {
             data.put("token", "Wrong bro!");
-            return new KeyValue <Integer, String>(452, new JSONObject(data).toString());
+            return new KeyValue <>(452, new JSONObject(data).toString());
         }
         // Yes
         String JWTToken = Utils.createJWTToken(usCon.getUserFromLogin(loginData), Function.getSecret());
         data.put("token", JWTToken);
-        return new KeyValue <Integer, String>(200, new JSONObject(data).toString());
+        return new KeyValue <>(200, new JSONObject(data).toString());
     }
     public static KeyValue<Integer, String> Registration(String requestBody) {
         Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
@@ -44,7 +44,7 @@ public class UserServer {
         String lastName = retMap.get("lastName");
         String loginData = retMap.get("login");
         String passwordData = retMap.get("password");
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         UserController usCon = new UserController();
         if (usCon.checkExistUser(loginData)){
             data.put("token", "User's already existed!");
