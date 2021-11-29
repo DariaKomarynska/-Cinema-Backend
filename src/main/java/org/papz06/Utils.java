@@ -81,6 +81,7 @@ public class Utils {
                 + "." + signature;
     }
     static public boolean checkValidJWT(String token, String secret){
+        if (token == null) return false;
 //        System.out.println(token);
         String[] parts = token.split("\\.");
         JSONObject header = new JSONObject(decode(parts[0]));
