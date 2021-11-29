@@ -49,8 +49,8 @@ public class MovieController {
             return result;
         } catch (Exception e) {
             System.out.println(e);
+            return null;
         }
-        return null;
     }
 
     public List<Movie> getAllMovies() {
@@ -78,7 +78,7 @@ public class MovieController {
         return moviesList;
     }
 
-    public JSONArray getMovieList(int cinema_id) {
+    public static JSONArray getMovieList(int cinema_id) {
         JSONArray moviesList = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -100,5 +100,26 @@ public class MovieController {
             return null;
         }
         return moviesList;
+    }
+
+    public static JSONObject updateMovie(Movie mv){
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sql = "update movies set" +
+                    " length = " + mv.getLength() +
+                    ", agerestriction = \'" + mv.getAgeRestriction() +
+                    "\', name = \'" + mv.getName() +
+                    "\', description = \'" + mv.getDescription() +
+                    "\', moviecate_id = " + mv.getMovieCateId() +
+                    " where available = 1 and movie_id = " + mv.getId();
+            System.out.println(sql);
+            fc.executeQuery(sql);
+            fc.closeQuery();
+            return mv.toJson();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 }
