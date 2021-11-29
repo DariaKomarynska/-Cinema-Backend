@@ -97,7 +97,6 @@ public class CinemaController {
         try {
             String sqlInsert = String.format("insert into cinemas values (default, null, '%s')", newName);
             fc.executeQuery(sqlInsert);
-            System.out.println(newName);
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
@@ -146,16 +145,10 @@ public class CinemaController {
     }
 
     public boolean isEmptyList() {
-        if (cinemasList.size() == 0) {
-            return true;
-        }
-        return false;
+        return cinemasList.size() == 0;
     }
 
     public boolean sizeNewNameCinema(String newName) {
-        if (newName.length() == 0) {
-            return false;
-        }
-        return true;
+        return newName.length() != 0;
     }
 }
