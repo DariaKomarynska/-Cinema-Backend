@@ -18,7 +18,10 @@ public class Utils {
 //    private static String encode(byte[] bytes) {
 //        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
 //    }
-    private static String hmacSha256(String data, String secret) {
+    private static String encode(byte[] bytes) {
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+    public static String hmacSha256(String data, String secret) {
         try {
 
             byte[] hash = secret.getBytes(StandardCharsets.UTF_8);
@@ -32,9 +35,9 @@ public class Utils {
             for (int i = 0; i < signedBytes.length; ++i) {
                 sb.append(Integer.toHexString((signedBytes[i] & 0xFF) | 0x100).substring(1, 3));
             }
-            return sb.toString();
+//            return sb.toString();
 
-//            return encode(signedBytes);
+            return encode(signedBytes);
         } catch (Exception ex) {
             return null;
         }
@@ -52,6 +55,9 @@ public class Utils {
         } catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
+    }
+    public static String decode(String encodedString) {
+        return new String(Base64.getUrlDecoder().decode(encodedString));
     }
 
     public static String createJWTToken(String secret){

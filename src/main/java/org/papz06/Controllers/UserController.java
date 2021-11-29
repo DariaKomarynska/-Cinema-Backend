@@ -14,7 +14,7 @@ public class UserController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("select * from users;");
+            rs = fc.executeQuery("select * from users");
             while (rs.next()) {
                 userList.add(
                         new User(rs.getInt(1),
@@ -33,9 +33,9 @@ public class UserController {
     public boolean checkExistUser(String user) {
         for (User us : userList){
             if (us.getLogin().equals(user))
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
     public boolean checkExist(String user, String password) {
@@ -49,12 +49,11 @@ public class UserController {
         Function fc = new Function();
         try{
             // Implement
-            fc.executeQuery("insert into users values (default, "
-                    + us.getFirstName() + ", "
-                    + us.getLastName() + ", "
-                    + us.getLogin() + ", "
-                    + us.getPassword() + ", "
-                    + ");");
+            fc.executeQuery("insert into users values (default, \'"
+                    + us.getFirstName() + "\', \'"
+                    + us.getLastName() + "\', \'"
+                    + us.getLogin() + "\', \'"
+                    + us.getPassword() + "\')");
         } catch (Exception e) {System.out.println(e);}
     }
 }

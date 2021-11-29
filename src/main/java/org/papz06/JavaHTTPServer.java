@@ -60,10 +60,12 @@ public class JavaHTTPServer implements Runnable {
             // we get file requested
             fileRequested = parse.nextToken().toLowerCase();
             // Ignore header
-            String authorization;
+            String authorization = null;
             while (input.length() != 0) {
                 input = in.readLine();
-
+                if (input.toLowerCase().contains("authorization")){
+                    authorization = input.split(" ")[2];
+                }
             }
             // Read body
             String requesBody = "";
