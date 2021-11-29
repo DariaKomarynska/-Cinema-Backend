@@ -15,7 +15,8 @@ create table Cinemas
 (
     cinema_ID NUMBER GENERATED ALWAYS AS IDENTITY,
     manager_ID number,
-    name varchar2(100) not null
+    name varchar2(100) not null,
+    available number default 1
 );
 ALTER TABLE Cinemas ADD (
   CONSTRAINT Cinemas_pk PRIMARY KEY (cinema_ID));
@@ -59,7 +60,7 @@ create table movies
     cinema_ID number CONSTRAINT cin_mov_fk REFERENCES cinemas (cinema_ID),
     name varchar2(30) not null,
     description varchar2(100),
-    movieCate_id number constraint mov_cate_fk references MovieCategories (MovieCategory_id)
+    movieCate_id number constraint mov_cate_fk REFERENCES MovieCategories (MovieCategory_id)
 );
 ALTER TABLE movies ADD (
   CONSTRAINT movies_pk PRIMARY KEY (movie_ID));

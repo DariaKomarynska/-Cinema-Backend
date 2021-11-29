@@ -10,7 +10,6 @@
 --delete from TicketTypes;
 
 -------------------------
---work
 insert into users values (default, 'Bob', 'WILSON', 'bow11', 'bo56wil');
 insert into users values (default, 'Betty', 'BROWN', 'bow12', 'bo526wil');
 insert into users values (default, 'Luther', 'WOOD', 'bow13', 'bo536wil');
@@ -30,13 +29,11 @@ insert into users values (default, 'John', 'Wick', 'admin', '21232f297a57a5a7438
 commit;
 
 -------------------------
---work
-insert into cinemas values (default, 0001, 'Warszawa Centralna');
-insert into cinemas values (default, 0002, 'Atlantic Kino');
-insert into cinemas values (default, 0003, 'Multikino');
+insert into cinemas values (default, 0001, 'Warszawa Centralna', default);
+insert into cinemas values (default, 0002, 'Atlantic Kino', default);
+insert into cinemas values (default, 0003, 'Multikino', default);
 commit;
 -------------------------
---work
 insert into rooms values (default, 'Room 1', 12, 20, 1);
 insert into rooms values (default, 'Room 2', 24, 40, 1);
 insert into rooms values (default, 'Room 3', 20, 30, 1);
