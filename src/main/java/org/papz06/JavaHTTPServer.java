@@ -62,7 +62,7 @@ public class JavaHTTPServer implements Runnable {
             String authorization = null;
             while (input.length() != 0) {
                 input = in.readLine();
-                if (input.toLowerCase().contains("authorization")){
+                if (input.toLowerCase().contains("authorization")) {
                     authorization = input.split(" ")[2];
                 }
             }
@@ -86,7 +86,7 @@ public class JavaHTTPServer implements Runnable {
                 id = url.substring(lx + 1);
                 url = url.substring(0, lx);
             }
-            if (method.equals("POST") && (url.equals("login") || url.equals("register"))){
+            if (method.equals("POST") && (url.equals("login") || url.equals("register"))) {
 
                 switch (url.trim().toLowerCase()) {
                     case "login":
@@ -94,122 +94,121 @@ public class JavaHTTPServer implements Runnable {
                         break;
                     case "register":
                         result = UserServer.Registration(requesBody);
-                        break;
-                }
-            }
-            boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
-            if (!validJWT){
-                result = new KeyValue<Integer, String>(452,
-                        "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
-            }
-            else if (method.equals("POST")) {
-                /**
-                 * Divider cases for PORT: - login
-                 * **/
-                // Case 1:
-                switch (url.trim().toLowerCase()) {
-                    case "login":
-                        result = UserServer.login(requesBody);
-                        break;
-                    case "register":
-                        result = UserServer.Registration(requesBody);
-                        break;
-                    case "cinema":
-                        result = new CinemaServer().CinemaCreate(requesBody);
-                        break;
-                    case "rooms":
-                        result = RoomServer.RoomCreate(requesBody);
-                        break;
-                    case "movies":
-                        result = MovieServer.MovieCreate(requesBody);
-                        break;
-                }
-            } else if (method.equals("GET")) {
-                // GET method
-                /**
-                 * Divider cases for GET: -
-                 * **/
-                switch (url.trim().toLowerCase()) {
-                    case "cinema":
-                        result = (id == null) ? new CinemaServer().CinemaList() :
-                                new CinemaServer().CinemaDetails(Integer.parseInt(id));
-                        break;
-                    case "rooms":
-                        if (id != null)
-                            result = RoomServer.RoomList(Integer.parseInt(id));
-                        break;
-                    case "room":
-                        if (id != null)
-                            result = RoomServer.RoomDetails(Integer.parseInt(id));
-                        break;
-                    case "movies":
-                        if (id != null)
-                            result = MovieServer.MovieList(Integer.parseInt(id));
-                        break;
-                    case "movie":
-                        if (id != null)
-                            result = MovieServer.MovieDetails(Integer.parseInt(id), requesBody);
-                        break;
-                    case "movies/categories":
-                        if (id != null)
-                            result = MovieServer.MovieCategoryList(Integer.parseInt(id));
-                        break;
-                }
-
-            } else if (method.equals("PATCH")) {
-                /**
-                 * Divider cases for PATCH: -
-                 * **/
-                switch (url.trim().toLowerCase()){
-                    case "cinema":
-                        if (id != null)
-                            result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
-                        break;
-                    case "room":
-                        result = RoomServer.RoomUpdate(Integer.parseInt(id), requesBody);
-                        break;
-                    case "movie":
-                        if (id != null)
-                            result = MovieServer.MovieUpdate(Integer.parseInt(id), requesBody);
-                        break;
-                }
-
-            } else if (method.equals("DELETE")) {
-                /**
-                 * Divider cases for DELETE: -
-                 * **/
-                switch (url.trim().toLowerCase()) {
-                    case "cinema":
-                        if (id != null) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
-                        break;
-                    case "room":
-                        if (id != null) result = RoomServer.RoomDelete(Integer.parseInt(id));
-                        break;
-                    case "movie":
-                        if (id != null) result = MovieServer.MovieDelete(Integer.parseInt(id));
                         break;
                 }
             } else {
-                System.out.println("405 Method Not Allowed : " + method + " method.");
+                boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
+                if (!validJWT) {
+                    result = new KeyValue<Integer, String>(452,
+                            "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
+                } else if (method.equals("POST")) {
+                    /**
+                     * Divider cases for PORT: - login
+                     * **/
+                    // Case 1:
+                    switch (url.trim().toLowerCase()) {
+                        case "login":
+                            result = UserServer.login(requesBody);
+                            break;
+                        case "register":
+                            result = UserServer.Registration(requesBody);
+                            break;
+                        case "cinema":
+                            result = new CinemaServer().CinemaCreate(requesBody);
+                            break;
+                        case "rooms":
+                            result = RoomServer.RoomCreate(requesBody);
+                            break;
+                        case "movies":
+                            result = MovieServer.MovieCreate(requesBody);
+                            break;
+                    }
+                } else if (method.equals("GET")) {
+                    // GET method
+                    /**
+                     * Divider cases for GET: -
+                     * **/
+                    switch (url.trim().toLowerCase()) {
+                        case "cinema":
+                            result = (id == null) ? new CinemaServer().CinemaList() :
+                                    new CinemaServer().CinemaDetails(Integer.parseInt(id));
+                            break;
+                        case "rooms":
+                            if (id != null)
+                                result = RoomServer.RoomList(Integer.parseInt(id));
+                            break;
+                        case "room":
+                            if (id != null)
+                                result = RoomServer.RoomDetails(Integer.parseInt(id));
+                            break;
+                        case "movies":
+                            if (id != null)
+                                result = MovieServer.MovieList(Integer.parseInt(id));
+                            break;
+                        case "movie":
+                            if (id != null)
+                                result = MovieServer.MovieDetails(Integer.parseInt(id), requesBody);
+                            break;
+                        case "movies/categories":
+                            if (id != null)
+                                result = MovieServer.MovieCategoryList(Integer.parseInt(id));
+                            break;
+                    }
 
-                // we return the not supported file to the client
-//                File file = new File(WEB_ROOT, METHOD_NOT_SUPPORTED);
-//                int fileLength = (int) file.length();
-//                String contentMimeType = "text/html";
-//                //read content to return to client
-//                byte[] fileData = readFileData(file, fileLength);
+                } else if (method.equals("PATCH")) {
+                    /**
+                     * Divider cases for PATCH: -
+                     * **/
+                    switch (url.trim().toLowerCase()) {
+                        case "cinema":
+                            if (id != null)
+                                result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
+                            break;
+                        case "room":
+                            result = RoomServer.RoomUpdate(Integer.parseInt(id), requesBody);
+                            break;
+                        case "movie":
+                            if (id != null)
+                                result = MovieServer.MovieUpdate(Integer.parseInt(id), requesBody);
+                            break;
+                    }
 
-                // we send HTTP Headers with data to client
-                out.write("HTTP/1.1 405 Method Not Allowed\r\n");
-                out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
-                out.write("Date: " + new Date() + "\r\n");
-//                out.println("Content-type: " + contentMimeType);
-                out.write("Content-length: 0\r\n");
-                out.write("Access-Control-Allow-Origin: *\r\n");
-                out.write("\r\n"); // blank line between headers and content, very important !
-                out.flush(); // flush character output stream buffer
-                dataOut.flush();
+                } else if (method.equals("DELETE")) {
+                    /**
+                     * Divider cases for DELETE: -
+                     * **/
+                    switch (url.trim().toLowerCase()) {
+                        case "cinema":
+                            if (id != null) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
+                            break;
+                        case "room":
+                            if (id != null) result = RoomServer.RoomDelete(Integer.parseInt(id));
+                            break;
+                        case "movie":
+                            if (id != null) result = MovieServer.MovieDelete(Integer.parseInt(id));
+                            break;
+                    }
+                } else {
+                    System.out.println("405 Method Not Allowed : " + method + " method.");
 
+                    // we return the not supported file to the client
+                    //                File file = new File(WEB_ROOT, METHOD_NOT_SUPPORTED);
+                    //                int fileLength = (int) file.length();
+                    //                String contentMimeType = "text/html";
+                    //                //read content to return to client
+                    //                byte[] fileData = readFileData(file, fileLength);
+
+                    // we send HTTP Headers with data to client
+                    out.write("HTTP/1.1 405 Method Not Allowed\r\n");
+                    out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+                    out.write("Date: " + new Date() + "\r\n");
+                    //                out.println("Content-type: " + contentMimeType);
+                    out.write("Content-length: 0\r\n");
+                    out.write("Access-Control-Allow-Origin: *\r\n");
+                    out.write("\r\n"); // blank line between headers and content, very important !
+                    out.flush(); // flush character output stream buffer
+                    dataOut.flush();
+                }
             }
             if (result == null)
                 result = new KeyValue<Integer, String>(200,
