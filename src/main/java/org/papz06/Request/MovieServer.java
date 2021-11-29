@@ -12,8 +12,10 @@ import java.util.Map;
 
 public class MovieServer {
     public static KeyValue<Integer, String> MovieList(int cinema_id) {
-//        JSONArray result = new MovieController().getMovieList();
-        return new KeyValue<>(200, new MovieController().getMovieList(cinema_id).toString());
+        JSONArray result = MovieController.getMovieList(cinema_id);
+        if (result == null)
+            return new KeyValue<>(200, "");
+        return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> MovieCreate(String requestBody) {
@@ -38,16 +40,38 @@ public class MovieServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> MovieDetails(int id, String requestBody) {
-        return null;
+    public static KeyValue<Integer, String> MovieDetails(int id) {
+        Movie result = MovieController.getMovieById(id);
+        if (result == null)
+            return new KeyValue<>(404, "");
+        return new KeyValue<>(200, result.toJson().toString());
     }
 
     public static KeyValue<Integer, String> MovieUpdate(int id, String requestBody) {
-        return null;
+        JSONObject result = null;
+        try{
+            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+            }.getType());
+            String name = retMap.get("name");
+            String description = retMap.get("description");
+            int length = Integer.parseInt(retMap.get("length"));
+            String ageRestriction = retMap.get("ageRestriction");
+            int movieCategoryId = Integer.parseInt(retMap.get("movieCategoryId"));
+            Movie myMovie = new Movie(id, length, ageRestriction, -1, name, description, movieCategoryId);
+            result = MovieController.updateMovie(myMovie);
+        } catch (Exception e){
+            System.out.println(e);
+            return new KeyValue<>(400, "");
+        }
+        if (result == null)
+            return new KeyValue<>(404, "");
+        return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> MovieDelete(int id) {
-        return null;
+        if (MovieController.deleteMovie(id))
+            return new KeyValue<>(200, "");
+        return new KeyValue<>(404, "");
     }
 
     public static KeyValue<Integer, String> MovieCategoryList(int cinema_id) {
