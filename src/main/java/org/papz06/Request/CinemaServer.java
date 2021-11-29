@@ -41,6 +41,7 @@ public class CinemaServer {
         String newName = retMap.get("name");
         String newWebsite = retMap.get("website");
         String newPhoneNumber = retMap.get("phoneNumber");
+        String newEmail = retMap.get("email");
         String newAddress = retMap.get("address");
         CinemaController cinControl = new CinemaController();
         JSONObject result = new JSONObject();
@@ -54,7 +55,7 @@ public class CinemaServer {
             result.put("error", "BAD_REQUEST, name is empty");
             return new KeyValue<Integer, String>(400, result.toString());
         }
-        result = cinControl.insertNewCinema(newManagerId, newName, newWebsite, newPhoneNumber, newAddress);
+        result = cinControl.insertNewCinema(newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
@@ -86,6 +87,7 @@ public class CinemaServer {
         String newName = retMap.get("name");
         String newWebsite = retMap.get("website");
         String newPhoneNumber = retMap.get("phoneNumber");
+        String newEmail = retMap.get("email");
         String newAddress = retMap.get("address");
         CinemaController cinControl = new CinemaController();
         JSONObject result = new JSONObject();
@@ -99,7 +101,7 @@ public class CinemaServer {
             result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        result = cinControl.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newAddress);
+        result = cinControl.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 

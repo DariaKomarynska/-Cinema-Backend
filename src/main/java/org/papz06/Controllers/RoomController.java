@@ -115,7 +115,6 @@ public class RoomController {
         try {
             String sqlInsert = String.format("insert into rooms values (default, '%s', null, null, %.2f, default)", newRoomName, newCinemaId);
             fc.executeQuery(sqlInsert);
-            System.out.println(newRoomName);
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
