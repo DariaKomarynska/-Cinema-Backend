@@ -8,6 +8,7 @@ import org.papz06.Request.UserServer;
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -19,10 +20,10 @@ public class JavaHTTPServer implements Runnable {
     static final File WEB_ROOT = new File(".");
     static final String DEFAULT_FILE = "index.html";
     static final String FILE_NOT_FOUND = "404.html";
+//    static final Hashtable statusStan
     //    static final String METHOD_NOT_SUPPORTED = "not_supported.html";
     // port to listen connection
     static final int PORT = Function.getEnv("PORT") != null ? Integer.valueOf(Function.getEnv("PORT")) : 8080;
-
     // Client Connection via Socket Class
     private final Socket connect;
 

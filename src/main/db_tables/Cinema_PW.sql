@@ -55,7 +55,7 @@ create table movies
 (
     movie_ID  NUMBER GENERATED ALWAYS AS IDENTITY,
     length  NUMBER (4) not null,
-    ageRestriction number,
+    ageRestriction varchar2(100),
     cinema_ID number CONSTRAINT cin_mov_fk REFERENCES cinemas (cinema_ID),
     name varchar2(30) not null,
     description varchar2(100),
