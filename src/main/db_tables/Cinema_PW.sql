@@ -16,6 +16,9 @@ create table Cinemas
     cinema_ID NUMBER GENERATED ALWAYS AS IDENTITY,
     manager_ID number,
     name varchar2(100) not null,
+    website varchar2(60) ,
+    phoneNumber varchar2(20) ,
+    address varchar2(100),
     available number default 1
 );
 ALTER TABLE Cinemas ADD (

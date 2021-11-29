@@ -33,22 +33,28 @@ public class CinemaServer {
         /** POST
          Creates new cinema.
          **/
-        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
-        String newCinemaName = retMap.get("name");
-
+        System.out.println("okk");
+        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+        }.getType());
+        int newManagerId =  Integer.parseInt(retMap.get("manager_id"));
+        System.out.println(newManagerId);
+        String newName = retMap.get("name");
+        String newWebsite = retMap.get("website");
+        String newPhoneNumber = retMap.get("phoneNumber");
+        String newAddress = retMap.get("address");
         CinemaController cinControl = new CinemaController();
         JSONObject result = new JSONObject();
         if (cinControl.isEmptyList()) {
             result.put("error", "Permission denied");
             return new KeyValue<Integer, String>(403, result.toString());
-        } else if (cinControl.checkExist(newCinemaName)) {
+        } else if (cinControl.checkExist(newName)) {
             result.put("error", "BAD_REQUEST, already exists");
             return new KeyValue<Integer, String>(400, result.toString());
-        } else if (!cinControl.sizeNewNameCinema(newCinemaName)) {
+        } else if (!cinControl.sizeNewNameCinema(newName)) {
             result.put("error", "BAD_REQUEST, name is empty");
             return new KeyValue<Integer, String>(400, result.toString());
         }
-        result = cinControl.insertNewCinema(newCinemaName);
+        result = cinControl.insertNewCinema(newManagerId, newName, newWebsite, newPhoneNumber, newAddress);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
@@ -74,11 +80,16 @@ public class CinemaServer {
          * PATCH
          * Update name of cinema
          */
-        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
-        String newCinemaName = retMap.get("name");
+        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+        }.getType());
+        int newManagerId =  Integer.parseInt(retMap.get("manager_id"));
+        String newName = retMap.get("name");
+        String newWebsite = retMap.get("website");
+        String newPhoneNumber = retMap.get("phoneNumber");
+        String newAddress = retMap.get("address");
         CinemaController cinControl = new CinemaController();
         JSONObject result = new JSONObject();
-        if (cinControl.checkExist(newCinemaName)) {
+        if (cinControl.checkExist(newName)) {
             result.put("error", "Bad Request");
             return new KeyValue<Integer, String>(400, result.toString());
         } else if (cinControl.isEmptyList()) {
@@ -88,7 +99,7 @@ public class CinemaServer {
             result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        result = cinControl.updateCinemaName(id, newCinemaName);
+        result = cinControl.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newAddress);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
