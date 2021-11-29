@@ -19,15 +19,14 @@ public class CinemaServer {
          **/
         CinemaController cinControl = new CinemaController();
         JSONArray result = new JSONArray();
-        JSONArray data = cinControl.getCinemaData();
+
         if (cinControl.isEmptyList()) {
             result.put(new JSONObject().put("error", "Permission denied.."));
             return new KeyValue<Integer, String>(403, result.toString());
         }
-        result = data;
+        result = cinControl.getCinemaData();
         return new KeyValue<>(200, result.toString());
     }
-
 
 
     public KeyValue<Integer, String> CinemaCreate(String requestBody) {
@@ -38,21 +37,18 @@ public class CinemaServer {
         String newCinemaName = retMap.get("name");
 
         CinemaController cinControl = new CinemaController();
-        JSONArray result = new JSONArray();
-        JSONArray data = cinControl.insertNewCinema(newCinemaName);
+        JSONObject result = new JSONObject();
         if (cinControl.isEmptyList()) {
-            result.put(new JSONObject().put("error", "Permission denied.."));
+            result.put("error", "Permission denied");
             return new KeyValue<Integer, String>(403, result.toString());
-        }
-        else if (cinControl.checkExist(newCinemaName)){
-            result.put(new JSONObject().put("error", "BAD_REQUEST, already exists"));
+        } else if (cinControl.checkExist(newCinemaName)) {
+            result.put("error", "BAD_REQUEST, already exists");
+            return new KeyValue<Integer, String>(400, result.toString());
+        } else if (!cinControl.sizeNewNameCinema(newCinemaName)) {
+            result.put("error", "BAD_REQUEST, name is empty");
             return new KeyValue<Integer, String>(400, result.toString());
         }
-        else if (!cinControl.sizeNewNameCinema(newCinemaName)){
-            result.put(new JSONObject().put("error", "BAD_REQUEST, name is empty"));
-            return new KeyValue<Integer, String>(400, result.toString());
-        }
-        result = data;
+        result = cinControl.insertNewCinema(newCinemaName);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
@@ -61,17 +57,15 @@ public class CinemaServer {
          Returns cinema details.
          **/
         CinemaController cinControl = new CinemaController();
-        JSONArray result = new JSONArray();
-        JSONArray data = cinControl.getCinemaById(id);
+        JSONObject result = new JSONObject();
         if (cinControl.isEmptyList()) {
-            result.put(new JSONObject().put("error", "Permission denied"));
+            result.put("error", "Permission denied");
             return new KeyValue<Integer, String>(403, result.toString());
-        }
-        else if (!cinControl.checkExist(id)){
-            result.put(new JSONObject().put("error", "NOT_FOUND"));
+        } else if (!cinControl.checkExist(id)) {
+            result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        result = data;
+        result = cinControl.getCinemaById(id);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
@@ -83,27 +77,37 @@ public class CinemaServer {
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String newCinemaName = retMap.get("name");
         CinemaController cinControl = new CinemaController();
-        JSONArray result = new JSONArray();
-        JSONArray data = cinControl.updateCinemaName(id, newCinemaName);
-        if (cinControl.checkExist(newCinemaName)){
-            result.put(new JSONObject().put("error", "Bad Request"));
+        JSONObject result = new JSONObject();
+        if (cinControl.checkExist(newCinemaName)) {
+            result.put("error", "Bad Request");
             return new KeyValue<Integer, String>(400, result.toString());
-        }
-        else if (cinControl.isEmptyList()) {
-            result.put(new JSONObject().put("error", "Permission denied"));
+        } else if (cinControl.isEmptyList()) {
+            result.put("error", "Permission denied");
             return new KeyValue<Integer, String>(403, result.toString());
-        }
-        else if (!cinControl.checkExist(id)){
-            result.put(new JSONObject().put("error", "NOT_FOUND"));
+        } else if (!cinControl.checkExist(id)) {
+            result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        result = data;
+        result = cinControl.updateCinemaName(id, newCinemaName);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
     public KeyValue<Integer, String> CinemaDelete(Integer id) {
-        return null;
+        /**
+         * DELETE
+         * Deletes cinema object.
+         */
+        CinemaController cinControl = new CinemaController();
+        JSONObject result = new JSONObject();
+        if (cinControl.isEmptyList()) {
+            result.put("error", "Permission denied");
+            return new KeyValue<Integer, String>(403, result.toString());
+        } else if (!cinControl.checkExist(id)) {
+            result.put("error", "NOT_FOUND");
+            return new KeyValue<Integer, String>(404, result.toString());
+        }
+        result = cinControl.deleteCinema(id);
+        return new KeyValue<Integer, String>(200, result.toString());
     }
-
 }
 

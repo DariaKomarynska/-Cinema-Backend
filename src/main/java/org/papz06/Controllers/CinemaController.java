@@ -56,47 +56,43 @@ public class CinemaController {
         return resultData;
     }
 
-    public JSONArray getCinemaById(Integer id) {
-        JSONArray resultData = new JSONArray();
+    public JSONObject getCinemaById(Integer id) {
         JSONObject cinemaData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
         try {
             String sqlSelect = String.format("select cinema_id, name from cinemas where cinema_id = '%d'", id);
             rs = fc.executeQuery(sqlSelect);
-            while(rs.next()){
+            while (rs.next()) {
                 cinemaData.put("id", rs.getInt(1));
                 cinemaData.put("name", rs.getString(2));
-                resultData.put(cinemaData);
             }
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        return resultData;
+        return cinemaData;
     }
 
-    public JSONArray getCinemaByName(String newName) {
-        JSONArray resultData = new JSONArray();
+    public JSONObject getCinemaByName(String newName) {
         Function fc = new Function();
         JSONObject cinemaData = new JSONObject();
         ResultSet rs;
         try {
             String sqlSelect = String.format("select cinema_id, name from cinemas where name = '%s'", newName);
             rs = fc.executeQuery(sqlSelect);
-            while(rs.next()){
+            while (rs.next()) {
                 cinemaData.put("id", rs.getInt(1));
                 cinemaData.put("name", rs.getString(2));
-                resultData.put(cinemaData);
             }
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        return resultData;
+        return cinemaData;
     }
 
-    public JSONArray insertNewCinema(String newName) {
+    public JSONObject insertNewCinema(String newName) {
         Function fc = new Function();
         try {
             String sqlInsert = String.format("insert into cinemas values (default, null, '%s')", newName);
@@ -109,17 +105,28 @@ public class CinemaController {
         return getCinemaByName(newName);
     }
 
-    public JSONArray updateCinemaName(Integer id, String newName) {
+    public JSONObject updateCinemaName(Integer id, String newName) {
         Function fc = new Function();
-        ResultSet rs;
         try {
             String sqlUpdate = String.format("update cinemas set name = '%s' where cinema_id = %d", newName, id);
-            rs = fc.executeQuery(sqlUpdate);
+            fc.executeQuery(sqlUpdate);
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
         return getCinemaById(id);
+    }
+
+    public JSONObject deleteCinema(Integer id) {
+        Function fc = new Function();
+        try {
+            String sqlDelete = String.format("delete from cinemas where cinema_id = %d", id);
+            fc.executeQuery(sqlDelete);
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return new JSONObject();
     }
 
     public boolean checkExist(Integer id) {
