@@ -120,7 +120,7 @@ public class CinemaController {
     public JSONObject deleteCinema(Integer id) {
         Function fc = new Function();
         try {
-            String sqlDelete = String.format("delete from cinemas where cinema_id = %d", id);
+            String sqlDelete = String.format("update cinemas set available = 0 where cinema_id = %d", id);
             fc.executeQuery(sqlDelete);
             fc.closeQuery();
         } catch (Exception e) {
