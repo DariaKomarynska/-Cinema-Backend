@@ -115,23 +115,6 @@ public class MovieController {
         return false;
     }
 
-    public static JSONArray getListCategory(int cinema_id) {
-        JSONArray categoryList = new JSONArray();
-        Function fc = new Function();
-        ResultSet rs;
-        try {
-            rs = fc.executeQuery("select distinct moviecate_id from movies where available =1 and cinema_id = " + cinema_id);
-            while (rs.next()) {
-                categoryList.put(rs.getInt(1));
-            }
-            fc.closeQuery();
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
-        return categoryList;
-    }
-
     public List<Movie> getAllMovies() {
         List<Movie> moviesList = new ArrayList<>();
         Function fc = new Function();

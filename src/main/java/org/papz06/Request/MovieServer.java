@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.papz06.Controllers.MovieCategoryController;
 import org.papz06.Controllers.MovieController;
 import org.papz06.KeyValue;
 import org.papz06.Models.Movie;
@@ -75,7 +76,7 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieCategoryList(int cinema_id) {
-        return null;
+        return new KeyValue<> (200, MovieCategoryController.getListCategory(cinema_id).toString());
     }
 
     public static KeyValue<Integer, String> MovieCategoryCreate(String requestBody) {
