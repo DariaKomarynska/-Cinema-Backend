@@ -1,6 +1,5 @@
 package org.papz06;
 
-//import com.sun.tools.javac.util.List;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -25,24 +24,6 @@ public class Function {
         ResultSet rs = stmt.executeQuery(sql);
         return rs;
     }
-    public ResultSet insertQuery(String tableName, List<Object> newData) throws SQLException, ClassNotFoundException {
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@ora4.ii.pw.edu.pl:1521/pdb1.ii.pw.edu.pl", "z06", "t4jzpt");
-        Statement stmt = con.createStatement();
-        String sql = "insert into " + tableName + "values (";
-        for (Object newElement : newData){
-            sql += String.valueOf(newElement);
-            if (newData.indexOf(newElement) == (newData.size() -1)){
-                sql += ")";
-            }
-            else{
-                sql += ", ";
-            }
-        }
-        ResultSet rs = stmt.executeQuery(sql);
-        return rs;
-    }
 
     public static String getSecret() {
         return secret;
@@ -57,13 +38,14 @@ public class Function {
         con.close();
     }
 
-    public boolean checkValidJWT(String token){
+    static public boolean checkValidJWT(String token){
+        System.out.println(token);
         String[] parts = token.split("\\.");
         JSONObject header = new JSONObject(decode(parts[0]));
         JSONObject payload = new JSONObject(decode(parts[1]));
         String signature = decode(parts[2]);
         if (payload.getLong("exp") > (System.currentTimeMillis() / 1000)) return false;
-//        String headerAndPayloadHashed = Utils.hmacSha256(parts[0] + "." + parts[1]);
+        String headerAndPayloadHashed = Utils.hmacSha256(parts[0] + "." + parts[1], secret);
 //        if (signature.equals(headerAndPayloadHashed, secret)) return true;
         return false;
     }

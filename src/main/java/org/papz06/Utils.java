@@ -30,10 +30,10 @@ public class Utils {
 
             byte[] signedBytes = sha256Hmac.doFinal(data.getBytes(StandardCharsets.UTF_8));
 
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < signedBytes.length; ++i) {
-                sb.append(Integer.toHexString((signedBytes[i] & 0xFF) | 0x100).substring(1, 3));
-            }
+//            StringBuffer sb = new StringBuffer();
+//            for (int i = 0; i < signedBytes.length; ++i) {
+//                sb.append(Integer.toHexString((signedBytes[i] & 0xFF) | 0x100).substring(1, 3));
+//            }
 //            return sb.toString();
 
             return encode(signedBytes);
@@ -62,7 +62,7 @@ public class Utils {
     public static String createJWTToken(String secret){
         JSONObject payload = new JSONObject();
         JSONObject header = new JSONObject();
-        long expires = (System.currentTimeMillis()+10000) / 1000L;
+        long expires = (System.currentTimeMillis()) / 1000L + 3600; // by second
 //        try{
         header.put("alg", "HS256");
 //        payload.put("sub", sub);
@@ -75,10 +75,20 @@ public class Utils {
         String signature = hmacSha256(Base64.getEncoder().encodeToString((header.toString()).getBytes())
                 + "."
                 + Base64.getEncoder().encodeToString((payload.toString()).getBytes()), secret);
-        String jwtToken = Base64.getEncoder().encodeToString((header.toString()).getBytes())
+        return Base64.getEncoder().encodeToString((header.toString()).getBytes())
                 + "." + Base64.getEncoder().encodeToString((payload.toString()).getBytes())
                 + "." + signature;
-        return jwtToken;
+    }
+    static public boolean checkValidJWT(String token, String secret){
+        if (token == null) return false;
+//        System.out.println(token);
+        String[] parts = token.split("\\.");
+        JSONObject header = new JSONObject(decode(parts[0]));
+        JSONObject payload = new JSONObject(decode(parts[1]));
+        String signature = parts[2];
+        if (payload.getLong("exp") < (System.currentTimeMillis() / 1000)) return false;
+        String headerAndPayloadHashed = Utils.hmacSha256(parts[0] + "." + parts[1], secret);
+        return signature.equals(headerAndPayloadHashed);
     }
     public static Map<String, String> splitQuery(String query) throws UnsupportedEncodingException {
         Map<String, String> query_pairs = new LinkedHashMap<String, String>();
