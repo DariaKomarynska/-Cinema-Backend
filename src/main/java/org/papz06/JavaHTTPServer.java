@@ -78,6 +78,8 @@ public class JavaHTTPServer implements Runnable {
             } else url = fileRequested.substring(1);
             String id = null;
             KeyValue<Integer, String> result = null;
+            if (url.charAt(url.length() - 1) == '/')
+                url = url.substring(0, url.length()-1);
             if (url.indexOf('/') != -1) {
                 int lx = url.lastIndexOf('/');
                 id = url.substring(lx + 1);

@@ -19,7 +19,7 @@ public class MovieCategory {
         return id + " " + name + ' ' + description;
     }
 
-    public JSONObject toJson(){
+    public JSONObject toJson() {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("name", name);

@@ -53,31 +53,6 @@ public class MovieController {
         }
     }
 
-    public List<Movie> getAllMovies() {
-        List<Movie> moviesList = new ArrayList<>();
-        Function fc = new Function();
-        ResultSet rs;
-        try {
-            rs = fc.executeQuery("select * from movies where available = 1");
-            while (rs.next()) {
-                moviesList.add(
-                        new Movie(rs.getInt(1),
-                                rs.getInt(2),
-                                rs.getString(3),
-                                rs.getInt(4),
-                                rs.getString(5),
-                                rs.getString(6),
-                                rs.getInt(7)
-                        )
-                );
-            }
-            fc.closeQuery();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return moviesList;
-    }
-
     public static JSONArray getMovieList(int cinema_id) {
         JSONArray moviesList = new JSONArray();
         Function fc = new Function();
@@ -102,7 +77,7 @@ public class MovieController {
         return moviesList;
     }
 
-    public static JSONObject updateMovie(Movie mv){
+    public static JSONObject updateMovie(Movie mv) {
         Function fc = new Function();
         try {
             String sql = "update movies set" +
@@ -121,7 +96,7 @@ public class MovieController {
         }
     }
 
-    public static boolean deleteMovie(int id){
+    public static boolean deleteMovie(int id) {
         Function fc = new Function();
         try {
             String sql = "select count(*) from movies where available =1 and movie_id = " + id;
@@ -138,5 +113,47 @@ public class MovieController {
             System.out.println(e);
         }
         return false;
+    }
+
+    public static JSONArray getListCategory(int cinema_id) {
+        JSONArray categoryList = new JSONArray();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            rs = fc.executeQuery("select distinct moviecate_id from movies where available =1 and cinema_id = " + cinema_id);
+            while (rs.next()) {
+                categoryList.put(rs.getInt(1));
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return categoryList;
+    }
+
+    public List<Movie> getAllMovies() {
+        List<Movie> moviesList = new ArrayList<>();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            rs = fc.executeQuery("select * from movies where available = 1");
+            while (rs.next()) {
+                moviesList.add(
+                        new Movie(rs.getInt(1),
+                                rs.getInt(2),
+                                rs.getString(3),
+                                rs.getInt(4),
+                                rs.getString(5),
+                                rs.getString(6),
+                                rs.getInt(7)
+                        )
+                );
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return moviesList;
     }
 }
