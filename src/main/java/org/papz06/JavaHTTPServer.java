@@ -23,9 +23,6 @@ public class JavaHTTPServer implements Runnable {
     // port to listen connection
     static final int PORT = Function.getEnv("PORT") != null ? Integer.valueOf(Function.getEnv("PORT")) : 8080;
 
-    // verbose mode
-//    static final boolean verbose = true;
-
     // Client Connection via Socket Class
     private final Socket connect;
 
@@ -62,7 +59,7 @@ public class JavaHTTPServer implements Runnable {
             String authorization = null;
             while (input.length() != 0) {
                 input = in.readLine();
-                if (input.toLowerCase().contains("authorization")) {
+                if (input.toLowerCase().startsWith("authorization") && input.split(" ").length > 2) {
                     authorization = input.split(" ")[2];
                 }
             }
@@ -96,6 +93,8 @@ public class JavaHTTPServer implements Runnable {
                         result = UserServer.Registration(requesBody);
                         break;
                 }
+            } else if (method.equals("OPTIONS")) {
+                    
             } else {
                 boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
                 if (!validJWT) {
@@ -103,16 +102,10 @@ public class JavaHTTPServer implements Runnable {
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
                     /**
-                     * Divider cases for PORT: - login
+                     * Divider cases for PORT:
                      * **/
                     // Case 1:
                     switch (url.trim().toLowerCase()) {
-                        case "login":
-                            result = UserServer.login(requesBody);
-                            break;
-                        case "register":
-                            result = UserServer.Registration(requesBody);
-                            break;
                         case "cinema":
                             result = new CinemaServer().CinemaCreate(requesBody);
                             break;
@@ -121,6 +114,9 @@ public class JavaHTTPServer implements Runnable {
                             break;
                         case "movies":
                             result = MovieServer.MovieCreate(requesBody);
+                            break;
+                        case "movies/categories":
+                            result = MovieServer.MovieCategoryCreate(requesBody);
                             break;
                     }
                 } else if (method.equals("GET")) {
@@ -171,6 +167,10 @@ public class JavaHTTPServer implements Runnable {
                             if (id != null)
                                 result = MovieServer.MovieUpdate(Integer.parseInt(id), requesBody);
                             break;
+                        case "movies/category":
+                            if (id != null)
+                                result = MovieServer.MovieCategoryUpdate(Integer.parseInt(id), requesBody);
+                            break;
                     }
 
                 } else if (method.equals("DELETE")) {
@@ -217,6 +217,9 @@ public class JavaHTTPServer implements Runnable {
             out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
             out.write("Date: " + new Date() + "\r\n");
             out.write("Connection: close\r\n");
+            out.write("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS\r\n");
+            out.write("Access-Control-Allow-Headers: Content-Type, Authorization\r\n");
+            out.write("Access-Control-Max-Age: 3600\r\n");
             out.write("Content-length: " + result.getValue().getBytes().length + "\r\n");
             out.write("Access-Control-Allow-Origin: *\r\n");
             out.write("Content-type: application/json\r\n");

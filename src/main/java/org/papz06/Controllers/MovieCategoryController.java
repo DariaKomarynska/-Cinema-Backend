@@ -1,5 +1,6 @@
 package org.papz06.Controllers;
 
+import org.json.JSONObject;
 import org.papz06.Function;
 import org.papz06.Models.Cinema;
 import org.papz06.Models.Movie;
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieCategoryController {
-    List<MovieCategory> movieCategoriesList = new ArrayList<>();
 
-    public MovieCategoryController() {
+    public List<MovieCategory> getAllCategories() {
+        List<MovieCategory> movieCategoriesList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -30,12 +31,23 @@ public class MovieCategoryController {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return movieCategoriesList;
     }
+    public JSONObject getMovieCategoryById(int id){
+        JSONObject result = new JSONObject();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            rs = fc.executeQuery("select * from moviecategories where moviecategory_id = " + id);
+            rs.next();
+            result.put("id", rs.getInt(1));
+            result.put("name", rs.getString(2));
+            result.put("description", rs.getString(3));
 
-    public void displayMovieCategoriesList() {
-        for (MovieCategory mvc : movieCategoriesList) {
-            System.out.println(mvc.toString());
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return result;
     }
-
 }
