@@ -1,13 +1,13 @@
 package org.papz06.Request;
 
 import org.json.JSONArray;
+import org.papz06.Controllers.MovieController;
 import org.papz06.KeyValue;
 
 public class MovieServer {
     public static KeyValue<Integer, String> MovieList(int cinema_id) {
-        JSONArray result = new JSONArray();
-
-        return new KeyValue<>(200, result.toString());
+//        JSONArray result = new MovieController().getMovieList();
+        return new KeyValue<>(200, new MovieController().getMovieList(cinema_id).toString());
     }
 
     public static KeyValue<Integer, String> MovieCreate(String requestBody) {
