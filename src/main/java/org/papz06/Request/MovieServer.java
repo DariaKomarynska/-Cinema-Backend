@@ -18,6 +18,7 @@ public class MovieServer {
 
     public static KeyValue<Integer, String> MovieCreate(String requestBody) {
         // Create map and use Gson to parse from string to Map
+        JSONObject result = null;
         try{
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
@@ -28,10 +29,13 @@ public class MovieServer {
             int movieCategoryId = Integer.parseInt(retMap.get("movieCategoryId"));
             int cinemaId = Integer.parseInt(retMap.get("cinemaId"));
             Movie myMovie = new Movie(length, ageRestriction, cinemaId, name, description, movieCategoryId);
+            result = MovieController.createMovie(myMovie);
         } catch (Exception e){
-            return new KeyValue<>(400, "");
+            System.out.println(e);
         }
-        return null;
+        if (result == null)
+            return new KeyValue<>(400, "");
+        return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> MovieDetails(int id, String requestBody) {

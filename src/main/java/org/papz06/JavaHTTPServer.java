@@ -7,23 +7,18 @@ import org.papz06.Request.UserServer;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
-// The tutorial can be found just here on the SSaurel's Blog :
-// https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
 // Each Client Connection will be managed in a dedicated Thread
 public class JavaHTTPServer implements Runnable {
 
     static final File WEB_ROOT = new File(".");
     static final String DEFAULT_FILE = "index.html";
     static final String FILE_NOT_FOUND = "404.html";
-//    static final Hashtable statusStan
+    static final Map<Integer, String> statusCheck = new HashMap<Integer, String>();
     //    static final String METHOD_NOT_SUPPORTED = "not_supported.html";
     // port to listen connection
-    static final int PORT = Function.getEnv("PORT") != null ? Integer.valueOf(Function.getEnv("PORT")) : 8080;
+    static final int PORT = Function.getEnv("PORT") != null ? Integer.parseInt(Function.getEnv("PORT")) : 8080;
     // Client Connection via Socket Class
     private final Socket connect;
 
@@ -38,6 +33,10 @@ public class JavaHTTPServer implements Runnable {
         PrintWriter out = null;
         BufferedOutputStream dataOut = null;
         String fileRequested;
+        statusCheck.put(200, "OK");
+        statusCheck.put(400, "BAD_REQUEST");
+        statusCheck.put(403, "PERMISSION_DENIED");
+        statusCheck.put(404, "NOT_FOUND");
 
         try {
             // we read characters from the client via input stream on the socket
@@ -201,7 +200,7 @@ public class JavaHTTPServer implements Runnable {
 
                     // we send HTTP Headers with data to client
                     out.write("HTTP/1.1 405 Method Not Allowed\r\n");
-                    out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+                    out.write("Server: Java HTTP Server from Z06-PW : 1.0\r\n");
                     out.write("Date: " + new Date() + "\r\n");
                     //                out.println("Content-type: " + contentMimeType);
                     out.write("Content-length: 0\r\n");
@@ -213,8 +212,8 @@ public class JavaHTTPServer implements Runnable {
             }
             if (result == null)
                 result = new KeyValue<Integer, String>(200,
-                        "{ \"status\": \"success\", \"message\": \"Hello from Group Z06.\"}");
-            out.write("HTTP/1.1 " + result.getKey() + " OK\r\n");
+                        "{ \"status\": \"Nodata\", \"message\": \"Hello from Group Z06.\"}");
+            out.write("HTTP/1.1 " + result.getKey() + " " + statusCheck.get(result.getKey()) + "\r\n");
             out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
             out.write("Date: " + new Date() + "\r\n");
             out.write("Connection: close\r\n");
