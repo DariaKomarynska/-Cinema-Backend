@@ -56,4 +56,11 @@ public class UserController {
                     + us.getPassword() + "\')");
         } catch (Exception e) {System.out.println(e);}
     }
+    public User getUserFromLogin(String login){
+        for (User us : userList){
+            if ((us.getLogin().equals(login)))
+                return us;
+        }
+        return null;
+    }
 }

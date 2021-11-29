@@ -33,7 +33,7 @@ public class UserServer {
             return new KeyValue <Integer, String>(452, new JSONObject(data).toString());
         }
         // Yes
-        String JWTToken = Utils.createJWTToken(Function.getSecret());
+        String JWTToken = Utils.createJWTToken(usCon.getUserFromLogin(loginData), Function.getSecret());
         data.put("token", JWTToken);
         return new KeyValue <Integer, String>(200, new JSONObject(data).toString());
     }
@@ -52,7 +52,7 @@ public class UserServer {
         }
         String passwordAfterHash = Utils.MD5(passwordData);
         new UserController().registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
-        String JWTToken = Utils.createJWTToken(Function.getSecret());
+        String JWTToken = Utils.createJWTToken(usCon.getUserFromLogin(loginData), Function.getSecret());
         data.put("token", JWTToken);
         return new KeyValue <>(200, new JSONObject(data).toString());
     }

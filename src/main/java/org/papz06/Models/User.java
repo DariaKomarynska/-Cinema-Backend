@@ -20,16 +20,23 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstName(){
+    public int getId(){
+        return id;
+    }
+
+    public String getFirstName() {
         return firstName;
     }
-    public String getLastName(){
+
+    public String getLastName() {
         return lastName;
     }
-    public String getLogin(){
+
+    public String getLogin() {
         return login;
     }
-    public String getPassword(){
+
+    public String getPassword() {
         return password;
     }
 }
