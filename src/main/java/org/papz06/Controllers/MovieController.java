@@ -21,7 +21,7 @@ public class MovieController {
                 moviesList.add(
                         new Movie(rs.getInt(1),
                                 rs.getInt(2),
-                                rs.getInt(3),
+                                rs.getString(3),
                                 rs.getInt(4),
                                 rs.getString(5),
                                 rs.getString(6),
@@ -46,7 +46,7 @@ public class MovieController {
                 JSONObject movieData = new JSONObject();
                 movieData.put("id", rs.getInt(1));
                 movieData.put("length", rs.getInt(2));
-                movieData.put("ageRestriction", rs.getInt(3));
+                movieData.put("ageRestriction", rs.getString(3));
                 movieData.put("name", rs.getString(5));
                 movieData.put("description", rs.getString(6));
                 movieData.put("movieCategory", new MovieCategoryController().getMovieCategoryById(rs.getInt(7)));
