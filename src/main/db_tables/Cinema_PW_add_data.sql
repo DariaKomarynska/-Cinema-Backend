@@ -29,9 +29,11 @@ insert into users values (default, 'John', 'Wick', 'admin', '21232f297a57a5a7438
 commit;
 
 -------------------------
-insert into cinemas values (default, 0001, 'Warszawa Centralna', default);
-insert into cinemas values (default, 0002, 'Atlantic Kino', default);
-insert into cinemas values (default, 0003, 'Multikino', default);
+
+insert into cinemas values (default, 0001, 'Warszawa Centralna', 'https://bobmovies.us/', '7306563244', '01-381, ul. Powstańców Śląskich 70', default);
+insert into cinemas values (default, 0002, 'Atlantic Kino', '	https://fmovies.pe', '7563566315', '01-381, ul. Modlińska', default);
+insert into cinemas values (default, 0003, 'Multikino', 'https://bobcinema.us/', '73065663294', '01-381, ul. Stefana Żeromskiego 29', default);
+insert into cinemas values (default, 0004, 'NewCinema', 'https://movieddl.to/', '73064547248', '01-381, ul. Rakowiecka 25/27', default);
 commit;
 -------------------------
 
