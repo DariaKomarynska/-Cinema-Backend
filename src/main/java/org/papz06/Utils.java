@@ -1,5 +1,7 @@
 package org.papz06;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 
 import javax.crypto.Mac;
@@ -98,5 +100,11 @@ public class Utils {
             query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
         }
         return query_pairs;
+    }
+
+    public static Map<String, String> getValueFromRequest(String requestBody){
+        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+        }.getType());
+        return retMap;
     }
 }
