@@ -96,6 +96,8 @@ public class JavaHTTPServer implements Runnable {
                         result = UserServer.Registration(requesBody);
                         break;
                 }
+            } else if (method.equals("OPTIONS")) {
+                    
             } else {
                 boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
                 if (!validJWT) {
@@ -217,6 +219,9 @@ public class JavaHTTPServer implements Runnable {
             out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
             out.write("Date: " + new Date() + "\r\n");
             out.write("Connection: close\r\n");
+            out.write("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS\r\n");
+            out.write("Access-Control-Allow-Headers: Content-Type, Authorization\r\n");
+            out.write("Access-Control-Max-Age: 3600\r\n");
             out.write("Content-length: " + result.getValue().getBytes().length + "\r\n");
             out.write("Access-Control-Allow-Origin: *\r\n");
             out.write("Content-type: application/json\r\n");
