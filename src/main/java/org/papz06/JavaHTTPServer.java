@@ -62,7 +62,7 @@ public class JavaHTTPServer implements Runnable {
             String authorization = null;
             while (input.length() != 0) {
                 input = in.readLine();
-                if (input.toLowerCase().startsWith("authorization")) {
+                if (input.toLowerCase().startsWith("authorization") && input.split(" ").length > 2) {
                     authorization = input.split(" ")[2];
                 }
             }
