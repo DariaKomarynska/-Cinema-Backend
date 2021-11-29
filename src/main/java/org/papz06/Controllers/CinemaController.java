@@ -42,7 +42,7 @@ public class CinemaController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("select cinema_id, name from cinemas");
+            rs = fc.executeQuery("select cinema_id, name from cinemas where available = 1");
             while (rs.next()) {
                 JSONObject cinemaData = new JSONObject();
                 cinemaData.put("id", rs.getInt(1));
@@ -61,7 +61,7 @@ public class CinemaController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select cinema_id, name from cinemas where cinema_id = '%d'", id);
+            String sqlSelect = String.format("select cinema_id, name from cinemas where cinema_id = '%d' and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 cinemaData.put("id", rs.getInt(1));
@@ -79,7 +79,7 @@ public class CinemaController {
         JSONObject cinemaData = new JSONObject();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select cinema_id, name from cinemas where name = '%s'", newName);
+            String sqlSelect = String.format("select cinema_id, name from cinemas where name = '%s' and available = 1", newName);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 cinemaData.put("id", rs.getInt(1));
@@ -95,7 +95,7 @@ public class CinemaController {
     public JSONObject insertNewCinema(String newName) {
         Function fc = new Function();
         try {
-            String sqlInsert = String.format("insert into cinemas values (default, null, '%s')", newName);
+            String sqlInsert = String.format("insert into cinemas values (default, null, '%s', default)", newName);
             fc.executeQuery(sqlInsert);
             fc.closeQuery();
         } catch (Exception e) {
@@ -107,7 +107,7 @@ public class CinemaController {
     public JSONObject updateCinemaName(Integer id, String newName) {
         Function fc = new Function();
         try {
-            String sqlUpdate = String.format("update cinemas set name = '%s' where cinema_id = %d", newName, id);
+            String sqlUpdate = String.format("update cinemas set name = '%s' where cinema_id = %d and available = 1", newName, id);
             fc.executeQuery(sqlUpdate);
             fc.closeQuery();
         } catch (Exception e) {

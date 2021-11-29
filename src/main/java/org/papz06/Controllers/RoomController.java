@@ -19,7 +19,7 @@ public class RoomController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("select * from rooms");
+            rs = fc.executeQuery("select * from rooms where available = 1");
             while (rs.next()) {
                 roomsList.add(
                         new Room(rs.getInt(1),
@@ -40,7 +40,7 @@ public class RoomController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select room_id, name from rooms where cinema_id = %d", id);
+            String sqlSelect = String.format("select room_id, name from rooms where cinema_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 JSONObject roomData = new JSONObject();
@@ -60,7 +60,7 @@ public class RoomController {
         JSONObject roomData = new JSONObject();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select room_id, name, cinema_id from rooms where name = '%s' and cinema_id = %.2f", newName, cinemaId);
+            String sqlSelect = String.format("select room_id, name, cinema_id from rooms where name = '%s' and cinema_id = %.2f and available = 1", newName, cinemaId);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 roomData.put("room_id", rs.getInt(1));
@@ -79,7 +79,7 @@ public class RoomController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select room_id, name from rooms where room_id = %d", id);
+            String sqlSelect = String.format("select room_id, name from rooms where room_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 roomData.put("id", rs.getInt(1));
@@ -97,7 +97,7 @@ public class RoomController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select room_id, name from rooms where room_id = %d", id);
+            String sqlSelect = String.format("select room_id, name from rooms where room_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 roomData.put("id", rs.getInt(1));
@@ -126,7 +126,7 @@ public class RoomController {
     public JSONObject updateRoomNameSeats(Integer id, String newName) {
         Function fc = new Function();
         try {
-            String sqlUpdate = String.format("update rooms set name = '%s' where room_id = %d", newName, id);
+            String sqlUpdate = String.format("update rooms set name = '%s' where room_id = %d and available = 1", newName, id);
             fc.executeQuery(sqlUpdate);
             fc.closeQuery();
         } catch (Exception e) {
