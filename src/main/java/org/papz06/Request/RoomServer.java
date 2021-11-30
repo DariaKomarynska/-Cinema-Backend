@@ -1,20 +1,18 @@
 package org.papz06.Request;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
+//import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.papz06.Controllers.CinemaController;
 import org.papz06.Controllers.RoomController;
-import org.papz06.Function;
 import org.papz06.KeyValue;
-import org.papz06.Models.Seat;
 import org.papz06.Utils;
 
-import java.security.Key;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 
 public class RoomServer {
@@ -43,13 +41,12 @@ public class RoomServer {
          * seats: Array<{ positionX: number;
          * positionY: number; type: string;}>;
          */
-        Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
-
+        Map<String, Object> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, Object>>() {
+        }.getType());
         String newRoomName = retMap.get("name").toString();
-        Double newCinemaId = (Double) retMap.get("cinemaId");
-        // use also seats
-        //
-        // ArrayList<> seats =  retMap.get("seats");
+        Double newCinemaId = Double.parseDouble(retMap.get("cinema_id").toString()) ;
+        JSONObject jsonRequest = new JSONObject(requestBody);
+        JSONArray seats = jsonRequest.getJSONArray("seats");
 
         RoomController roomControl = new RoomController();
         JSONObject result = new JSONObject();
@@ -64,10 +61,7 @@ public class RoomServer {
             result.put("error", "BAD_REQUEST, name is empty");
             return new KeyValue<Integer, String>(400, result.toString());
         }
-        result = roomControl.insertNewRoom(newRoomName, newCinemaId);
-        // call create seats
-
-        // !!!
+        result = roomControl.insertNewRoom(newRoomName, newCinemaId, seats);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 

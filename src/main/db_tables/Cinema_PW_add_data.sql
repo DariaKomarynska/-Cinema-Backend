@@ -10,22 +10,21 @@
 --delete from TicketTypes;
 
 -------------------------
-insert into users values (default, 'Bob', 'WILSON', 'bow11', 'bo56wil');
-insert into users values (default, 'Betty', 'BROWN', 'bow12', 'bo526wil');
-insert into users values (default, 'Luther', 'WOOD', 'bow13', 'bo536wil');
-insert into users values (default, 'Nick', 'THOMSON', 'bow14', 'bo546wil');
-insert into users values (default, 'Charles', 'ROBERTSON', 'bow15', 'bo556wil');
-insert into users values (default, 'Ara', 'CAMPBELL', 'bow16', 'bo566wil');
-insert into users values (default, 'Bob', 'STEWART', 'bow17', 'bo576wil');
-insert into users values (default, 'Jeff', 'ANDERSON', 'bow18', 'bo586wil');
-insert into users values (default, 'James', 'WILSON', 'bow19', 'bo596wil');
-insert into users values (default, 'Sonny', 'BROWN', 'bow21', 'bo16wil');
-insert into users values (default, 'Luther', 'THOMSON', 'bow31', 'bo26wil');
-insert into users values (default, 'Charles', 'WOOD', 'bow41', 'bo36wil');
-insert into users values (default, 'Bob', 'BROWN', 'bow51', 'bo46wil');
-insert into users values (default, 'Betty', 'ROBERTSON', 'bow4551', 'bo96wil');
-insert into users values (default, 'Otis', 'WILSON', 'bow71', 'bo86wil');
-insert into users values (default, 'John', 'Wick', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+insert into users values (default, 'Betty', 'BROWN', 'bow12', 'bo526wil', default);
+insert into users values (default, 'Luther', 'WOOD', 'bow13', 'bo536wil', default);
+insert into users values (default, 'Nick', 'THOMSON', 'bow14', 'bo546wil', default);
+insert into users values (default, 'Charles', 'ROBERTSON', 'bow15', 'bo556wil', default);
+insert into users values (default, 'Ara', 'CAMPBELL', 'bow16', 'bo566wil', default);
+insert into users values (default, 'Bob', 'STEWART', 'bow17', 'bo576wil', default);
+insert into users values (default, 'Jeff', 'ANDERSON', 'bow18', 'bo586wil', default);
+insert into users values (default, 'James', 'WILSON', 'bow19', 'bo596wil', default);
+insert into users values (default, 'Sonny', 'BROWN', 'bow21', 'bo16wil', default);
+insert into users values (default, 'Luther', 'THOMSON', 'bow31', 'bo26wil', default);
+insert into users values (default, 'Charles', 'WOOD', 'bow41', 'bo36wil', default);
+insert into users values (default, 'Bob', 'BROWN', 'bow51', 'bo46wil', default);
+insert into users values (default, 'Betty', 'ROBERTSON', 'bow4551', 'bo96wil', default);
+insert into users values (default, 'Otis', 'WILSON', 'bow71', 'bo86wil', default);
+insert into users values (default, 'John', 'Wick', 'admin', '21232f297a57a5a743894a0e4a801fc3', default);
 commit;
 
 -------------------------

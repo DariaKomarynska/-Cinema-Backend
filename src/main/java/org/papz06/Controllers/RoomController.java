@@ -1,5 +1,6 @@
 package org.papz06.Controllers;
 
+import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
@@ -9,6 +10,7 @@ import org.papz06.Models.Room;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RoomController {
 
@@ -92,16 +94,17 @@ public class RoomController {
         return roomData;
     }
 
-    public JSONObject getRoomNameById(Integer id) {
+    public JSONObject getRoomById(int id) {
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select room_id, name from rooms where room_id = %d and available = 1", id);
+            String sqlSelect = String.format("select room_id, name, cinema_id from rooms where room_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 roomData.put("id", rs.getInt(1));
                 roomData.put("name", rs.getString(2));
+                roomData.put("cinema_id", rs.getInt(3));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -110,16 +113,24 @@ public class RoomController {
         return roomData;
     }
 
-    public JSONObject insertNewRoom(String newRoomName, double newCinemaId) {
+    public JSONObject insertNewRoom(String newRoomName, Double newCinemaId, JSONArray seats) {
+        SeatController seatCon = new SeatController();
         Function fc = new Function();
+        ResultSet rs;
+        int roomId = 0;
         try {
             String sqlInsert = String.format("insert into rooms values (default, '%s', null, null, %.2f, default)", newRoomName, newCinemaId);
             fc.executeQuery(sqlInsert);
+            rs = fc.executeQuery("select * from rooms where available = 1 order by room_id desc fetch next 1 rows only");
+            rs.next();
+            roomId = rs.getInt(1);
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        return getRoomByNameCinema(newRoomName, newCinemaId);
+        JSONObject result = getRoomById(roomId);
+        result.put("seats", seatCon.insertSeatList(roomId, seats));
+        return result;
     }
 
     public JSONObject updateRoomNameSeats(Integer id, String newName) {
@@ -131,7 +142,7 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        return getRoomNameById(id);
+        return getRoomById(id);
     }
 
     public JSONObject deleteRoom(Integer id) {

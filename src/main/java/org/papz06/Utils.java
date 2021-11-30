@@ -2,14 +2,17 @@ package org.papz06;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Models.User;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.swing.plaf.IconUIResource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -114,5 +117,16 @@ public class Utils {
         Map<String, Object> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, Object>>() {
         }.getType());
         return retMap;
+    }
+
+    public static JSONArray convertToJSONArray(ArrayList<Map<String, String>> arrayOfMaps){
+        JSONArray resArray = new JSONArray();
+        for (int i = 0; i < arrayOfMaps.size(); ++i){
+            resArray.put(new JSONObject(arrayOfMaps.get(i)));
+        }
+//        for (Map<String, String> curMap : arrayOfMaps){
+//            resArray.put(new JSONObject(curMap));
+//        }
+        return resArray;
     }
 }

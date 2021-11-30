@@ -6,7 +6,8 @@ create table users
     firstName VARCHAR2 (40) NOT NULL ,
     lastName VARCHAR2 (40) NOT NULL,
     login VARCHAR2 (40) NOT NULL unique,
-    password VARCHAR2 (40) NOT NULL
+    password VARCHAR2 (40) NOT NULL,
+    available number default 1
 );
 ALTER TABLE users ADD (
   CONSTRAINT users_pk PRIMARY KEY (user_id));

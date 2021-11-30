@@ -3,15 +3,16 @@ package org.papz06.Models;
 import java.util.Date;
 
 public class Seat {
-    int id, roomId, positionX, positionY;
+    int id, roomId, positionX, positionY, available;
     String type;
 
-    public Seat(int id, int roomId, int positionX, int positionY, String type) {
+    public Seat(int id, int roomId, int positionX, int positionY, String type, int available) {
         this.id = id;
         this.roomId = roomId;
         this.positionX = positionX;
         this.positionY = positionY;
         this.type = type;
+        this.available = available;
     }
 
     public Seat() {
@@ -23,5 +24,13 @@ public class Seat {
                 + " " + positionX
                 + " " + positionY
                 + " " + type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getRoomId() {
+        return roomId;
     }
 }
