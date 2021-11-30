@@ -1,5 +1,8 @@
 package org.papz06.Models;
 
+import org.json.JSONObject;
+import org.papz06.Controllers.MovieCategoryController;
+
 public class User {
     int id;
     String firstName, lastName, login, password;
@@ -38,5 +41,14 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public JSONObject toJson(){
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("firstName", firstName);
+        result.put("lastName", lastName);
+        result.put("login", login);
+        return result;
     }
 }

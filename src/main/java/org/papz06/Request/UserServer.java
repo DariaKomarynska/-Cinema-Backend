@@ -2,6 +2,7 @@ package org.papz06.Request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Controllers.UserController;
 import org.papz06.Function;
@@ -12,12 +13,12 @@ import org.papz06.Models.*;
 import java.util.*;
 
 public class UserServer {
-    public static KeyValue<Integer, String> login(String parametr) {
+    public static KeyValue<Integer, String> login(String requestBody) {
         /**
         Pair to return status number and JWT token.
         * */
         // Create map and use Gson to parse from string to Map
-        Map<String, String> retMap = new Gson().fromJson(parametr, new TypeToken<Map<String, String>>() {
+        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
         }.getType());
         // Get data
         String loginData = retMap.get("login");
@@ -55,5 +56,10 @@ public class UserServer {
         String JWTToken = Utils.createJWTToken(usCon.getUserFromLogin(loginData), Function.getSecret());
         data.put("token", JWTToken);
         return new KeyValue <>(200, new JSONObject(data).toString());
+    }
+    public static  KeyValue<Integer, String> UserList(){
+        UserController usCon = new UserController();
+        JSONArray result = usCon.getAllUser();
+        return new KeyValue<>(200, result.toString());
     }
 }

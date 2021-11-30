@@ -155,6 +155,9 @@ public class JavaHTTPServer implements Runnable {
                             if (id != null)
                                 result = MovieServer.MovieCategoryList(Integer.parseInt(id));
                             break;
+                        case "user":
+                            result = UserServer.UserList();
+                            break;
                     }
 
                 } else if (method.equals("PATCH")) {

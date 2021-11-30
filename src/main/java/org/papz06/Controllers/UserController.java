@@ -1,5 +1,6 @@
 package org.papz06.Controllers;
 
+import org.json.JSONArray;
 import org.papz06.Function;
 import org.papz06.Models.User;
 
@@ -30,6 +31,14 @@ public class UserController {
             System.out.println(e);
         }
     }
+
+    public  JSONArray getAllUser(){
+        JSONArray result = new JSONArray();
+        for (User us: userList)
+            result.put(us.toJson());
+        return result;
+    }
+
     public boolean checkExistUser(String user) {
         for (User us : userList){
             if (us.getLogin().equals(user))
