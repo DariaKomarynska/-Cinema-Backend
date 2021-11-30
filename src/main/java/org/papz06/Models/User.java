@@ -51,11 +51,15 @@ public class User {
     }
 
     public JSONObject toJson(){
-        JSONObject result = new JSONObject();
-        result.put("id", id);
-        result.put("firstName", firstName);
-        result.put("lastName", lastName);
-        result.put("login", login);
-        return result;
+        try{
+            JSONObject result = new JSONObject();
+            result.put("id", id);
+            result.put("firstName", firstName);
+            result.put("lastName", lastName);
+            result.put("login", login);
+            return result;
+        } catch (Exception e){
+            return null;
+        }
     }
 }

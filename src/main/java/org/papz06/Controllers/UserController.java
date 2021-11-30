@@ -5,33 +5,8 @@ import org.papz06.Function;
 import org.papz06.Models.User;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserController {
-    List<User> userList = new ArrayList<>();
-
-//    public UserController() {
-//        Function fc = new Function();
-//        ResultSet rs;
-//        try {
-//            rs = fc.executeQuery("select * from users");
-//            while (rs.next()) {
-//                userList.add(
-//                        new User(rs.getInt(1),
-//                                rs.getString(2),
-//                                rs.getString(3),
-//                                rs.getString(4),
-//                                rs.getString(5)
-//                        )
-//                );
-//            }
-//            fc.closeQuery();
-//        } catch (Exception e) {
-//            System.out.println(e);
-//        }
-//    }
-
     public static JSONArray getAllUser() {
         JSONArray result = new JSONArray();
         Function fc = new Function();
@@ -111,5 +86,20 @@ public class UserController {
             System.out.println(e);
         }
         return null;
+    }
+
+    static public User getUserFromId(int id) {
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sql = "select * from users where available = 1 and user_id = " + id;
+            rs = fc.executeQuery(sql);
+            rs.next();
+            User us = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            fc.closeQuery();
+            return us;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

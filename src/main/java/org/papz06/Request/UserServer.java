@@ -73,6 +73,11 @@ public class UserServer {
     }
 
     public static KeyValue<Integer, String> UserDetail(int id) {
-        return null;
+        try{
+            JSONObject result = UserController.getUserFromId(id).toJson();
+            return new KeyValue<>(200, result.toString());
+        } catch (Exception e){
+            return new KeyValue<>(404, "");
+        }
     }
 }
