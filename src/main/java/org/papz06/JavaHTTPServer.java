@@ -80,10 +80,15 @@ public class JavaHTTPServer implements Runnable {
             KeyValue<Integer, String> result = null;
             if (url.charAt(url.length() - 1) == '/')
                 url = url.substring(0, url.length()-1);
+
             if (url.indexOf('/') != -1) {
                 int lx = url.lastIndexOf('/');
                 id = url.substring(lx + 1);
-                url = url.substring(0, lx);
+                if (Utils.isNumeric(id)) {
+                    id = url.substring(lx + 1);
+                    url = url.substring(0, lx);
+                }
+                else id = null;
             }
             if (method.equals("POST") && (url.equals("login") || url.equals("register"))) {
 
@@ -150,6 +155,11 @@ public class JavaHTTPServer implements Runnable {
                         case "movies/categories":
                             if (id != null)
                                 result = MovieServer.MovieCategoryList(Integer.parseInt(id));
+                            break;
+                        case "user":
+                            if (id == null)
+                                result = UserServer.UserList();
+                            else result = UserServer.UserDetail(Integer.parseInt(id));
                             break;
                     }
 

@@ -119,14 +119,12 @@ public class Utils {
         return retMap;
     }
 
-    public static JSONArray convertToJSONArray(ArrayList<Map<String, String>> arrayOfMaps){
-        JSONArray resArray = new JSONArray();
-        for (int i = 0; i < arrayOfMaps.size(); ++i){
-            resArray.put(new JSONObject(arrayOfMaps.get(i)));
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
-//        for (Map<String, String> curMap : arrayOfMaps){
-//            resArray.put(new JSONObject(curMap));
-//        }
-        return resArray;
     }
 }
