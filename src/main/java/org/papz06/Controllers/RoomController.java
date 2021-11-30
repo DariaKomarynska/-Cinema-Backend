@@ -1,6 +1,7 @@
 package org.papz06.Controllers;
 
 import com.google.gson.JsonArray;
+//import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
@@ -57,26 +58,9 @@ public class RoomController {
         return resultData;
     }
 
-    public JSONObject getRoomByNameCinema(String newName, double cinemaId) {
-        Function fc = new Function();
-        JSONObject roomData = new JSONObject();
-        ResultSet rs;
-        try {
-            String sqlSelect = String.format("select room_id, name, cinema_id from rooms where name = '%s' and cinema_id = %.2f and available = 1", newName, cinemaId);
-            rs = fc.executeQuery(sqlSelect);
-            while (rs.next()) {
-                roomData.put("room_id", rs.getInt(1));
-                roomData.put("name", rs.getString(2));
-                roomData.put("cinema_id", rs.getInt(3));
-            }
-            fc.closeQuery();
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-        }
-        return roomData;
-    }
-
-    public JSONObject getRoomWithSeatsById(Integer id) {
+    public JSONObject getRoomWithSeatsById(Integer id, boolean withSeats) {
+        // Room Details
+        SeatController seatCon = new SeatController();
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -91,10 +75,13 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
+        if (withSeats){
+            roomData.put("seats", seatCon.getSeatListByRoomId(id));
+        }
         return roomData;
     }
 
-    public JSONObject getRoomById(int id) {
+    public JSONObject getRoomWithCinemaById(int id) {
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -128,13 +115,16 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        JSONObject result = getRoomById(roomId);
-        result.put("seats", seatCon.insertSeatList(roomId, seats));
+        JSONObject result = getRoomWithCinemaById(roomId);
+        // insert seats
+        seatCon.insertSeatList(roomId, seats);
         return result;
     }
 
-    public JSONObject updateRoomNameSeats(Integer id, String newName) {
+    public JSONObject updateRoomNameSeats(Integer id, String newName, JSONArray seats) {
+        SeatController seatCon = new SeatController();
         Function fc = new Function();
+        ResultSet rs;
         try {
             String sqlUpdate = String.format("update rooms set name = '%s' where room_id = %d and available = 1", newName, id);
             fc.executeQuery(sqlUpdate);
@@ -142,10 +132,12 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        return getRoomById(id);
+        JSONArray updatedSeats = seatCon.updateSeatListInRoom(id, seats);
+        return getRoomWithSeatsById(id, false);
     }
 
     public JSONObject deleteRoom(Integer id) {
+        SeatController seatCon = new SeatController();
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update rooms set available = 0 where room_id = %d", id);
@@ -154,6 +146,7 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
+        seatCon.deleteSeatList(id);
         return new JSONObject();
     }
 

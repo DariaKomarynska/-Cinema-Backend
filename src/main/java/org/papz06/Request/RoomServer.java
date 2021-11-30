@@ -80,10 +80,7 @@ public class RoomServer {
             result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        // return also seats
-
-        //
-        result = roomControl.getRoomWithSeatsById(id);
+        result = roomControl.getRoomWithSeatsById(id,true);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
@@ -100,10 +97,9 @@ public class RoomServer {
          */
         Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
         String newRoomName = retMap.get("name").toString();
-        // use also seats
+        JSONObject jsonRequest = new JSONObject(requestBody);
+        JSONArray seats = jsonRequest.getJSONArray("seats");
 
-        //
-        // ArrayList<> seats =  retMap.get("seats");
         RoomController roomControl = new RoomController();
         JSONObject result = new JSONObject();
         if (roomControl.checkExist(newRoomName)) {
@@ -116,7 +112,7 @@ public class RoomServer {
             result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        result = roomControl.updateRoomNameSeats(id, newRoomName);
+        result = roomControl.updateRoomNameSeats(id, newRoomName, seats);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
@@ -134,9 +130,6 @@ public class RoomServer {
             result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        // delete also seats
-        //
-        // necessary seats
         result = roomControl.deleteRoom(id);
         return new KeyValue<Integer, String>(200, result.toString());
     }
