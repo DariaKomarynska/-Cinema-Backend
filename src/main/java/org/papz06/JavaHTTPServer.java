@@ -83,7 +83,11 @@ public class JavaHTTPServer implements Runnable {
             if (url.indexOf('/') != -1) {
                 int lx = url.lastIndexOf('/');
                 id = url.substring(lx + 1);
-                url = url.substring(0, lx);
+                if (Utils.isNumeric(id)) {
+                    id = url.substring(lx + 1);
+                    url = url.substring(0, lx);
+                }
+                else id = null;
             }
             if (method.equals("POST") && (url.equals("login") || url.equals("register"))) {
 

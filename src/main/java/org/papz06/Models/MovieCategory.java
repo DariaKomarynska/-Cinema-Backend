@@ -12,7 +12,7 @@ public class MovieCategory {
         this.description = description;
     }
 
-    public MovieCategory(int id) {
+    public MovieCategory() {
     }
 
     public String toString() {

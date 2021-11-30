@@ -80,7 +80,20 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieCategoryCreate(String requestBody) {
-        return null;
+        // Create map and use Gson to parse from string to Map
+        JSONObject result = null;
+        try{
+            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+            }.getType());
+            String name = retMap.get("name");
+            String description = retMap.get("description");
+            result = MovieCategoryController.createCategory(name, description);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        if (result == null)
+            return new KeyValue<>(400, "");
+        return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> MovieCategoryUpdate(int id, String requestBody){
