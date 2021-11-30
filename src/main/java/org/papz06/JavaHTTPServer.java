@@ -80,6 +80,7 @@ public class JavaHTTPServer implements Runnable {
             KeyValue<Integer, String> result = null;
             if (url.charAt(url.length() - 1) == '/')
                 url = url.substring(0, url.length()-1);
+
             if (url.indexOf('/') != -1) {
                 int lx = url.lastIndexOf('/');
                 id = url.substring(lx + 1);
@@ -156,7 +157,9 @@ public class JavaHTTPServer implements Runnable {
                                 result = MovieServer.MovieCategoryList(Integer.parseInt(id));
                             break;
                         case "user":
-                            result = UserServer.UserList();
+                            if (id == null)
+                                result = UserServer.UserList();
+                            else result = UserServer.UserDetail(Integer.parseInt(id));
                             break;
                     }
 
