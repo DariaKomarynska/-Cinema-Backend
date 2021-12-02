@@ -2,27 +2,20 @@ package org.papz06;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Models.User;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.swing.plaf.IconUIResource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
-//import org.apache.commons.codec.binary.Base64;
 
 
 public class Utils {
-    //    private static String encode(byte[] bytes) {
-//        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
-//    }
     private static String encode(byte[] bytes) {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
     }
@@ -36,12 +29,6 @@ public class Utils {
             sha256Hmac.init(secretKey);
 
             byte[] signedBytes = sha256Hmac.doFinal(data.getBytes(StandardCharsets.UTF_8));
-
-//            StringBuffer sb = new StringBuffer();
-//            for (int i = 0; i < signedBytes.length; ++i) {
-//                sb.append(Integer.toHexString((signedBytes[i] & 0xFF) | 0x100).substring(1, 3));
-//            }
-//            return sb.toString();
 
             return encode(signedBytes);
         } catch (Exception ex) {

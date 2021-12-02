@@ -1,7 +1,6 @@
 package org.papz06.Models;
 
 import org.json.JSONObject;
-import org.papz06.Controllers.MovieCategoryController;
 
 public class User {
     int id;
@@ -30,7 +29,7 @@ public class User {
         this.login = login;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
@@ -50,15 +49,15 @@ public class User {
         return password;
     }
 
-    public JSONObject toJson(){
-        try{
+    public JSONObject toJson() {
+        try {
             JSONObject result = new JSONObject();
             result.put("id", id);
             result.put("firstName", firstName);
             result.put("lastName", lastName);
             result.put("login", login);
             return result;
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }

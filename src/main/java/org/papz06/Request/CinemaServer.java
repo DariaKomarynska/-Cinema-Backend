@@ -3,13 +3,11 @@ package org.papz06.Request;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
-import org.papz06.Controllers.CinemaController;
 import org.json.JSONObject;
+import org.papz06.Controllers.CinemaController;
 import org.papz06.KeyValue;
-import org.papz06.Models.Cinema;
-import org.papz06.Utils;
 
-import java.util.*;
+import java.util.Map;
 
 public class CinemaServer {
 
@@ -36,7 +34,7 @@ public class CinemaServer {
         System.out.println("okk");
         Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
         }.getType());
-        int newManagerId =  Integer.parseInt(retMap.get("manager_id"));
+        int newManagerId = Integer.parseInt(retMap.get("manager_id"));
         System.out.println(newManagerId);
         String newName = retMap.get("name");
         String newWebsite = retMap.get("website");
@@ -83,7 +81,7 @@ public class CinemaServer {
          */
         Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
         }.getType());
-        int newManagerId =  Integer.parseInt(retMap.get("manager_id"));
+        int newManagerId = Integer.parseInt(retMap.get("manager_id"));
         String newName = retMap.get("name");
         String newWebsite = retMap.get("website");
         String newPhoneNumber = retMap.get("phoneNumber");

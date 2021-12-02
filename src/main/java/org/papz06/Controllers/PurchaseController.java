@@ -1,11 +1,10 @@
 package org.papz06.Controllers;
 
 import org.papz06.Function;
-import org.papz06.Models.*;
+import org.papz06.Models.Purchase;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PurchaseController {
     ArrayList<Purchase> purchasesList = new ArrayList<>();

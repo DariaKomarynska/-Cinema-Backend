@@ -26,38 +26,38 @@ public class Movie {
         this.movieCateId = movieCateId;
     }
 
-    public void setId(int id){
-        this.id = id;
-    }
-
     public Movie() {
     }
 
-    public int getId(){
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getLength() {
         return length;
     }
 
-    public String getAgeRestriction(){
+    public String getAgeRestriction() {
         return ageRestriction;
     }
 
-    public int getCinemaId(){
+    public int getCinemaId() {
         return cinemaId;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public int getMovieCateId(){
+    public int getMovieCateId() {
         return movieCateId;
     }
 
@@ -69,7 +69,7 @@ public class Movie {
                 + " " + description;
     }
 
-    public JSONObject toJson(){
+    public JSONObject toJson() {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("name", name);

@@ -80,4 +80,8 @@ public class UserServer {
             return new KeyValue<>(404, "");
         }
     }
+
+    public static KeyValue<Integer, String> UserCreate(String requestBody){
+        return null;
+    }
 }

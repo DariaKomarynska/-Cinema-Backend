@@ -7,7 +7,10 @@ import org.papz06.Request.UserServer;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 // Each Client Connection will be managed in a dedicated Thread
 public class JavaHTTPServer implements Runnable {
@@ -15,8 +18,7 @@ public class JavaHTTPServer implements Runnable {
     static final File WEB_ROOT = new File(".");
     static final String DEFAULT_FILE = "index.html";
     static final String FILE_NOT_FOUND = "404.html";
-    static final Map<Integer, String> statusCheck = new HashMap<Integer, String>();
-    //    static final String METHOD_NOT_SUPPORTED = "not_supported.html";
+    static final Map<Integer, String> statusCheck = new HashMap<>();
     // port to listen connection
     static final int PORT = Function.getEnv("PORT") != null ? Integer.parseInt(Function.getEnv("PORT")) : 8080;
     // Client Connection via Socket Class
@@ -68,18 +70,17 @@ public class JavaHTTPServer implements Runnable {
             while (in.ready()) {
                 requesBody += (char) in.read();
             }
-            // prepare url, queryParams, index
+            // Prepare url, queryParams, index
             String url;
             Map<String, String> queryParams = null;
+            String id = null;
             if (fileRequested.indexOf('?') != -1) {
                 String[] pairs = fileRequested.split("\\?");
                 url = pairs[0];
                 queryParams = Utils.splitQuery(pairs[1]);
             } else url = fileRequested.substring(1);
-            String id = null;
-            KeyValue<Integer, String> result = null;
             if (url.charAt(url.length() - 1) == '/')
-                url = url.substring(0, url.length()-1);
+                url = url.substring(0, url.length() - 1);
 
             if (url.indexOf('/') != -1) {
                 int lx = url.lastIndexOf('/');
@@ -87,11 +88,14 @@ public class JavaHTTPServer implements Runnable {
                 if (Utils.isNumeric(id)) {
                     id = url.substring(lx + 1);
                     url = url.substring(0, lx);
-                }
-                else id = null;
+                } else id = null;
             }
-            if (method.equals("POST") && (url.equals("login") || url.equals("register"))) {
+            // Prepare result for the result of api endpoints
+            KeyValue<Integer, String> result = null;
+            // Divider for api endpoints
 
+            // Login and register without authorization.
+            if (method.equals("POST") && (url.equals("login") || url.equals("register"))) {
                 switch (url.trim().toLowerCase()) {
                     case "login":
                         result = UserServer.login(requesBody);
@@ -101,17 +105,18 @@ public class JavaHTTPServer implements Runnable {
                         break;
                 }
             } else if (method.equals("OPTIONS")) {
-                    
+                // Ignore case
             } else {
+                // API with authorization
                 boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
+                // In case: Invalid JWT
                 if (!validJWT) {
-                    result = new KeyValue<Integer, String>(452,
+                    result = new KeyValue<>(452,
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
-                    /**
-                     * Divider cases for PORT:
-                     * **/
-                    // Case 1:
+                    /*
+                     Divider cases for PORT:
+                     */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
                             result = new CinemaServer().CinemaCreate(requesBody);
@@ -125,12 +130,14 @@ public class JavaHTTPServer implements Runnable {
                         case "movies/categories":
                             result = MovieServer.MovieCategoryCreate(requesBody);
                             break;
+                        case "user":
+                            result = UserServer.UserCreate(requesBody);
+                            break;
                     }
                 } else if (method.equals("GET")) {
-                    // GET method
-                    /**
-                     * Divider cases for GET: -
-                     * **/
+                    /*
+                     Divider cases for GET:
+                     */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
                             result = (id == null) ? new CinemaServer().CinemaList() :
@@ -164,9 +171,9 @@ public class JavaHTTPServer implements Runnable {
                     }
 
                 } else if (method.equals("PATCH")) {
-                    /**
-                     * Divider cases for PATCH: -
-                     * **/
+                    /*
+                     Divider cases for PATCH:
+                     */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
                             if (id != null)
@@ -186,9 +193,9 @@ public class JavaHTTPServer implements Runnable {
                     }
 
                 } else if (method.equals("DELETE")) {
-                    /**
-                     * Divider cases for DELETE: -
-                     * **/
+                    /*
+                     Divider cases for DELETE:
+                     */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
                             if (id != null) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
@@ -201,20 +208,14 @@ public class JavaHTTPServer implements Runnable {
                             break;
                     }
                 } else {
+                    /*
+                     Divider cases for other method:
+                     */
                     System.out.println("405 Method Not Allowed : " + method + " method.");
-
-                    // we return the not supported file to the client
-                    //                File file = new File(WEB_ROOT, METHOD_NOT_SUPPORTED);
-                    //                int fileLength = (int) file.length();
-                    //                String contentMimeType = "text/html";
-                    //                //read content to return to client
-                    //                byte[] fileData = readFileData(file, fileLength);
-
                     // we send HTTP Headers with data to client
                     out.write("HTTP/1.1 405 Method Not Allowed\r\n");
                     out.write("Server: Java HTTP Server from Z06-PW : 1.0\r\n");
                     out.write("Date: " + new Date() + "\r\n");
-                    //                out.println("Content-type: " + contentMimeType);
                     out.write("Content-length: 0\r\n");
                     out.write("Access-Control-Allow-Origin: *\r\n");
                     out.write("\r\n"); // blank line between headers and content, very important !
@@ -222,9 +223,11 @@ public class JavaHTTPServer implements Runnable {
                     dataOut.flush();
                 }
             }
+            // In case: Don't have any result
             if (result == null)
-                result = new KeyValue<Integer, String>(200,
-                        "{ \"status\": \"Nodata\", \"message\": \"Hello from Group Z06.\"}");
+                result = new KeyValue<Integer, String>(400,
+                        "{ \"status\": \"No data\", \"message\": \"Hello from Group Z06.\"}");
+            // Header
             out.write("HTTP/1.1 " + result.getKey() + " " + statusCheck.get(result.getKey()) + "\r\n");
             out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
             out.write("Date: " + new Date() + "\r\n");
@@ -236,20 +239,17 @@ public class JavaHTTPServer implements Runnable {
             out.write("Access-Control-Allow-Origin: *\r\n");
             out.write("Content-type: application/json\r\n");
             out.write("\r\n"); // blank line between headers and content, very important !
-            // End Template
+            // Body
             out.write(result.getValue());
             out.write("\r\n");
             out.flush();
-//                byte[] fileData = readFileData(file, fileLength);
-//                dataOut.write(fileData, 0, fileLength);
             dataOut.flush();
-
-
         } catch (IOException ioe) {
+            // Exception case
             System.err.println("Server error : " + ioe);
             String err = ioe.toString();
             out.write("HTTP/1.1 500 Internal Server Error\r\n");
-            out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
+            out.write("Server: Java HTTP Server from Group Z06 : 1.0\r\n");
             out.write("Date: " + new Date() + "\r\n");
             out.write("Connection: close\r\n");
             out.write("Content-length: " + err.getBytes().length + "\r\n");
@@ -269,29 +269,5 @@ public class JavaHTTPServer implements Runnable {
             }
             System.out.println("Connection closed.\n");
         }
-
-
-    }
-
-    private byte[] readFileData(File file, int fileLength) throws IOException {
-        FileInputStream fileIn = null;
-        byte[] fileData = new byte[fileLength];
-
-        try {
-            fileIn = new FileInputStream(file);
-            fileIn.read(fileData);
-        } finally {
-            if (fileIn != null)
-                fileIn.close();
-        }
-
-        return fileData;
-    }
-
-    private String getContentType(String fileRequested) {
-        if (fileRequested.endsWith(".htm") || fileRequested.endsWith(".html"))
-            return "text/html";
-        else
-            return "text/plain";
     }
 }

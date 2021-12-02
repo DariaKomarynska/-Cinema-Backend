@@ -4,13 +4,11 @@ package org.papz06.Controllers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.papz06.Models.*;
 import org.papz06.Function;
-import org.papz06.Utils;
+import org.papz06.Models.Seat;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class SeatController {
     ArrayList<Seat> seatsList = new ArrayList<>();

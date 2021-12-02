@@ -1,7 +1,5 @@
 package org.papz06.Models;
 
-import java.util.Date;
-
 public class TicketType {
     int id, cinemaId;
     float price;

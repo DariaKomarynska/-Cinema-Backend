@@ -22,7 +22,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieCreate(String requestBody) {
         // Create map and use Gson to parse from string to Map
         JSONObject result = null;
-        try{
+        try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
             String name = retMap.get("name");
@@ -33,7 +33,7 @@ public class MovieServer {
             int cinemaId = Integer.parseInt(retMap.get("cinemaId"));
             Movie myMovie = new Movie(length, ageRestriction, cinemaId, name, description, movieCategoryId);
             result = MovieController.createMovie(myMovie);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         if (result == null)
@@ -50,7 +50,7 @@ public class MovieServer {
 
     public static KeyValue<Integer, String> MovieUpdate(int id, String requestBody) {
         JSONObject result = null;
-        try{
+        try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
             String name = retMap.get("name");
@@ -60,7 +60,7 @@ public class MovieServer {
             int movieCategoryId = Integer.parseInt(retMap.get("movieCategoryId"));
             Movie myMovie = new Movie(id, length, ageRestriction, -1, name, description, movieCategoryId);
             result = MovieController.updateMovie(myMovie);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             return new KeyValue<>(400, "");
         }
@@ -76,19 +76,19 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieCategoryList(int cinema_id) {
-        return new KeyValue<> (200, MovieCategoryController.getListCategory(cinema_id).toString());
+        return new KeyValue<>(200, MovieCategoryController.getListCategory(cinema_id).toString());
     }
 
     public static KeyValue<Integer, String> MovieCategoryCreate(String requestBody) {
         // Create map and use Gson to parse from string to Map
         JSONObject result = null;
-        try{
+        try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
             String name = retMap.get("name");
             String description = retMap.get("description");
             result = MovieCategoryController.createCategory(name, description);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         if (result == null)
@@ -96,7 +96,7 @@ public class MovieServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> MovieCategoryUpdate(int id, String requestBody){
+    public static KeyValue<Integer, String> MovieCategoryUpdate(int id, String requestBody) {
         return null;
     }
 }

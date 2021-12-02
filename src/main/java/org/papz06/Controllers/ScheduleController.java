@@ -1,11 +1,10 @@
 package org.papz06.Controllers;
 
-import org.papz06.Models.*;
 import org.papz06.Function;
+import org.papz06.Models.Schedule;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ScheduleController {
     ArrayList<Schedule> scheduleList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package org.papz06.Controllers;
-import org.papz06.Models.*;
+
 import org.papz06.Function;
+import org.papz06.Models.Ticket;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

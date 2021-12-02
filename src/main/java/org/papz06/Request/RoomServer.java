@@ -1,18 +1,13 @@
 package org.papz06.Request;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
-//import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Controllers.RoomController;
 import org.papz06.KeyValue;
 import org.papz06.Utils;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 public class RoomServer {
@@ -44,7 +39,7 @@ public class RoomServer {
         Map<String, Object> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, Object>>() {
         }.getType());
         String newRoomName = retMap.get("name").toString();
-        Double newCinemaId = Double.parseDouble(retMap.get("cinema_id").toString()) ;
+        Double newCinemaId = Double.parseDouble(retMap.get("cinema_id").toString());
         JSONObject jsonRequest = new JSONObject(requestBody);
         JSONArray seats = jsonRequest.getJSONArray("seats");
 
@@ -80,7 +75,7 @@ public class RoomServer {
             result.put("error", "NOT_FOUND");
             return new KeyValue<Integer, String>(404, result.toString());
         }
-        result = roomControl.getRoomWithSeatsById(id,true);
+        result = roomControl.getRoomWithSeatsById(id, true);
         return new KeyValue<Integer, String>(200, result.toString());
     }
 

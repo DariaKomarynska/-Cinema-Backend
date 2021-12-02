@@ -4,14 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
 import org.papz06.Models.Cinema;
-import org.papz06.Models.User;
 
-import java.net.Inet4Address;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CinemaController {
 

@@ -1,7 +1,5 @@
 package org.papz06.Models;
 
-import java.util.Date;
-
 public class Seat {
     int id, roomId, positionX, positionY, available;
     String type;

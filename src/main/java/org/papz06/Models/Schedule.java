@@ -7,7 +7,7 @@ public class Schedule {
     Date datetime;
     String openSale, closeSale;
 
-    public Schedule(int id, Date datetime, int movieId, int roomId,  String openSale, String closeSale, int seatLeft) {
+    public Schedule(int id, Date datetime, int movieId, int roomId, String openSale, String closeSale, int seatLeft) {
         this.id = id;
         this.datetime = datetime;
         this.movieId = movieId;

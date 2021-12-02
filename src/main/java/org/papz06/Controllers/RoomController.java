@@ -1,17 +1,13 @@
 package org.papz06.Controllers;
 
-import com.google.gson.JsonArray;
-//import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
-import org.papz06.Models.Cinema;
 import org.papz06.Models.Room;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RoomController {
 
@@ -75,7 +71,7 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        if (withSeats){
+        if (withSeats) {
             roomData.put("seats", seatCon.getSeatListByRoomId(id));
         }
         return roomData;
