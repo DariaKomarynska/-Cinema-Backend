@@ -3,6 +3,7 @@ package org.papz06;
 import org.papz06.Request.CinemaServer;
 import org.papz06.Request.MovieServer;
 import org.papz06.Request.RoomServer;
+import org.papz06.Request.ScheduleServer;
 import org.papz06.Request.UserServer;
 
 import java.io.*;
@@ -167,6 +168,10 @@ public class JavaHTTPServer implements Runnable {
                             if (id == null)
                                 result = UserServer.UserList();
                             else result = UserServer.UserDetail(Integer.parseInt(id));
+                            break;
+                        case "schedule":
+                            if (id != null)
+                                result = ScheduleServer.ScheduleList(Integer.parseInt(id));
                             break;
                     }
 
