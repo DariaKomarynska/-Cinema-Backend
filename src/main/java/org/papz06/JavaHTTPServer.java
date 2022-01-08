@@ -117,6 +117,8 @@ public class JavaHTTPServer implements Runnable {
                 }
             } else if (method.equals("OPTIONS")) {
                 // Ignore case
+                result = new KeyValue<Integer, String>(204,
+                "{ \"status\": \"No content\", \"message\": \"Hello from Group Z06.\"}");
             } else {
                 // API with authorization
                 boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
