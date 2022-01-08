@@ -124,6 +124,29 @@ create table Tickets
 ALTER TABLE Tickets ADD (
   CONSTRAINT Tickets_pk PRIMARY KEY (Ticket_id));
 
+--Function to check if we can add a schedule without conflict. 1: if we can, 0: if we can't
+create or replace function can_create_schedule(mv_id number, rm_id number, date_start number, open_sale number, close_sale number)
+return number
+as
+    date_end    number;
+    tmp_start   number;
+    tmp_end     number;
+begin
+    select length*60*1000 + date_start into date_end
+    from movies
+    where mv_id = movie_id;
+    for schedule in (select * from schedules where rm_id = room_id and available = 1)
+    loop
+        select schedule.datetime into tmp_start from dual;
+        select schedule.datetime + m.length*60*1000 into tmp_end
+        from movies m where m.movie_id = schedule.movie_id;
+        if (date_start between tmp_start and tmp_end) or (date_end between tmp_start and tmp_end) then
+            return 0;
+        end if;
+    end loop;
+    return 1;
+end;
+/
 --
 --describe users;
 --describe cinemas;

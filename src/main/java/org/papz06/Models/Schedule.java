@@ -11,6 +11,34 @@ public class Schedule {
     Movie film;
     Room room;
 
+    public int getFilmId(){
+        return this.filmId;
+    }
+
+    public int getRoomId(){
+        return this.roomId;
+    }
+
+    public String getDateTime(){
+        return Long.toString(datetime.getTime());
+    }
+
+    public String getOpenSale(){
+        return Long.toString(openSale.getTime());
+    }
+
+    public String getCloseSale(){
+        return Long.toString(closeSale.getTime());
+    }
+
+    public int getSeatLeft(){
+        return this.seatLeft;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
     public Schedule(int id, int seatLeft, Date datetime, Date openSale, Date closeSale, Movie film, Room room) {
         this.id = id;
         this.datetime = datetime;
@@ -37,7 +65,7 @@ public class Schedule {
     public Schedule() {
     }
 
-    public JSONObject toJsonDetail() {
+    public JSONObject toJsonGeneral() {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("datetime", datetime);
@@ -49,7 +77,7 @@ public class Schedule {
         return result;
     }
 
-    public JSONObject toJsonGeneral() {
+    public JSONObject toJsonShort() {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("datetime", datetime);

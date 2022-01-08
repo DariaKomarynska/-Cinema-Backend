@@ -30,6 +30,12 @@ public class ScheduleServer {
         JSONObject result = new JSONObject();
         int filmId = -1, roomId = -1;
         Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+        try{
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(dateFormat.format(date));
+        } catch (Exception e){
+            System.out.println(e);
+        }
         // Convert data
         if (queryParams.containsKey("filmid")) {
             try {
@@ -70,13 +76,11 @@ public class ScheduleServer {
             int roomId = Integer.parseInt(retMap.get("roomId"));
             Date openSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("openSale").replace("T", " "));
             Date closeSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("closeSale").replace("T", " "));
-            System.out.println(datetime);
-            System.out.println(filmId);
-            System.out.println(roomId);
-            System.out.println(openSale);
-            System.out.println(closeSale);
             Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
-            result = ScheduleController.createSchedule(sch);
+            KeyValue<Boolean, JSONObject> tmp = ScheduleController.createSchedule(sch);
+            if (tmp.getKey() == false)
+                return new KeyValue<>(454, "");
+            result = tmp.getValue();
         } catch (Exception e) {
             System.out.println(e);
         }
