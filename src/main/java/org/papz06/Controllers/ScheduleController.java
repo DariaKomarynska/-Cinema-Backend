@@ -51,7 +51,7 @@ public class ScheduleController {
                 closeSale = new Date(Long.parseLong(rs.getString(6)));
                 seatLeft = rs.getInt(7);
                 Schedule sch = new Schedule(id, seatLeft, datetime, openSale, closeSale, film, room);
-                scheduleList.put(sch.toJson());
+                scheduleList.put(sch.toJsonDetail());
             }
             fc.closeQuery();
         } catch (Exception e) {

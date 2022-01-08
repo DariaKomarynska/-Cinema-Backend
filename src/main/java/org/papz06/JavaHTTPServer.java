@@ -42,6 +42,7 @@ public class JavaHTTPServer implements Runnable {
         statusCheck.put(400, "BAD_REQUEST");
         statusCheck.put(403, "PERMISSION_DENIED");
         statusCheck.put(404, "NOT_FOUND");
+        statusCheck.put(454, "EVENT_CONFLICT");
 
         try {
             // we read characters from the client via input stream on the socket
@@ -142,6 +143,9 @@ public class JavaHTTPServer implements Runnable {
                             break;
                         case "user":
                             result = UserServer.UserCreate(requesBody);
+                            break;
+                        case "schedule":
+                            result = ScheduleServer.ScheduleCreate(requesBody);
                             break;
                     }
                 } else if (method.equals("GET")) {
