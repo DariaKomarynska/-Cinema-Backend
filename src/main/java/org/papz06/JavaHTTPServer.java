@@ -8,10 +8,12 @@ import org.papz06.Request.UserServer;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.Set;
 
 // Each Client Connection will be managed in a dedicated Thread
 public class JavaHTTPServer implements Runnable {
@@ -73,13 +75,20 @@ public class JavaHTTPServer implements Runnable {
             }
             // Prepare url, queryParams, index
             String url;
-            Map<String, String> queryParams = null;
+            Map<String, String> queryParams = new HashMap<String, String>();
             String id = null;
             if (fileRequested.indexOf('?') != -1) {
                 String[] pairs = fileRequested.split("\\?");
                 url = pairs[0];
+                url=url.substring(1);
                 queryParams = Utils.splitQuery(pairs[1]);
-            } else url = fileRequested.substring(1);
+                Set<String> queryKey = queryParams.keySet();
+                for (String key : queryKey) {
+                    String queryValue = queryParams.get(key);
+                    queryParams.put(key, URLDecoder.decode(queryValue, "UTF-8"));
+                }
+            } else
+                url = fileRequested.substring(1);
             if (url.charAt(url.length() - 1) == '/')
                 url = url.substring(0, url.length() - 1);
 
@@ -89,12 +98,12 @@ public class JavaHTTPServer implements Runnable {
                 if (Utils.isNumeric(id)) {
                     id = url.substring(lx + 1);
                     url = url.substring(0, lx);
-                } else id = null;
+                } else
+                    id = null;
             }
             // Prepare result for the result of api endpoints
             KeyValue<Integer, String> result = null;
             // Divider for api endpoints
-
             // Login and register without authorization.
             if (method.equals("POST") && (url.equals("login") || url.equals("register"))) {
                 switch (url.trim().toLowerCase()) {
@@ -116,7 +125,7 @@ public class JavaHTTPServer implements Runnable {
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
                     /*
-                     Divider cases for PORT:
+                     * Divider cases for PORT:
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
@@ -137,12 +146,12 @@ public class JavaHTTPServer implements Runnable {
                     }
                 } else if (method.equals("GET")) {
                     /*
-                     Divider cases for GET:
+                     * Divider cases for GET:
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
-                            result = (id == null) ? new CinemaServer().CinemaList() :
-                                    new CinemaServer().CinemaDetails(Integer.parseInt(id));
+                            result = (id == null) ? new CinemaServer().CinemaList()
+                                    : new CinemaServer().CinemaDetails(Integer.parseInt(id));
                             break;
                         case "rooms":
                             if (id != null)
@@ -167,17 +176,18 @@ public class JavaHTTPServer implements Runnable {
                         case "user":
                             if (id == null)
                                 result = UserServer.UserList();
-                            else result = UserServer.UserDetail(Integer.parseInt(id));
+                            else
+                                result = UserServer.UserDetail(Integer.parseInt(id));
                             break;
                         case "schedule":
                             if (id != null)
-                                result = ScheduleServer.ScheduleList(Integer.parseInt(id));
+                                result = ScheduleServer.ScheduleList(Integer.parseInt(id), queryParams);
                             break;
                     }
 
                 } else if (method.equals("PATCH")) {
                     /*
-                     Divider cases for PATCH:
+                     * Divider cases for PATCH:
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
@@ -199,22 +209,25 @@ public class JavaHTTPServer implements Runnable {
 
                 } else if (method.equals("DELETE")) {
                     /*
-                     Divider cases for DELETE:
+                     * Divider cases for DELETE:
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
-                            if (id != null) result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
+                            if (id != null)
+                                result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
                             break;
                         case "room":
-                            if (id != null) result = RoomServer.RoomDelete(Integer.parseInt(id));
+                            if (id != null)
+                                result = RoomServer.RoomDelete(Integer.parseInt(id));
                             break;
                         case "movie":
-                            if (id != null) result = MovieServer.MovieDelete(Integer.parseInt(id));
+                            if (id != null)
+                                result = MovieServer.MovieDelete(Integer.parseInt(id));
                             break;
                     }
                 } else {
                     /*
-                     Divider cases for other method:
+                     * Divider cases for other method:
                      */
                     System.out.println("405 Method Not Allowed : " + method + " method.");
                     // we send HTTP Headers with data to client

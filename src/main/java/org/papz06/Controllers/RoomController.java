@@ -77,6 +77,24 @@ public class RoomController {
         return roomData;
     }
 
+    public static Room getRoomById(Integer id) {
+        // Room Details
+        Room roomData = new Room();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sqlSelect = String.format("select * from rooms where room_id = %d and available = 1", id);
+            rs = fc.executeQuery(sqlSelect);
+            while (rs.next()) {
+                roomData = new Room(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return roomData;
+    }
+
     public JSONObject getRoomWithCinemaById(int id) {
         JSONObject roomData = new JSONObject();
         Function fc = new Function();

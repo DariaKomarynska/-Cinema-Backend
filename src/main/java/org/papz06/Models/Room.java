@@ -1,5 +1,7 @@
 package org.papz06.Models;
 
+import org.json.JSONObject;
+
 public class Room {
     int id, rowsNumber, seatsInRowNumber, cinemaId;
     String name;
@@ -29,5 +31,15 @@ public class Room {
 
     public String getName() {
         return name;
+    }
+
+    public JSONObject toJson() {
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("rowsNumber", rowsNumber);
+        result.put("seatsInRowNumber", seatsInRowNumber);
+        result.put("cinemaId", cinemaId);
+        return result;
     }
 }

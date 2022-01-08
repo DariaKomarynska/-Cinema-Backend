@@ -102,12 +102,18 @@ insert into movies values (default, 90, '6+', 1, 'Evil 3', 'romantic', 6, defaul
 commit;
 -------------------------
 
-insert into Schedules values (default, 1638057506,  1, 1, 1628935106, 1629107906, 2, default);
-insert into Schedules values (default, 1637971106,  1, 2, 1621159106, 1621589106, 2, default);
-insert into Schedules values (default, 1635292706,  1, 2, 1621763906, 1621764506, 2, default);
-insert into Schedules values (default, 1635260306,  2, 3, 1619168400, 1619258400, 2, default);
-insert into Schedules values (default, 1635245906,  2, 3, 1618390800, 1618342800, 2, default);
-insert into Schedules values (default, 1635159506,  3, 4, 1618230800, 1618375800, 2, default);
+insert into Schedules values (default, 1638057506000,  1, 1, 1628935106000, 1629107906000, 2, default);
+insert into Schedules values (default, 1637971106000,  1, 2, 1621159106000, 1621589106000, 2, default);
+insert into Schedules values (default, 1635292706000,  1, 2, 1621763906000, 1621764506000, 2, default);
+insert into Schedules values (default, 1635260306000,  2, 3, 1619168400000, 1619258400000, 2, default);
+insert into Schedules values (default, 1635245906000,  2, 3, 1618390800000, 1618342800000, 2, default);
+insert into Schedules values (default, 1635159506000,  3, 4, 1618230800000, 1618375800000, 2, default);
+insert into Schedules values (default, 1641646800000,  1, 1, 1641027600000, 1641646800000, 50, default);
+insert into Schedules values (default, 1641650400000,  3, 2, 1641027600000, 1641650400000, 50, default);
+insert into Schedules values (default, 1641654000000,  5, 3, 1641027600000, 1641654000000, 50, default);
+insert into Schedules values (default, 1641657600000,  7, 4, 1641027600000, 1641657600000, 50, default);
+insert into Schedules values (default, 1641661200000,  9, 5, 1641027600000, 1641661200000, 50, default);
+insert into Schedules values (default, 1641664800000,  11, 6, 1641027600000, 1641664800000, 50, default);
 commit;
 -------------------------
 
