@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class ScheduleServer {
-    public static KeyValue<Integer, String> ScheduleList(int cinema_id, Map<String, String> queryParams) {
+    public static KeyValue<Integer, String> ScheduleList(Map<String, String> queryParams) {
         /*
          * Authentication: JWT Token
          * 
