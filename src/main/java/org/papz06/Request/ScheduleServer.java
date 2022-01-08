@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.papz06.KeyValue;
 // import org.papz06.Utils;
 import org.papz06.Controllers.ScheduleController;
+import org.papz06.Models.Schedule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,21 +65,18 @@ public class ScheduleServer {
         try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
-            Date datetime = new SimpleDateFormat("yyyy-MM-dd").parse(retMap.get("datetime"));
+            Date datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("datetime").replace("T", " "));
             int filmId = Integer.parseInt(retMap.get("filmId"));
             int roomId = Integer.parseInt(retMap.get("roomId"));
-            Date openSale = new SimpleDateFormat("yyyy-MM-dd").parse(retMap.get("openSale"));
-            Date closeSale = new SimpleDateFormat("yyyy-MM-dd").parse(retMap.get("closeSale"));
-
-
-            // String name = retMap.get("name");
-            // String description = retMap.get("description");
-            // int length = Integer.parseInt(retMap.get("length"));
-            // String ageRestriction = retMap.get("ageRestriction");
-            // int movieCategoryId = Integer.parseInt(retMap.get("movieCategoryId"));
-            // int cinemaId = Integer.parseInt(retMap.get("cinemaId"));
-            // Movie myMovie = new Movie(length, ageRestriction, cinemaId, name, description, movieCategoryId);
-            // result = MovieController.createMovie(myMovie);
+            Date openSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("openSale").replace("T", " "));
+            Date closeSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("closeSale").replace("T", " "));
+            System.out.println(datetime);
+            System.out.println(filmId);
+            System.out.println(roomId);
+            System.out.println(openSale);
+            System.out.println(closeSale);
+            Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
+            result = ScheduleController.createSchedule(sch);
         } catch (Exception e) {
             System.out.println(e);
         }

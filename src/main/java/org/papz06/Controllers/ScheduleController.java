@@ -13,6 +13,7 @@ import java.util.Date;
 // import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class ScheduleController {
     ArrayList<Schedule> scheduleList = new ArrayList<>();
@@ -21,6 +22,10 @@ public class ScheduleController {
         for (Schedule sch : scheduleList) {
             System.out.println(sch.toString());
         }
+    }
+
+    public static JSONObject createSchedule(Schedule sch){
+        return null;
     }
 
     public static JSONArray getScheduleList(int filmId, int roomId, Date date) {

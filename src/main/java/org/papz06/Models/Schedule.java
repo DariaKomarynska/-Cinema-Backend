@@ -2,6 +2,8 @@ package org.papz06.Models;
 
 import java.util.Date;
 import org.json.JSONObject;
+import org.papz06.Controllers.MovieController;
+import org.papz06.Controllers.RoomController;
 
 public class Schedule {
     int id, seatLeft, filmId, roomId;
@@ -17,16 +19,19 @@ public class Schedule {
         this.openSale = openSale;
         this.closeSale = closeSale;
         this.seatLeft = seatLeft;
+        this.filmId = film.getId();
+        this.roomId = room.getId();
     }
 
-    public Schedule(int id, int seatLeft, Date datetime, Date openSale, Date closeSale, int filmId, int roomId) {
-        this.id = id;
+    public Schedule(Date datetime, Date openSale, Date closeSale, int filmId, int roomId) {
         this.datetime = datetime;
         this.filmId = filmId;
         this.roomId = roomId;
         this.openSale = openSale;
         this.closeSale = closeSale;
-        this.seatLeft = seatLeft;
+        this.room = RoomController.getRoomById(roomId);
+        this.film = MovieController.getMovieById(filmId);
+        this.seatLeft = this.room.getSeatNumber();
     }
 
     public Schedule() {

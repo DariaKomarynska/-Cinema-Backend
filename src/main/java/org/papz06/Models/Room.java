@@ -14,6 +14,10 @@ public class Room {
         this.name = name;
     }
 
+    public int getSeatNumber(){
+        return rowsNumber*seatsInRowNumber;
+    }
+
     public Room() {
     }
 
