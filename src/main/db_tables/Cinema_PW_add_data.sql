@@ -93,12 +93,12 @@ insert into Schedules values (default, 1641664800000,  11, 6, 1641027600000, 164
 commit;
 -------------------------
 
-insert into Purchases values (default, 1635159506, 80.00, 'Credit card', 'usd', 1, default);
-insert into Purchases values (default, 1632567506, 40.00, 'Cash', 'uah', 1, default);
-insert into Purchases values (default, 1631617106, 80.00, 'Credit card', 'usd', 2, default);
-insert into Purchases values (default, 1631620706, 40.00,'Credit card', 'pln', 2, default);
-insert into Purchases values (default, 1631617106, 40.00, 'Cash', 'uah', 2, default);
-insert into Purchases values (default, 1631613506, 80.00, 'Credit card', 'usd', 3, default);
+insert into Purchases values (default, 1635159506000, 80.00, 'Credit card', 'usd', 1, default);
+insert into Purchases values (default, 1632567506000, 40.00, 'Cash', 'uah', 1, default);
+insert into Purchases values (default, 1631617106000, 80.00, 'Credit card', 'usd', 2, default);
+insert into Purchases values (default, 1631620706000, 40.00,'Credit card', 'pln', 2, default);
+insert into Purchases values (default, 1631617106000, 40.00, 'Cash', 'uah', 2, default);
+insert into Purchases values (default, 1631613506000, 80.00, 'Credit card', 'usd', 3, default);
 commit;
 -------------------------
 
