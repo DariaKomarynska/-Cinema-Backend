@@ -8,10 +8,10 @@ public class Room {
 
     public Room(int id, String name, int rowsNumber, int seatsInRowNumber, int cinemaId) {
         this.id = id;
+        this.name = name;
         this.rowsNumber = rowsNumber;
         this.seatsInRowNumber = seatsInRowNumber;
         this.cinemaId = cinemaId;
-        this.name = name;
     }
 
     public int getSeatNumber(){
@@ -35,6 +35,10 @@ public class Room {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getCinemaId() {
+        return cinemaId;
     }
 
     public JSONObject toJson() {

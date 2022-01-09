@@ -15,6 +15,7 @@ public class CinemaController {
 
 //    public CinemaController(){}
 
+
     public CinemaController() {
         Function fc = new Function();
         ResultSet rs;

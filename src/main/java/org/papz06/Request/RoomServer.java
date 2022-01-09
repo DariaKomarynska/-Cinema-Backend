@@ -12,18 +12,13 @@ import java.util.Map;
 
 public class RoomServer {
     public static KeyValue<Integer, String> RoomList(int cinema_id) {
-        /**
-         * GET
-         *  Returns list of rooms in the cinema.
+        /*
+          GET
+           Returns list of rooms in the cinema.
          */
-        RoomController roomControl = new RoomController();
-        JSONArray result = new JSONArray();
-
-        if (roomControl.isEmptyList()) {
-            result.put(new JSONObject().put("error", "Permission denied.."));
-            return new KeyValue<Integer, String>(403, result.toString());
-        }
-        result = roomControl.getRoomListByCinema(cinema_id);
+        JSONArray result = RoomController.getRoomListByCinema(cinema_id);
+//        if (result == null)
+//            return new KeyValue<>(200, "");
         return new KeyValue<>(200, result.toString());
     }
 
@@ -39,25 +34,19 @@ public class RoomServer {
         Map<String, Object> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, Object>>() {
         }.getType());
         String newRoomName = retMap.get("name").toString();
-        Double newCinemaId = Double.parseDouble(retMap.get("cinema_id").toString());
+        Double newCinemaId = Double.parseDouble(retMap.get("cinemaId").toString());
         JSONObject jsonRequest = new JSONObject(requestBody);
         JSONArray seats = jsonRequest.getJSONArray("seats");
 
-        RoomController roomControl = new RoomController();
-        JSONObject result = new JSONObject();
 
-        if (roomControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (roomControl.checkExist(newRoomName)) {
-            result.put("error", "BAD_REQUEST, already exists");
-            return new KeyValue<Integer, String>(400, result.toString());
-        } else if (!roomControl.sizeNewRoomName(newRoomName)) {
-            result.put("error", "BAD_REQUEST, name is empty");
-            return new KeyValue<Integer, String>(400, result.toString());
+        if (RoomController.checkExist(newRoomName, newCinemaId.intValue())) {
+            return new KeyValue<>(400, "");
+        } else if (!RoomController.nameNotEmpty(newRoomName)) {
+            return new KeyValue<>(400, "");
         }
-        result = roomControl.insertNewRoom(newRoomName, newCinemaId, seats);
-        return new KeyValue<Integer, String>(200, result.toString());
+
+        JSONObject result = RoomController.insertNewRoom(newRoomName, newCinemaId, seats);
+        return new KeyValue<>(200, result.toString());
     }
 
 
@@ -66,17 +55,12 @@ public class RoomServer {
          * GET
          * Returns room details.
          */
-        RoomController roomControl = new RoomController();
-        JSONObject result = new JSONObject();
-        if (roomControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (!roomControl.checkExist(id)) {
-            result.put("error", "NOT_FOUND");
-            return new KeyValue<Integer, String>(404, result.toString());
+
+        if (!RoomController.checkExist(id)) {
+            return new KeyValue<>(404, "");
         }
-        result = roomControl.getRoomWithSeatsById(id, true);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = RoomController.getRoomWithSeatsById(id, true);
+        return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> RoomUpdate(int id, String requestBody) {
@@ -90,25 +74,22 @@ public class RoomServer {
          *       type: string;
          * }>;
          */
+        //      SHOULD BE CINEMA ID ALSO
         Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
-        String newRoomName = retMap.get("name").toString();
+        String roomName = retMap.get("name").toString();
+//        Double cinemaId = Double.parseDouble(retMap.get("cinemaId").toString());
         JSONObject jsonRequest = new JSONObject(requestBody);
         JSONArray seats = jsonRequest.getJSONArray("seats");
-
-        RoomController roomControl = new RoomController();
-        JSONObject result = new JSONObject();
-        if (roomControl.checkExist(newRoomName)) {
-            result.put("error", "Bad Request");
-            return new KeyValue<Integer, String>(400, result.toString());
-        } else if (roomControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (!roomControl.checkExist(id)) {
-            result.put("error", "NOT_FOUND");
-            return new KeyValue<Integer, String>(404, result.toString());
+//        if (RoomController.checkExist(roomName, cinemaId)) {
+//            return new KeyValue<>(400, "");
+//        } else
+            if (!RoomController.checkExist(id)) {
+            return new KeyValue<>(404, "");
+        } else if (!RoomController.nameNotEmpty(roomName)) {
+                return new KeyValue<>(400, "");
         }
-        result = roomControl.updateRoomNameSeats(id, newRoomName, seats);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = RoomController.updateRoomNameSeats(id, roomName, seats);
+        return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> RoomDelete(int id) {
@@ -116,17 +97,12 @@ public class RoomServer {
          * DELETE
          * Deletes room object.
          */
-        RoomController roomControl = new RoomController();
-        JSONObject result = new JSONObject();
-        if (roomControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (!roomControl.checkExist(id)) {
-            result.put("error", "NOT_FOUND");
-            return new KeyValue<Integer, String>(404, result.toString());
+
+        if (!RoomController.checkExist(id)) {
+            return new KeyValue<>(404, "");
         }
-        result = roomControl.deleteRoom(id);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = RoomController.deleteRoom(id);
+        return new KeyValue<>(200, result.toString());
     }
 
 }

@@ -35,7 +35,7 @@ public class SeatController {
         }
     }
 
-    public JSONArray getSeatListByRoomId(int roomId) {
+    public static JSONArray getSeatListByRoomId(int roomId) {
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -55,7 +55,7 @@ public class SeatController {
         return resData;
     }
 
-    private JSONArray getSeatsIdByRoomId(int roomId) {
+    private static JSONArray getSeatsIdByRoomId(int roomId) {
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -74,7 +74,7 @@ public class SeatController {
         return resData;
     }
 
-    public JSONObject getSeatById(int id) {
+    public static JSONObject getSeatById(int id) {
         JSONObject seatData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -93,7 +93,7 @@ public class SeatController {
         return seatData;
     }
 
-    public JSONArray insertSeatList(int roomId, JSONArray seatData) {
+    public static JSONArray insertSeatList(int roomId, JSONArray seatData) {
         JSONArray resData = new JSONArray();
         for (int i = 0; i < seatData.length(); ++i) {
             JSONObject curObj = seatData.getJSONObject(i);
@@ -106,7 +106,7 @@ public class SeatController {
         return resData;
     }
 
-    public JSONObject insertNewSeat(int roomId, int positionX, int positionY, String type) {
+    public static JSONObject insertNewSeat(int roomId, int positionX, int positionY, String type) {
         Function fc = new Function();
         ResultSet rs;
         int seatId = 0;
@@ -124,7 +124,7 @@ public class SeatController {
         return getSeatById(seatId);
     }
 
-    public JSONArray getSeatList(int id) {
+    public static JSONArray getSeatList(int id) {
         JSONArray resultData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -144,7 +144,7 @@ public class SeatController {
         return resultData;
     }
 
-    public JSONArray updateSeatListInRoom(int roomId, JSONArray seats) {
+    public static JSONArray updateSeatListInRoom(int roomId, JSONArray seats) {
         JSONArray seatsId = getSeatsIdByRoomId(roomId);
         JSONArray result = new JSONArray();
         System.out.println(seatsId.length());
@@ -166,7 +166,7 @@ public class SeatController {
         return result;
     }
 
-    public JSONObject updateSeat(int seatId, int roomId, int positionX, int positionY, String type) {
+    public static JSONObject updateSeat(int seatId, int roomId, int positionX, int positionY, String type) {
         Function fc = new Function();
         try {
             String sqlUpdate = String.format("update seats set positionX = %d, positionY = %d, type = '%s' where seat_id = %d and room_id = %d and available = 1",
@@ -186,7 +186,7 @@ public class SeatController {
         }
     }
 
-    public void deleteSeatList(int roomId) {
+    public static void deleteSeatList(int roomId) {
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update seats set available = 0 where room_id = %d", roomId);
