@@ -84,7 +84,7 @@ public class JavaHTTPServer implements Runnable {
             if (fileRequested.indexOf('?') != -1) {
                 String[] pairs = fileRequested.split("\\?");
                 url = pairs[0];
-                url=url.substring(1);
+                url = url.substring(1);
                 queryParams = Utils.splitQuery(pairs[1]);
                 Set<String> queryKey = queryParams.keySet();
                 for (String key : queryKey) {
@@ -121,13 +121,13 @@ public class JavaHTTPServer implements Runnable {
             } else if (method.equals("OPTIONS")) {
                 // Ignore case
                 result = new KeyValue<Integer, String>(204,
-                "{ \"status\": \"No content\", \"message\": \"Hello from Group Z06.\"}");
+                        "{ \"status\": \"No content\", \"message\": \"Hello from Group Z06.\"}");
             } else {
                 // API with authorization
                 boolean validJWT = Utils.checkValidJWT(authorization, Function.getSecret());
                 // In case: Invalid JWT
                 if (!validJWT) {
-                    result = new KeyValue<>(452,
+                    result = new KeyValue<>(401,
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
                     /*
@@ -199,7 +199,8 @@ public class JavaHTTPServer implements Runnable {
                         case "schedule":
                             if (id == null)
                                 result = ScheduleServer.ScheduleList(queryParams);
-                            else result = ScheduleServer.ScheduleDetails(Integer.parseInt(id));
+                            else
+                                result = ScheduleServer.ScheduleDetails(Integer.parseInt(id));
                             break;
                         case "analytics":
                             result = CinemaServer.AnalyticsDetail();

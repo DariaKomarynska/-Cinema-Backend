@@ -53,7 +53,7 @@ public class UserServer {
             String passwordData = retMap.get("password");
             if (UserController.checkExistUser(loginData)) {
                 data.put("token", "User's already existed!");
-                return new KeyValue<>(452, new JSONObject(data).toString());
+                return new KeyValue<>(453, new JSONObject(data).toString());
             }
             String passwordAfterHash = Utils.MD5(passwordData);
             UserController.registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
@@ -64,7 +64,7 @@ public class UserServer {
         } catch (Exception e){
             System.out.println(e);
         }
-        return new KeyValue<>(452, new JSONObject(data).toString());
+        return new KeyValue<>(400, new JSONObject(data).toString());
     }
 
     public static KeyValue<Integer, String> UserList() {
