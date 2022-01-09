@@ -1,10 +1,6 @@
 package org.papz06;
 
-import org.papz06.Request.CinemaServer;
-import org.papz06.Request.MovieServer;
-import org.papz06.Request.RoomServer;
-import org.papz06.Request.ScheduleServer;
-import org.papz06.Request.UserServer;
+import org.papz06.Request.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -127,8 +123,8 @@ public class JavaHTTPServer implements Runnable {
                     result = new KeyValue<>(452,
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
-                    /*
-                     * Divider cases for PORT:
+                    /**
+                     * Divider cases for POST:
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
@@ -149,9 +145,12 @@ public class JavaHTTPServer implements Runnable {
                         case "schedule":
                             result = ScheduleServer.ScheduleCreate(requesBody);
                             break;
+                        case "tickets/types":
+                            result = TicketServer.TicketTypeCreate(requesBody);
+                            break;
                     }
                 } else if (method.equals("GET")) {
-                    /*
+                    /**
                      * Divider cases for GET:
                      */
                     switch (url.trim().toLowerCase()) {
@@ -194,6 +193,12 @@ public class JavaHTTPServer implements Runnable {
                             break;
                         case "analytics":
                             result = CinemaServer.AnalyticsDetail();
+                            break;
+                        case "tickets/types":
+                            if (id == null)
+                                result = TicketServer.TicketTypesList(Integer.parseInt(id));
+                            else
+                                result = TicketServer.TicketTypesList(Integer.parseInt(id));
                             break;
                     }
 
