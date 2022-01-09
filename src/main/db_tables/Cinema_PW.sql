@@ -125,48 +125,53 @@ ALTER TABLE Tickets ADD (
   CONSTRAINT Tickets_pk PRIMARY KEY (Ticket_id));
 
 
-CREATE OR REPLACE TRIGGER tg_add_seats
-AFTER INSERT on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
-DECLARE
+-- Procedure for creating new seats
+CREATE OR REPLACE PROCEDURE createSeats (roomId number, rowsNumber number, seatsInRowNumber number)
+AS
    curRow number;
    curCol number := 0;
    typeSeat varchar2(40);
-   rmid number;
-   rowsNum number;
 BEGIN
-    for curRow in 1 .. :new.rowsNumber
+    typeSeat := 'comfort';
+    for curRow in 1 .. rowsNumber
     loop
-        for curCol in 1 .. :new.seatsInRowNumber
+        for curCol in 1 .. seatsInRowNumber
         loop
-            insert into seats values (default, :new.room_id, curCol, curRow, 'comfort', default);
-            dbms_output.put_line(curRow || '  ' || curCol);
+            insert into seats values (default, roomId, curCol, curRow, typeSeat, default);
         end loop;
     end loop;
---    if 
-    rmid := :new.room_id;
-    rowsNum := :new.rowsNumber;
+    typeSeat := 'luxury';
     update seats
-    set type = 'luxury' where room_id = rmid and positionY > 4 / 5 * rowsNum;
+    set type = typeSeat where room_id = roomId and positionY > 4 / 5 * rowsNumber;
 END;
 /
 
 
+-- Create seats for new room with 1/5 'luxury' type seats
+CREATE OR REPLACE TRIGGER tg_add_seats
+AFTER INSERT on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
+BEGIN
+    createSeats(:new.room_id, :new.rowsNumber, :new.seatsInRowNumber);
+END;
+/
+
+
+-- Delete seats when room is deleted
 CREATE OR REPLACE TRIGGER tg_delete_seats
-BEFORE DELETE on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
-DECLARE
-
+AFTER UPDATE OF available on rooms FOR EACH ROW when (old.available != new.available)
 BEGIN
-    NULL;
+    update seats set available = 0 where room_id = :old.room_id;
 END;
 /
 
 
+-- Update number of seats if it was changed
 CREATE OR REPLACE TRIGGER tg_update_seats
-AFTER UPDATE on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
-DECLARE
-
+AFTER UPDATE on rooms FOR EACH ROW WHEN ((new.rowsNumber is not null and new.seatsInRowNumber is not null) and 
+                                         (new.rowsNumber != old.rowsNumber or new.seatsInRowNumber != old.seatsInRowNumber))          
 BEGIN
-    NULL;
+    delete from seats where room_id = :new.room_id;
+    createSeats(:new.room_id, :new.rowsNumber, :new.seatsInRowNumber); 
 END;
 /
 

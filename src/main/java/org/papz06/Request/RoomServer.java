@@ -67,20 +67,19 @@ public class RoomServer {
          * PATCH
          * Updates room object.
          * name: string;
-         * ------ seats: Array<{
-         *       positionX: number;
-         *       positionY: number;
-         *       type: string;
-         * }>;
+         * rowsNumber: number;
+         * seatsInRowNumber: number;
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String roomName = retMap.get("name");
+        int rowsNumber = Integer.parseInt(retMap.get("rowsNumber"));
+        int seatsInRowNumber = Integer.parseInt(retMap.get("seatsInRowNumber"));
         if (!RoomController.checkExist(id)) {
             return new KeyValue<>(404, "");
         } else if (RoomController.isNameEmpty(roomName)) {
                 return new KeyValue<>(400, "");
         }
-        JSONObject result = RoomController.updateRoomName(id, roomName);
+        JSONObject result = RoomController.updateRoomName(id, roomName, rowsNumber, seatsInRowNumber);
         return new KeyValue<>(200, result.toString());
     }
 
