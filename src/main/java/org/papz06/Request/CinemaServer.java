@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CinemaServer {
 
-    public KeyValue<Integer, String> CinemaList() {
+    public static KeyValue<Integer, String> CinemaList() {
         /** GET
          Returns list of cinemas managed by the user.
          **/
@@ -19,7 +19,7 @@ public class CinemaServer {
     }
 
 
-    public KeyValue<Integer, String> CinemaCreate(String requestBody) {
+    public static KeyValue<Integer, String> CinemaCreate(String requestBody) {
         /** POST
          Creates new cinema.
          **/
@@ -41,7 +41,8 @@ public class CinemaServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaDetails(Integer id) {
+
+    public static KeyValue<Integer, String> CinemaDetails(Integer id) {
         /**
          * GET
          * Returns cinema details.
@@ -53,7 +54,7 @@ public class CinemaServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
+    public static KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
         /**
          * PATCH
          * Update data about cinema
@@ -75,7 +76,7 @@ public class CinemaServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaDelete(Integer id) {
+    public static KeyValue<Integer, String> CinemaDelete(Integer id) {
         /**
          * DELETE
          * Deletes cinema object.
@@ -84,6 +85,14 @@ public class CinemaServer {
             return new KeyValue<>(404, "");
         }
         JSONObject result = CinemaController.deleteCinema(id);
+        return new KeyValue<>(200, result.toString());
+    }
+
+    public static KeyValue<Integer, String> AnalyticsDetail(){
+        JSONArray result = null;
+        result = CinemaController.getAnalytics();
+        if (result == null)
+            return new KeyValue<>(400, "");
         return new KeyValue<>(200, result.toString());
     }
 }

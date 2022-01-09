@@ -94,7 +94,7 @@ public class Schedule {
         result.put("id", id);
         result.put("datetime", datetime);
         result.put("film", film.toJsonDetails());
-        result.put("room", room.toJsonDetails());
+        result.put("room", room.toJsonDetails(id));
         result.put("openSale", openSale);
         result.put("closeSale", closeSale);
         result.put("seatLeft", seatLeft);

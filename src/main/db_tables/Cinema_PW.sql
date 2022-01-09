@@ -199,7 +199,33 @@ begin
     return 1;
 end;
 /
-
+--Function to return status of seats in a schedule
+create or replace type seat_record as object (
+       seat_id number,
+       positionx number,
+       positiony number,
+       type varchar2(40),
+       is_free number
+);
+/
+create or replace type seats_table as table of seat_record;
+/
+create or replace function get_seats(sch_id number)
+return seats_table
+as
+    rm_id number;
+    res seats_table;
+begin
+    select room_id into rm_id from schedules where available = 1 and schedule_id = sch_id;
+    select seat_record(s.seat_id, s.positionx, s.positiony, s.type,
+    (
+        select 1-count(s.seat_id) from tickets t 
+        where t.available = 1 and t.schedule_id = sch_id and s.seat_id = t.seat_id
+    ) )
+    bulk collect into res from seats s where room_id = rm_id and available = 1;
+    return res;
+end get_seats;
+/
 
 --describe users;
 --describe cinemas;

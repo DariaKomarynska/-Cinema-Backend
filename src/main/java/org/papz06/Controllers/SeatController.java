@@ -29,5 +29,29 @@ public class SeatController {
         }
         return resData;
     }
+    
+    public static JSONArray getSeatsListBySchedule(int sch_id) {
+        JSONArray resData = new JSONArray();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sqlSelect = String.format(
+                    "select * from get_seats(%d)", sch_id);
+            System.out.println(sqlSelect);
+            rs = fc.executeQuery(sqlSelect);
+            while (rs.next()) {
+                JSONObject seat = new JSONObject();
+                seat.put("id", rs.getInt(1));
+                seat.put("positionX", rs.getInt(2));
+                seat.put("positionY", rs.getInt(3));
+                seat.put("type", rs.getString(4));
+                seat.put("isFree", rs.getInt(5) == 1);
+                resData.put(seat);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return resData;
+    }
 }
 

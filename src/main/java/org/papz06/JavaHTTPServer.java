@@ -132,7 +132,7 @@ public class JavaHTTPServer implements Runnable {
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
-                            result = new CinemaServer().CinemaCreate(requesBody);
+                            result = CinemaServer.CinemaCreate(requesBody);
                             break;
                         case "rooms":
                             result = RoomServer.RoomCreate(requesBody);
@@ -156,8 +156,10 @@ public class JavaHTTPServer implements Runnable {
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
-                            result = (id == null) ? new CinemaServer().CinemaList()
-                                    : new CinemaServer().CinemaDetails(Integer.parseInt(id));
+                            if (id == null)
+                                result = CinemaServer.CinemaList();
+                            else
+                                result = CinemaServer.CinemaDetails(Integer.parseInt(id));
                             break;
                         case "rooms":
                             if (id != null)
@@ -190,6 +192,9 @@ public class JavaHTTPServer implements Runnable {
                                 result = ScheduleServer.ScheduleList(queryParams);
                             else result = ScheduleServer.ScheduleDetails(Integer.parseInt(id));
                             break;
+                        case "analytics":
+                            result = CinemaServer.AnalyticsDetail();
+                            break;
                     }
 
                 } else if (method.equals("PATCH")) {
@@ -199,7 +204,7 @@ public class JavaHTTPServer implements Runnable {
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
                             if (id != null)
-                                result = new CinemaServer().CinemaUpdate(Integer.parseInt(id), requesBody);
+                                result = CinemaServer.CinemaUpdate(Integer.parseInt(id), requesBody);
                             break;
                         case "room":
                             result = RoomServer.RoomUpdate(Integer.parseInt(id), requesBody);
@@ -221,7 +226,7 @@ public class JavaHTTPServer implements Runnable {
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
                             if (id != null)
-                                result = new CinemaServer().CinemaDelete(Integer.parseInt(id));
+                                result = CinemaServer.CinemaDelete(Integer.parseInt(id));
                             break;
                         case "room":
                             if (id != null)
