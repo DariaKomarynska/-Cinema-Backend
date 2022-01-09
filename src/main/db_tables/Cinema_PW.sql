@@ -226,12 +226,6 @@ begin
     return res;
 end get_seats;
 /
-drop type seat_record force;
-drop type seats_table force;
-drop function get_seats;
-/
-select * from get_seats(14);
-/
 
 --describe users;
 --describe cinemas;
