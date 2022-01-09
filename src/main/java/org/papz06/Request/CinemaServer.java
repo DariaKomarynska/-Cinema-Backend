@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class CinemaServer {
 
-    public KeyValue<Integer, String> CinemaList() {
+    public static KeyValue<Integer, String> CinemaList() {
         /** GET
          Returns list of cinemas managed by the user.
          **/
@@ -27,7 +27,7 @@ public class CinemaServer {
     }
 
 
-    public KeyValue<Integer, String> CinemaCreate(String requestBody) {
+    public static KeyValue<Integer, String> CinemaCreate(String requestBody) {
         /** POST
          Creates new cinema.
          **/
@@ -57,7 +57,7 @@ public class CinemaServer {
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaDetails(Integer id) {
+    public static KeyValue<Integer, String> CinemaDetails(Integer id) {
         /** GET
          Returns cinema details.
          **/
@@ -74,7 +74,7 @@ public class CinemaServer {
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
+    public static KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
         /**
          * PATCH
          * Update name of cinema
@@ -103,7 +103,7 @@ public class CinemaServer {
         return new KeyValue<Integer, String>(200, result.toString());
     }
 
-    public KeyValue<Integer, String> CinemaDelete(Integer id) {
+    public static KeyValue<Integer, String> CinemaDelete(Integer id) {
         /**
          * DELETE
          * Deletes cinema object.
