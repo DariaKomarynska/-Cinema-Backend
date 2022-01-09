@@ -30,48 +30,24 @@ commit;
 -------------------------
 
 insert into cinemas values (default, 0001, 'Warszawa Centralna', 'https://bobmovies.us/', '7306563244', 'minh4425@mail.com', '01-381, ul. Powstanskich 70', default);
-insert into cinemas values (default, 0002, 'Atlantic Kino', '	https://fmovies.pe', '7563566315', 'nguyen4589@mail.com', '01-381, ul. Modlinka', default);
-insert into cinemas values (default, 0003, 'Multikino', 'https://bobcinema.us/', '73065663294','cong456@mail.com', '01-381, ul. Stefana Leromskiego 29', default);
+insert into cinemas values (default, 0002, 'Atlantic Kino', '	https://fmovies.pe', '7563566315', 'nguyen4589@mail.com', '01-381, ul. Modlinska', default);
+insert into cinemas values (default, 0003, 'Multikino', 'https://bobcinema.us/', '73065663294','cong456@mail.com', '01-381, ul. Stefana Zeromskiego 29', default);
 insert into cinemas values (default, 0004, 'NewCinema', 'https://movieddl.to/', '73064547248', 'cinema4583@mail.com', '01-381, ul. Rakowiecka 25/27', default);
 commit;
 -------------------------
 
-insert into rooms values (default, 'Room 1', 12, 20, 1, default);
-insert into rooms values (default, 'Room 2', 24, 40, 1, default);
-insert into rooms values (default, 'Room 3', 20, 30, 1, default);
-insert into rooms values (default, 'Room 1', 12, 20, 2, default);
-insert into rooms values (default, 'Room 2', 24, 40, 2, default);
-insert into rooms values (default, 'Room 1', 20, 30, 3, default);
-insert into rooms values (default, 'Room 2', 24, 30, 3, default);
+insert into rooms values (default, 'Room 1', 5, 10, 1, default);
+insert into rooms values (default, 'Room 2', 8, 6, 1, default);
+insert into rooms values (default, 'Room 1', 4, 6, 2, default);
+insert into rooms values (default, 'Room 2', 6, 5, 2, default);
+insert into rooms values (default, 'Room 1', 3, 4, 3, default);
+insert into rooms values (default, 'Room 2', 7, 5, 3, default);
 commit;
 -------------------------
 
-insert into seats values (default, 1, 2, 2, 'comfort', default);
-insert into seats values (default, 1, 2, 3, 'comfort', default);
-insert into seats values (default, 1, 2, 4, 'comfort', default);
-insert into seats values (default, 1, 2, 5, 'luxury', default);
+--insert into seats values (default, 1, 2, 4, 'comfort', default);
+--insert into seats values (default, 1, 2, 5, 'luxury', default);
 
-
-insert into seats values (default, 2, 1, 2, 'comfort', default);
-insert into seats values (default, 2, 1, 3, 'comfort', default);
-insert into seats values (default, 2, 2, 1, 'comfort', default);
-insert into seats values (default, 2, 3, 6, 'comfort', default);
-insert into seats values (default, 2, 3, 7, 'comfort', default);
-insert into seats values (default, 2, 3, 8, 'comfort', default);
-insert into seats values (default, 2, 3, 9, 'luxury', default);
-insert into seats values (default, 2, 4, 1, 'luxury', default);
-
-insert into seats values (default, 3, 2, 5, 'comfort', default);
-insert into seats values (default, 3, 2, 6, 'comfort', default);
-insert into seats values (default, 3, 2, 7, 'luxury', default);
-insert into seats values (default, 3, 2, 8, 'luxury', default);
-insert into seats values (default, 3, 2, 9, 'luxury', default);
-insert into seats values (default, 3, 2, 10, 'luxury', default);
-
-insert into seats values (default, 4, 1, 2, 'comfort', default);
-insert into seats values (default, 4, 2, 3, 'comfort', default);
-
-commit;
 -------------------------
 --work
 insert into MovieCategories values (default, 'Horror', 'funny', default);

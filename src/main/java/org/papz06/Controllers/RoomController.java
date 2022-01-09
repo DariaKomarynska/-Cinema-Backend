@@ -33,7 +33,6 @@ public class RoomController {
 
     public static JSONObject getRoomWithSeatsById(Integer id, boolean withSeats) {
         // Room Details
-        SeatController seatCon = new SeatController();
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -49,7 +48,7 @@ public class RoomController {
             System.out.println("Exception: " + e);
         }
         if (withSeats) {
-            roomData.put("seats", seatCon.getSeatListByRoomId(id));
+            roomData.put("seats", SeatController.getSeatListByRoomId(id));
         }
         return roomData;
     }
@@ -63,7 +62,11 @@ public class RoomController {
             String sqlSelect = String.format("select * from rooms where room_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
-                roomData = new Room(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+                roomData = new Room(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getInt(5));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -91,13 +94,13 @@ public class RoomController {
         return roomData;
     }
 
-    public static JSONObject insertNewRoom(String newRoomName, Double newCinemaId, JSONArray seats) {
-        SeatController seatCon = new SeatController();
+    public static JSONObject insertNewRoom(String newRoomName, int rowsNumber, int seatsInRowNumber, int newCinemaId) {
         Function fc = new Function();
         ResultSet rs;
         int roomId = 0;
         try {
-            String sqlInsert = String.format("insert into rooms values (default, '%s', null, null, %.2f, default)", newRoomName, newCinemaId);
+            String sqlInsert = String.format("insert into rooms values (default, '%s', %d, %d, %d, default)",
+                    newRoomName, rowsNumber, seatsInRowNumber, newCinemaId);
             fc.executeQuery(sqlInsert);
             rs = fc.executeQuery("select * from rooms where available = 1 order by room_id desc fetch next 1 rows only");
             rs.next();
@@ -106,16 +109,11 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        JSONObject result = getRoomWithCinemaById(roomId);
-        // insert seats
-        seatCon.insertSeatList(roomId, seats);
-        return result;
+        return getRoomWithCinemaById(roomId);
     }
 
-    public static JSONObject updateRoomNameSeats(Integer id, String newName, JSONArray seats) {
-//        SeatController seatCon = new SeatController();
+    public static JSONObject updateRoomName(Integer id, String newName) {
         Function fc = new Function();
-        ResultSet rs;
         try {
             String sqlUpdate = String.format("update rooms set name = '%s' where room_id = %d and available = 1", newName, id);
             fc.executeQuery(sqlUpdate);
@@ -123,13 +121,10 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-//        JSONArray updatedSeats =
-        SeatController.updateSeatListInRoom(id, seats);
         return getRoomWithSeatsById(id, false);
     }
 
     public static JSONObject deleteRoom(Integer id) {
-//        SeatController seatCon = new SeatController();
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update rooms set available = 0 where room_id = %d", id);
@@ -138,7 +133,6 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        SeatController.deleteSeatList(id);
         return new JSONObject();
     }
 
@@ -165,8 +159,8 @@ public class RoomController {
         return roomsList;
     }
 
-    public static boolean nameNotEmpty(String newName) {
-        return newName.length() != 0;
+    public static boolean isNameEmpty(String newName) {
+        return newName.length() == 0;
     }
 
     public static boolean checkExist(String name, int cinemaId) {

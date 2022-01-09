@@ -186,7 +186,9 @@ public class JavaHTTPServer implements Runnable {
                                 result = UserServer.UserDetail(Integer.parseInt(id));
                             break;
                         case "schedule":
-                            result = ScheduleServer.ScheduleList(queryParams);
+                            if (id == null)
+                                result = ScheduleServer.ScheduleList(queryParams);
+                            else result = ScheduleServer.ScheduleDetails(Integer.parseInt(id));
                             break;
                     }
 
@@ -255,7 +257,7 @@ public class JavaHTTPServer implements Runnable {
             out.write("Server: Java HTTP Server from SSaurel : 1.0\r\n");
             out.write("Date: " + new Date() + "\r\n");
             out.write("Connection: close\r\n");
-            out.write("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS\r\n");
+            out.write("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH\r\n");
             out.write("Access-Control-Allow-Headers: Content-Type, Authorization\r\n");
             out.write("Access-Control-Max-Age: 3600\r\n");
             out.write("Content-length: " + result.getValue().getBytes().length + "\r\n");

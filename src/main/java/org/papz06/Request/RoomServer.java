@@ -1,9 +1,8 @@
 package org.papz06.Request;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.papz06.Controllers.CinemaController;
 import org.papz06.Controllers.RoomController;
 import org.papz06.KeyValue;
 import org.papz06.Utils;
@@ -12,13 +11,11 @@ import java.util.Map;
 
 public class RoomServer {
     public static KeyValue<Integer, String> RoomList(int cinema_id) {
-        /*
+        /**
           GET
            Returns list of rooms in the cinema.
          */
         JSONArray result = RoomController.getRoomListByCinema(cinema_id);
-//        if (result == null)
-//            return new KeyValue<>(200, "");
         return new KeyValue<>(200, result.toString());
     }
 
@@ -27,25 +24,27 @@ public class RoomServer {
          * POST
          * Creates new room. Request body:
          * name: string;
+         * rowsNumber: number;
+         * seatsInRowNumber: number;
          * cinemaId: number;
          * seats: Array<{ positionX: number;
          * positionY: number; type: string;}>;
          */
-        Map<String, Object> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, Object>>() {
-        }.getType());
-        String newRoomName = retMap.get("name").toString();
-        Double newCinemaId = Double.parseDouble(retMap.get("cinemaId").toString());
-        JSONObject jsonRequest = new JSONObject(requestBody);
-        JSONArray seats = jsonRequest.getJSONArray("seats");
+        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
+        String newRoomName = retMap.get("name");
+        int rowsNumber = Integer.parseInt(retMap.get("rowsNumber"));
+        int seatsInRowNumber = Integer.parseInt(retMap.get("seatsInRowNumber"));
+        int newCinemaId = Integer.parseInt(retMap.get("cinemaId"));
 
-
-        if (RoomController.checkExist(newRoomName, newCinemaId.intValue())) {
+        if (RoomController.checkExist(newRoomName, newCinemaId)) {
             return new KeyValue<>(400, "");
-        } else if (!RoomController.nameNotEmpty(newRoomName)) {
+        } else if (RoomController.isNameEmpty(newRoomName)) {
+            return new KeyValue<>(400, "");
+        }else if (!CinemaController.checkExist(newCinemaId)){
             return new KeyValue<>(400, "");
         }
 
-        JSONObject result = RoomController.insertNewRoom(newRoomName, newCinemaId, seats);
+        JSONObject result = RoomController.insertNewRoom(newRoomName, rowsNumber, seatsInRowNumber, newCinemaId);
         return new KeyValue<>(200, result.toString());
     }
 
@@ -68,27 +67,20 @@ public class RoomServer {
          * PATCH
          * Updates room object.
          * name: string;
-         * seats: Array<{
+         * ------ seats: Array<{
          *       positionX: number;
          *       positionY: number;
          *       type: string;
          * }>;
          */
-        //      SHOULD BE CINEMA ID ALSO
-        Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
-        String roomName = retMap.get("name").toString();
-//        Double cinemaId = Double.parseDouble(retMap.get("cinemaId").toString());
-        JSONObject jsonRequest = new JSONObject(requestBody);
-        JSONArray seats = jsonRequest.getJSONArray("seats");
-//        if (RoomController.checkExist(roomName, cinemaId)) {
-//            return new KeyValue<>(400, "");
-//        } else
-            if (!RoomController.checkExist(id)) {
+        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
+        String roomName = retMap.get("name");
+        if (!RoomController.checkExist(id)) {
             return new KeyValue<>(404, "");
-        } else if (!RoomController.nameNotEmpty(roomName)) {
+        } else if (RoomController.isNameEmpty(roomName)) {
                 return new KeyValue<>(400, "");
         }
-        JSONObject result = RoomController.updateRoomNameSeats(id, roomName, seats);
+        JSONObject result = RoomController.updateRoomName(id, roomName);
         return new KeyValue<>(200, result.toString());
     }
 

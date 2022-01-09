@@ -16,7 +16,7 @@ public class Function {
 
     public ResultSet executeQuery(String sql) throws SQLException, ClassNotFoundException {
 //        System.out.println(sql);
-        Class.forName("oracle.jdbc.driver.OracleDriver");
+        // Class.forName("oracle.jdbc.driver.OracleDriver");
         try {
             con = DriverManager.getConnection(
                     "jdbc:oracle:thin:@194.29.167.132:1521/pdb1.ii.pw.edu.pl", "z06", "t4jzpt");

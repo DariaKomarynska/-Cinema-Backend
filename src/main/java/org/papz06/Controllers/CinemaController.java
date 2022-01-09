@@ -11,12 +11,8 @@ import java.util.List;
 
 public class CinemaController {
 
-    List<Cinema> cinemasList = new ArrayList<>();
-
-//    public CinemaController(){}
-
-
-    public CinemaController() {
+    public static List<Cinema> getCinemasList() {
+        List<Cinema> cinemasList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -37,6 +33,7 @@ public class CinemaController {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return cinemasList;
     }
 
     public JSONArray getCinemaData() {
@@ -146,8 +143,8 @@ public class CinemaController {
         return new JSONObject();
     }
 
-    public boolean checkExist(Integer id) {
-        for (Cinema cin : cinemasList) {
+    public static boolean checkExist(Integer id) {
+        for (Cinema cin : getCinemasList()) {
             if (cin.getId().equals(id))
                 return true;
         }
@@ -155,7 +152,7 @@ public class CinemaController {
     }
 
     public boolean checkExist(String name) {
-        for (Cinema cin : cinemasList) {
+        for (Cinema cin : getCinemasList()) {
             if (cin.getName().equals(name))
                 return true;
         }
@@ -163,7 +160,7 @@ public class CinemaController {
     }
 
     public boolean isEmptyList() {
-        return cinemasList.size() == 0;
+        return  getCinemasList().size() == 0;
     }
 
     public boolean sizeNewNameCinema(String newName) {

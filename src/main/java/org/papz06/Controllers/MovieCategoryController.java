@@ -53,7 +53,7 @@ public class MovieCategoryController {
         return mc.toJson();
     }
 
-    public List<MovieCategory> getAllCategories() {
+    public static List<MovieCategory> getAllCategories() {
         List<MovieCategory> movieCategoriesList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
@@ -74,7 +74,7 @@ public class MovieCategoryController {
         return movieCategoriesList;
     }
 
-    public JSONObject getMovieCategoryById(int id) {
+    public static JSONObject getMovieCategoryById(int id) {
         JSONObject result = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
