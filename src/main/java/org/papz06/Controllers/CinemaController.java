@@ -9,7 +9,11 @@ import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static org.papz06.Utils.addressDecoding;
 
 public class CinemaController {
 
@@ -51,6 +55,7 @@ public class CinemaController {
                 cinemaData.put("phoneNumber", rs.getString(4));
                 cinemaData.put("email", rs.getString(5));
                 cinemaData.put("address", rs.getString(6));
+                cinemaData.put("location", new JSONObject(addressDecoding(rs.getString(6))));
                 resultData.put(cinemaData);
             }
             fc.closeQuery();
@@ -110,7 +115,8 @@ public class CinemaController {
         return cinemaData;
     }
 
-    public static JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber, String email, String address) {
+    public static JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber,
+            String email, String address) {
         Function fc = new Function();
         try {
             String sqlInsert = String.format(
@@ -124,9 +130,8 @@ public class CinemaController {
         return getCinemaByName(newName);
     }
 
-
     public static JSONObject updateCinemaName(Integer id, int managerId, String newName, String website,
-                                              String phoneNumber, String email, String address) {
+            String phoneNumber, String email, String address) {
         Function fc = new Function();
         try {
             String sqlUpdate = String.format(
@@ -181,7 +186,8 @@ public class CinemaController {
             String query = "SELECT \"DATE\", \"BEGINTIME\", \"ENDTIME\", (SELECT COUNT(*) FROM purchases " +
                     "WHERE datetime > begintime and datetime <=endtime) cnt_purchases, (SELECT COUNT(*) " +
                     "FROM schedules WHERE datetime > begintime and datetime <=endtime) cnt_schedules " +
-                    "FROM (SELECT  sysdate - (LEVEL - 1) \"DATE\",  round(((sysdate - (LEVEL - 1)) - (DATE '1970-01-01')))*24*60*60*1000 begintime,  " +
+                    "FROM (SELECT  sysdate - (LEVEL - 1) \"DATE\",  round(((sysdate - (LEVEL - 1)) - (DATE '1970-01-01')))*24*60*60*1000 begintime,  "
+                    +
                     "round(((sysdate - (LEVEL-2)) - (DATE '1970-01-01')))*24*60*60*1000 endtime FROM dual CONNECT BY LEVEL < 8) A";
             rs = fc.executeQuery(query);
             while (rs.next()) {
@@ -199,5 +205,45 @@ public class CinemaController {
             return null;
         }
         return dataList;
+    }
+
+    public static JSONObject getStatistic() {
+        JSONObject data = new JSONObject();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String query = "select count(*) from movies";
+            rs = fc.executeQuery(query);
+            rs.next();
+            data.put("total_movies", rs.getInt(1));
+
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(dateFormat.format(date));
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            c.add(Calendar.DATE, 1);
+
+            query = "select count(*) from schedules where datetime between " + date.getTime() + " and " + c.getTime().getTime();
+            System.out.println(query);
+            rs = fc.executeQuery(query);
+            rs.next();
+            data.put("today_schedules", rs.getInt(1));
+            query = "select count(*) from purchases where datetime between " + date.getTime() + " and " + c.getTime().getTime();
+            System.out.println(query);
+            rs = fc.executeQuery(query);
+            rs.next();
+            data.put("today_purchases", rs.getInt(1));
+            query = "select sum(amount) from purchases where datetime between " + date.getTime() + " and " + c.getTime().getTime();
+            System.out.println(query);
+            rs = fc.executeQuery(query);
+            rs.next();
+            data.put("today_income", rs.getInt(1));
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return data;
     }
 }

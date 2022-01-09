@@ -12,23 +12,25 @@ public class TicketServer {
 
     public static KeyValue<Integer, String> TicketTypesList(int cinema_id) {
         /**
-         GET
-         Returns list with data about ticket types in the cinema.
+         * GET
+         * Returns list with data about ticket types in the cinema.
          */
         JSONArray result = TicketTypeController.getTicketTypes(cinema_id);
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> TicketTypeCreate(String requestBody) {
-        /**
-         * POST
-         * Creates new ticket types in the cinema.
-         */
-        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
-        return null;
+    public static KeyValue<Integer, String> TicketTypeUpdate (int id, String requestBody) {
+        JSONArray result = null;
+        return new KeyValue<>(200, result.toString());
     }
 
+    public static KeyValue<Integer, String> TicketTypeDelete (int id) {
+        JSONArray result = null;
+        return new KeyValue<>(200, result.toString());
+    }
 
-
-
+    public static KeyValue<Integer, String> TicketTypeCreate (String requestBody) {
+        JSONArray result = null;
+        return new KeyValue<>(200, result.toString());
+    }
 }
