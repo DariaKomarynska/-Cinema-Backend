@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.util.Date;
 
 import static org.papz06.JavaHTTPServer.PORT;
-import static org.papz06.Utils.addressDecoding;
 
 /**
  * Hello world!
@@ -13,15 +12,16 @@ import static org.papz06.Utils.addressDecoding;
 public class App {
     public static void main(String[] args) {
         try {
-            ServerSocket serverConnect = new ServerSocket(PORT);
-            System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");
-            // we listen until user halts server execution
-            while (true) {
-                JavaHTTPServer myServer = new JavaHTTPServer(serverConnect.accept());
-                System.out.println("Connecton opened. (" + new Date() + ")");
-                // create dedicated thread to manage the client connection
-                Thread thread = new Thread(myServer);
-                thread.start();
+            try (ServerSocket serverConnect = new ServerSocket(PORT)) {
+                System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");
+                // we listen until user halts server execution
+                while (true) {
+                    JavaHTTPServer myServer = new JavaHTTPServer(serverConnect.accept());
+                    System.out.println("Connecton opened. (" + new Date() + ")");
+                    // create dedicated thread to manage the client connection
+                    Thread thread = new Thread(myServer);
+                    thread.start();
+                }
             }
 
         } catch (IOException e) {
