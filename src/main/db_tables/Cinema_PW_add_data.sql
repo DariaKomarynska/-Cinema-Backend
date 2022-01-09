@@ -29,9 +29,9 @@ commit;
 
 -------------------------
 
-insert into cinemas values (default, 0001, 'Warszawa Centralna', 'https://bobmovies.us/', '7306563244', 'minh4425@mail.com', '01-381, ul. Powstańców Śląskich 70', default);
-insert into cinemas values (default, 0002, 'Atlantic Kino', '	https://fmovies.pe', '7563566315', 'nguyen4589@mail.com', '01-381, ul. Modlińska', default);
-insert into cinemas values (default, 0003, 'Multikino', 'https://bobcinema.us/', '73065663294','cong456@mail.com', '01-381, ul. Stefana Żeromskiego 29', default);
+insert into cinemas values (default, 0001, 'Warszawa Centralna', 'https://bobmovies.us/', '7306563244', 'minh4425@mail.com', '01-381, ul. Powstanskich 70', default);
+insert into cinemas values (default, 0002, 'Atlantic Kino', '	https://fmovies.pe', '7563566315', 'nguyen4589@mail.com', '01-381, ul. Modlinka', default);
+insert into cinemas values (default, 0003, 'Multikino', 'https://bobcinema.us/', '73065663294','cong456@mail.com', '01-381, ul. Stefana Leromskiego 29', default);
 insert into cinemas values (default, 0004, 'NewCinema', 'https://movieddl.to/', '73064547248', 'cinema4583@mail.com', '01-381, ul. Rakowiecka 25/27', default);
 commit;
 -------------------------

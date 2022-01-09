@@ -124,6 +124,53 @@ create table Tickets
 ALTER TABLE Tickets ADD (
   CONSTRAINT Tickets_pk PRIMARY KEY (Ticket_id));
 
+
+CREATE OR REPLACE TRIGGER tg_add_seats
+AFTER INSERT on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
+DECLARE
+   curRow number;
+   curCol number := 0;
+   typeSeat varchar2(40);
+   rmid number;
+   rowsNum number;
+BEGIN
+    for curRow in 1 .. :new.rowsNumber
+    loop
+        for curCol in 1 .. :new.seatsInRowNumber
+        loop
+            insert into seats values (default, :new.room_id, curCol, curRow, 'comfort', default);
+            dbms_output.put_line(curRow || '  ' || curCol);
+        end loop;
+    end loop;
+--    if 
+    rmid := :new.room_id;
+    rowsNum := :new.rowsNumber;
+    update seats
+    set type = 'luxury' where room_id = rmid and positionY > 4 / 5 * rowsNum;
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER tg_delete_seats
+BEFORE DELETE on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
+DECLARE
+
+BEGIN
+    NULL;
+END;
+/
+
+
+CREATE OR REPLACE TRIGGER tg_update_seats
+AFTER UPDATE on rooms FOR EACH ROW WHEN (new.rowsNumber is not null and new.seatsInRowNumber is not null)
+DECLARE
+
+BEGIN
+    NULL;
+END;
+/
+
+
 --
 --describe users;
 --describe cinemas;
