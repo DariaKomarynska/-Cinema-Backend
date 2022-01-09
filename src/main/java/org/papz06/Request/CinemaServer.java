@@ -1,11 +1,10 @@
 package org.papz06.Request;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Controllers.CinemaController;
 import org.papz06.KeyValue;
+import org.papz06.Utils;
 
 import java.util.Map;
 
@@ -15,14 +14,7 @@ public class CinemaServer {
         /** GET
          Returns list of cinemas managed by the user.
          **/
-        CinemaController cinControl = new CinemaController();
-        JSONArray result = new JSONArray();
-
-        if (cinControl.isEmptyList()) {
-            result.put(new JSONObject().put("error", "Permission denied.."));
-            return new KeyValue<Integer, String>(403, result.toString());
-        }
-        result = cinControl.getCinemaData();
+        JSONArray result = CinemaController.getCinemaData();
         return new KeyValue<>(200, result.toString());
     }
 
@@ -31,9 +23,7 @@ public class CinemaServer {
         /** POST
          Creates new cinema.
          **/
-        System.out.println("okk");
-        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-        }.getType());
+        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         int newManagerId = Integer.parseInt(retMap.get("manager_id"));
         System.out.println(newManagerId);
         String newName = retMap.get("name");
@@ -41,66 +31,48 @@ public class CinemaServer {
         String newPhoneNumber = retMap.get("phoneNumber");
         String newEmail = retMap.get("email");
         String newAddress = retMap.get("address");
-        CinemaController cinControl = new CinemaController();
-        JSONObject result = new JSONObject();
-        if (cinControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (cinControl.checkExist(newName)) {
-            result.put("error", "BAD_REQUEST, already exists");
-            return new KeyValue<Integer, String>(400, result.toString());
-        } else if (!cinControl.sizeNewNameCinema(newName)) {
-            result.put("error", "BAD_REQUEST, name is empty");
-            return new KeyValue<Integer, String>(400, result.toString());
+
+        if (CinemaController.checkExist(newName)) {
+            return new KeyValue<>(400, "");
+        } else if (!CinemaController.sizeNewNameCinema(newName)) {
+            return new KeyValue<>(400, "");
         }
-        result = cinControl.insertNewCinema(newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = CinemaController.insertNewCinema(newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
+        return new KeyValue<>(200, result.toString());
     }
 
     public KeyValue<Integer, String> CinemaDetails(Integer id) {
-        /** GET
-         Returns cinema details.
-         **/
-        CinemaController cinControl = new CinemaController();
-        JSONObject result = new JSONObject();
-        if (cinControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (!cinControl.checkExist(id)) {
-            result.put("error", "NOT_FOUND");
-            return new KeyValue<Integer, String>(404, result.toString());
+        /**
+         * GET
+         * Returns cinema details.
+         */
+        if (!CinemaController.checkExist(id)) {
+            return new KeyValue<>(404, "");
         }
-        result = cinControl.getCinemaById(id);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = CinemaController.getCinemaById(id);
+        return new KeyValue<>(200, result.toString());
     }
 
     public KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
         /**
          * PATCH
-         * Update name of cinema
+         * Update data about cinema
          */
-        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-        }.getType());
+        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         int newManagerId = Integer.parseInt(retMap.get("manager_id"));
         String newName = retMap.get("name");
         String newWebsite = retMap.get("website");
         String newPhoneNumber = retMap.get("phoneNumber");
         String newEmail = retMap.get("email");
         String newAddress = retMap.get("address");
-        CinemaController cinControl = new CinemaController();
-        JSONObject result = new JSONObject();
-        if (cinControl.checkExist(newName)) {
-            result.put("error", "Bad Request");
-            return new KeyValue<Integer, String>(400, result.toString());
-        } else if (cinControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (!cinControl.checkExist(id)) {
-            result.put("error", "NOT_FOUND");
-            return new KeyValue<Integer, String>(404, result.toString());
+
+        if (CinemaController.checkExist(newName)) {
+            return new KeyValue<>(400, "");
+        } else if (!CinemaController.checkExist(id)) {
+            return new KeyValue<>(404, "");
         }
-        result = cinControl.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = CinemaController.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
+        return new KeyValue<>(200, result.toString());
     }
 
     public KeyValue<Integer, String> CinemaDelete(Integer id) {
@@ -108,17 +80,11 @@ public class CinemaServer {
          * DELETE
          * Deletes cinema object.
          */
-        CinemaController cinControl = new CinemaController();
-        JSONObject result = new JSONObject();
-        if (cinControl.isEmptyList()) {
-            result.put("error", "Permission denied");
-            return new KeyValue<Integer, String>(403, result.toString());
-        } else if (!cinControl.checkExist(id)) {
-            result.put("error", "NOT_FOUND");
-            return new KeyValue<Integer, String>(404, result.toString());
+        if (!CinemaController.checkExist(id)) {
+            return new KeyValue<>(404, "");
         }
-        result = cinControl.deleteCinema(id);
-        return new KeyValue<Integer, String>(200, result.toString());
+        JSONObject result = CinemaController.deleteCinema(id);
+        return new KeyValue<>(200, result.toString());
     }
 }
 

@@ -36,7 +36,7 @@ public class CinemaController {
         return cinemasList;
     }
 
-    public JSONArray getCinemaData() {
+    public static JSONArray getCinemaData() {
         JSONArray resultData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -59,7 +59,7 @@ public class CinemaController {
         return resultData;
     }
 
-    public JSONObject getCinemaById(Integer id) {
+    public static JSONObject getCinemaById(Integer id) {
         JSONObject cinemaData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -81,7 +81,7 @@ public class CinemaController {
         return cinemaData;
     }
 
-    public JSONObject getCinemaByName(String newName) {
+    public static JSONObject getCinemaByName(String newName) {
         Function fc = new Function();
         JSONObject cinemaData = new JSONObject();
         ResultSet rs;
@@ -105,7 +105,7 @@ public class CinemaController {
         return cinemaData;
     }
 
-    public JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber, String email, String address) {
+    public static JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber, String email, String address) {
         Function fc = new Function();
         try {
             String sqlInsert = String.format("insert into cinemas values (default, %d, '%s', '%s', '%s', '%s', '%s', default)",
@@ -118,7 +118,7 @@ public class CinemaController {
         return getCinemaByName(newName);
     }
 
-    public JSONObject updateCinemaName(Integer id, int managerId, String newName, String website, String phoneNumber, String email, String address) {
+    public static JSONObject updateCinemaName(Integer id, int managerId, String newName, String website, String phoneNumber, String email, String address) {
         Function fc = new Function();
         try {
             String sqlUpdate = String.format("update cinemas set manager_id = %d, name = '%s', website = '%s', phoneNumber = '%s', email = '%s', address = '%s' where cinema_id = %d and available = 1",
@@ -131,7 +131,7 @@ public class CinemaController {
         return getCinemaById(id);
     }
 
-    public JSONObject deleteCinema(Integer id) {
+    public static JSONObject deleteCinema(Integer id) {
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update cinemas set available = 0 where cinema_id = %d", id);
@@ -151,7 +151,7 @@ public class CinemaController {
         return false;
     }
 
-    public boolean checkExist(String name) {
+    public static boolean checkExist(String name) {
         for (Cinema cin : getCinemasList()) {
             if (cin.getName().equals(name))
                 return true;
@@ -159,11 +159,7 @@ public class CinemaController {
         return false;
     }
 
-    public boolean isEmptyList() {
-        return  getCinemasList().size() == 0;
-    }
-
-    public boolean sizeNewNameCinema(String newName) {
+    public static boolean sizeNewNameCinema(String newName) {
         return newName.length() != 0;
     }
 }
