@@ -1,6 +1,7 @@
 package org.papz06.Models;
 
 import org.json.JSONObject;
+import org.papz06.Controllers.SeatController;
 
 public class Room {
     int id, rowsNumber, seatsInRowNumber, cinemaId;
@@ -51,14 +52,14 @@ public class Room {
         return result;
     }
 
-    public JSONObject toJsonDetails() {
+    public JSONObject toJsonDetails(int sch_id) {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("name", name);
         result.put("rowsNumber", rowsNumber);
         result.put("seatsInRowNumber", seatsInRowNumber);
         result.put("cinemaId", cinemaId);
-        // result.put("seats", );
+        result.put("seats", SeatController.getSeatsListBySchedule(sch_id));
         return result;
     }
 }
