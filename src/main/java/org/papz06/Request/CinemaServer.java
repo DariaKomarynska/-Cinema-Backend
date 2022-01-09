@@ -95,5 +95,13 @@ public class CinemaServer {
             return new KeyValue<>(400, "");
         return new KeyValue<>(200, result.toString());
     }
+
+    public static KeyValue<Integer, String> StatisticDetail(){
+        JSONObject result = null;
+        result = CinemaController.getStatistic();
+        if (result == null)
+            return new KeyValue<>(400, "");
+        return new KeyValue<>(200, result.toString());
+    }
 }
 

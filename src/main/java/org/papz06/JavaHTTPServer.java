@@ -207,6 +207,9 @@ public class JavaHTTPServer implements Runnable {
                         case "tickets/types":
                             result = TicketServer.TicketTypesList(Integer.parseInt(id));
                             break;
+                        case "statistics":
+                            result = CinemaServer.StatisticDetail();
+                            break;
                     }
 
                 } else if (method.equals("PATCH")) {
