@@ -46,4 +46,15 @@ public class Room {
         result.put("cinemaId", cinemaId);
         return result;
     }
+
+    public JSONObject toJsonDetails() {
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("rowsNumber", rowsNumber);
+        result.put("seatsInRowNumber", seatsInRowNumber);
+        result.put("cinemaId", cinemaId);
+        // result.put("seats", );
+        return result;
+    }
 }

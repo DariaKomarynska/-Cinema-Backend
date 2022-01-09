@@ -56,7 +56,6 @@ public class RoomController {
 
     public JSONObject getRoomWithSeatsById(Integer id, boolean withSeats) {
         // Room Details
-        SeatController seatCon = new SeatController();
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -72,7 +71,7 @@ public class RoomController {
             System.out.println("Exception: " + e);
         }
         if (withSeats) {
-            roomData.put("seats", seatCon.getSeatListByRoomId(id));
+            roomData.put("seats", SeatController.getSeatListByRoomId(id));
         }
         return roomData;
     }
@@ -151,7 +150,6 @@ public class RoomController {
     }
 
     public JSONObject deleteRoom(Integer id) {
-        SeatController seatCon = new SeatController();
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update rooms set available = 0 where room_id = %d", id);
@@ -160,7 +158,7 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-        seatCon.deleteSeatList(id);
+        SeatController.deleteSeatList(id);
         return new JSONObject();
     }
 

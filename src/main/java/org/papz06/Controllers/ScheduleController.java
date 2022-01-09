@@ -26,6 +26,37 @@ public class ScheduleController {
         }
     }
 
+    public static JSONObject getSchedule(int sch_id){
+        Schedule sch = null;
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String query = "select * from schedules where available = 1 and schedule_id = " + sch_id;
+            rs = fc.executeQuery(query);
+            while (rs.next()) {
+                int id, seatLeft;
+                Date datetime, openSale, closeSale;
+                Movie film;
+                Room room;
+                id = rs.getInt(1);
+                datetime = new Date(Long.parseLong(rs.getString(2)));
+                film = MovieController.getMovieById(rs.getInt(3));
+                room = RoomController.getRoomById(rs.getInt(4));
+                openSale = new Date(Long.parseLong(rs.getString(5)));
+                closeSale = new Date(Long.parseLong(rs.getString(6)));
+                seatLeft = rs.getInt(7);
+                sch = new Schedule(id, seatLeft, datetime, openSale, closeSale, film, room);
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        if (sch == null) return null;
+        return sch.toJsonDetails();
+    }
+
+
     public static KeyValue<Boolean, JSONObject> createSchedule(Schedule sch) {
         Function fc = new Function();
         ResultSet rs;

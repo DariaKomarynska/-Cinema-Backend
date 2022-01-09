@@ -30,17 +30,17 @@ public class ScheduleServer {
         JSONObject result = new JSONObject();
         int filmId = -1, roomId = -1;
         Date date = new Date();
-        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
-        try{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dateFormat.format(date));
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         // Convert data
         if (queryParams.containsKey("filmid")) {
             try {
                 filmId = Integer.parseInt(queryParams.get("filmid"));
-            } catch (Exception e){
+            } catch (Exception e) {
                 result.put("error", "BAD_REQUEST");
                 return new KeyValue<Integer, String>(400, result.toString());
             }
@@ -48,7 +48,7 @@ public class ScheduleServer {
         if (queryParams.containsKey("roomid")) {
             try {
                 roomId = Integer.parseInt(queryParams.get("roomid"));
-            } catch (Exception e){
+            } catch (Exception e) {
                 result.put("error", "BAD_REQUEST");
                 return new KeyValue<Integer, String>(400, result.toString());
             }
@@ -65,17 +65,29 @@ public class ScheduleServer {
         }
         return new KeyValue<Integer, String>(200, ScheduleController.getScheduleList(filmId, roomId, date).toString());
     }
-    public static KeyValue<Integer, String> ScheduleCreate(String requestBody){
+
+    public static KeyValue<Integer, String> ScheduleDetails(int id){
+        JSONObject result = null;
+        result = ScheduleController.getSchedule(id);
+        if (result == null)
+            return new KeyValue<>(404, "");
+        return new KeyValue<>(200, result.toString());
+    }
+
+    public static KeyValue<Integer, String> ScheduleCreate(String requestBody) {
         // Create map and use Gson to parse from string to Map
         JSONObject result = null;
         try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
-            Date datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("datetime").replace("T", " "));
+            Date datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
+                    .parse(retMap.get("datetime").replace("T", " "));
             int filmId = Integer.parseInt(retMap.get("filmId"));
             int roomId = Integer.parseInt(retMap.get("roomId"));
-            Date openSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("openSale").replace("T", " "));
-            Date closeSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(retMap.get("closeSale").replace("T", " "));
+            Date openSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
+                    .parse(retMap.get("openSale").replace("T", " "));
+            Date closeSale = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S")
+                    .parse(retMap.get("closeSale").replace("T", " "));
             Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
             KeyValue<Boolean, JSONObject> tmp = ScheduleController.createSchedule(sch);
             if (tmp.getKey() == false)

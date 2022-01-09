@@ -5,42 +5,18 @@ package org.papz06.Controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
-import org.papz06.Models.Seat;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class SeatController {
-    ArrayList<Seat> seatsList = new ArrayList<>();
 
-    public SeatController() {
-        Function fc = new Function();
-        ResultSet rs;
-        try {
-            rs = fc.executeQuery("select * from seats where available = 1");
-            while (rs.next()) {
-                seatsList.add(
-                        new Seat(rs.getInt(1),
-                                rs.getInt(2),
-                                rs.getInt(3),
-                                rs.getInt(4),
-                                rs.getString(5),
-                                rs.getInt(6)
-                        )
-                );
-            }
-            fc.closeQuery();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    public JSONArray getSeatListByRoomId(int roomId) {
+    public static JSONArray getSeatListByRoomId(int roomId) {
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select positionX, positionY, type from seats where room_id = %d and available = 1", roomId);
+            String sqlSelect = String.format(
+                    "select positionX, positionY, type from seats where room_id = %d and available = 1", roomId);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 JSONObject seat = new JSONObject();
@@ -55,7 +31,7 @@ public class SeatController {
         return resData;
     }
 
-    private JSONArray getSeatsIdByRoomId(int roomId) {
+    private static JSONArray getSeatsIdByRoomId(int roomId) {
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -74,12 +50,13 @@ public class SeatController {
         return resData;
     }
 
-    public JSONObject getSeatById(int id) {
+    public static JSONObject getSeatById(int id) {
         JSONObject seatData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select positionX, positionY, type from seats where seat_id = %d and available = 1", id);
+            String sqlSelect = String
+                    .format("select positionX, positionY, type from seats where seat_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 seatData.put("positionX", rs.getInt(1));
@@ -111,10 +88,12 @@ public class SeatController {
         ResultSet rs;
         int seatId = 0;
         try {
-            String sqlInsert = String.format("insert into seats values (default, %d, %d, %d, '%s', default)", roomId, positionX, positionY, type);
+            String sqlInsert = String.format("insert into seats values (default, %d, %d, %d, '%s', default)", roomId,
+                    positionX, positionY, type);
             System.out.println("hello");
             fc.executeQuery(sqlInsert);
-            rs = fc.executeQuery("select * from seats where available = 1 order by seat_id desc fetch next 1 rows only");
+            rs = fc.executeQuery(
+                    "select * from seats where available = 1 order by seat_id desc fetch next 1 rows only");
             rs.next();
             seatId = rs.getInt(1);
             fc.closeQuery();
@@ -129,7 +108,8 @@ public class SeatController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select positionX, positionY, type from seats where cinema_id = %d and available = 1", id);
+            String sqlSelect = String
+                    .format("select positionX, positionY, type from seats where cinema_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 JSONObject seatData = new JSONObject();
@@ -169,7 +149,8 @@ public class SeatController {
     public JSONObject updateSeat(int seatId, int roomId, int positionX, int positionY, String type) {
         Function fc = new Function();
         try {
-            String sqlUpdate = String.format("update seats set positionX = %d, positionY = %d, type = '%s' where seat_id = %d and room_id = %d and available = 1",
+            String sqlUpdate = String.format(
+                    "update seats set positionX = %d, positionY = %d, type = '%s' where seat_id = %d and room_id = %d and available = 1",
                     positionX, positionY, type, seatId, roomId);
             fc.executeQuery(sqlUpdate);
             fc.closeQuery();
@@ -179,14 +160,7 @@ public class SeatController {
         return getSeatById(seatId);
     }
 
-
-    public void displaySeatsList() {
-        for (Seat st : seatsList) {
-            System.out.println(st.toString());
-        }
-    }
-
-    public void deleteSeatList(int roomId) {
+    public static void deleteSeatList(int roomId) {
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update seats set available = 0 where room_id = %d", roomId);

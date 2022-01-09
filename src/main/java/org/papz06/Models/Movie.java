@@ -76,7 +76,18 @@ public class Movie {
         result.put("description", description);
         result.put("length", length);
         result.put("ageRestriction", ageRestriction);
-        result.put("movieCategory", new MovieCategoryController().getMovieCategoryById(movieCateId));
+        result.put("movieCategory", MovieCategoryController.getMovieCategoryById(movieCateId));
+        return result;
+    }
+
+    public JSONObject toJsonDetails() {
+        JSONObject result = new JSONObject();
+        result.put("id", id);
+        result.put("name", name);
+        result.put("description", description);
+        result.put("length", length);
+        result.put("ageRestriction", ageRestriction);
+        result.put("movieCategory", MovieCategoryController.getMovieCategoryById(movieCateId));
         return result;
     }
 }
