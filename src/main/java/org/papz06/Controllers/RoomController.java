@@ -112,10 +112,12 @@ public class RoomController {
         return getRoomWithCinemaById(roomId);
     }
 
-    public static JSONObject updateRoomName(Integer id, String newName) {
+    public static JSONObject updateRoomName(Integer id, String newName, int rowsNumber, int seatsInRowNumber) {
         Function fc = new Function();
         try {
-            String sqlUpdate = String.format("update rooms set name = '%s' where room_id = %d and available = 1", newName, id);
+            String sqlUpdate = String.format(
+                    "update rooms set name = '%s', rowsNumber = %d, seatsInRowNumber = %d where room_id = %d and available = 1",
+                    newName, rowsNumber, seatsInRowNumber, id);
             fc.executeQuery(sqlUpdate);
             fc.closeQuery();
         } catch (Exception e) {
