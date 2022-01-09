@@ -120,5 +120,13 @@ public class CinemaServer {
         result = cinControl.deleteCinema(id);
         return new KeyValue<Integer, String>(200, result.toString());
     }
+
+    public static KeyValue<Integer, String> AnalyticsDetail(){
+        JSONArray result = null;
+        result = CinemaController.getAnalytics();
+        if (result == null)
+            return new KeyValue<>(400, "");
+        return new KeyValue<>(200, result.toString());
+    }
 }
 

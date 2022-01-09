@@ -190,6 +190,9 @@ public class JavaHTTPServer implements Runnable {
                                 result = ScheduleServer.ScheduleList(queryParams);
                             else result = ScheduleServer.ScheduleDetails(Integer.parseInt(id));
                             break;
+                        case "analytics":
+                            result = CinemaServer.AnalyticsDetail();
+                            break;
                     }
 
                 } else if (method.equals("PATCH")) {

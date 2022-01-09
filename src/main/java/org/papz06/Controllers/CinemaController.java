@@ -6,6 +6,8 @@ import org.papz06.Function;
 import org.papz06.Models.Cinema;
 
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,7 @@ public class CinemaController {
                                 rs.getString(5),
                                 rs.getString(6),
                                 rs.getString(7),
-                                rs.getInt(8)
-                        )
-                );
+                                rs.getInt(8)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -41,7 +41,8 @@ public class CinemaController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("select cinema_id, name, website, phoneNumber, email, address from cinemas where available = 1");
+            rs = fc.executeQuery(
+                    "select cinema_id, name, website, phoneNumber, email, address from cinemas where available = 1");
             while (rs.next()) {
                 JSONObject cinemaData = new JSONObject();
                 cinemaData.put("id", rs.getInt(1));
@@ -64,7 +65,9 @@ public class CinemaController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select cinema_id, name, website, phoneNumber, email, address from cinemas where cinema_id = '%d' and available = 1", id);
+            String sqlSelect = String.format(
+                    "select cinema_id, name, website, phoneNumber, email, address from cinemas where cinema_id = '%d' and available = 1",
+                    id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 cinemaData.put("id", rs.getInt(1));
@@ -86,7 +89,9 @@ public class CinemaController {
         JSONObject cinemaData = new JSONObject();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select cinema_id, name, website, phoneNumber, email, address from cinemas where name = '%s' and available = 1", newName);
+            String sqlSelect = String.format(
+                    "select cinema_id, name, website, phoneNumber, email, address from cinemas where name = '%s' and available = 1",
+                    newName);
             System.out.println(newName);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
@@ -105,10 +110,12 @@ public class CinemaController {
         return cinemaData;
     }
 
-    public JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber, String email, String address) {
+    public JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber, String email,
+            String address) {
         Function fc = new Function();
         try {
-            String sqlInsert = String.format("insert into cinemas values (default, %d, '%s', '%s', '%s', '%s', '%s', default)",
+            String sqlInsert = String.format(
+                    "insert into cinemas values (default, %d, '%s', '%s', '%s', '%s', '%s', default)",
                     managerId, newName, website, phoneNumber, email, address);
             fc.executeQuery(sqlInsert);
             fc.closeQuery();
@@ -118,10 +125,12 @@ public class CinemaController {
         return getCinemaByName(newName);
     }
 
-    public JSONObject updateCinemaName(Integer id, int managerId, String newName, String website, String phoneNumber, String email, String address) {
+    public JSONObject updateCinemaName(Integer id, int managerId, String newName, String website, String phoneNumber,
+            String email, String address) {
         Function fc = new Function();
         try {
-            String sqlUpdate = String.format("update cinemas set manager_id = %d, name = '%s', website = '%s', phoneNumber = '%s', email = '%s', address = '%s' where cinema_id = %d and available = 1",
+            String sqlUpdate = String.format(
+                    "update cinemas set manager_id = %d, name = '%s', website = '%s', phoneNumber = '%s', email = '%s', address = '%s' where cinema_id = %d and available = 1",
                     managerId, newName, website, phoneNumber, email, address, id);
             fc.executeQuery(sqlUpdate);
             fc.closeQuery();
@@ -160,10 +169,35 @@ public class CinemaController {
     }
 
     public boolean isEmptyList() {
-        return  getCinemasList().size() == 0;
+        return getCinemasList().size() == 0;
     }
 
     public boolean sizeNewNameCinema(String newName) {
         return newName.length() != 0;
+    }
+
+    public static JSONArray getAnalytics() {
+        JSONArray dataList = new JSONArray();
+        Function fc = new Function();
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+        ResultSet rs;
+        try {
+            String query = "SELECT \"DATE\", \"BEGINTIME\", \"ENDTIME\", (SELECT COUNT(*) FROM purchases WHERE datetime > begintime and datetime <=endtime) cnt_purchases, (SELECT COUNT(*) FROM schedules WHERE datetime > begintime and datetime <=endtime) cnt_schedules FROM (SELECT  sysdate - (LEVEL - 1) \"DATE\",  round(((sysdate - (LEVEL - 1)) - (DATE '1970-01-01')))*24*60*60*1000 begintime,  round(((sysdate - (LEVEL-2)) - (DATE '1970-01-01')))*24*60*60*1000 endtime FROM dual CONNECT BY LEVEL < 8) A";
+            rs = fc.executeQuery(query);
+            while (rs.next()) {
+                JSONObject tmp = new JSONObject();
+                tmp.put("date", df1.parse(rs.getString(1)).toString());
+                tmp.put("begintime", rs.getLong(2));
+                tmp.put("endtime", rs.getLong(3));
+                tmp.put("cnt_purchases", rs.getLong(4));
+                tmp.put("cnt_schedules", rs.getLong(5));
+                dataList.put(tmp);
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+        return dataList;
     }
 }
