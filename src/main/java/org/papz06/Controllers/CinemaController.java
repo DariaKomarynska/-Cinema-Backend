@@ -13,6 +13,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.papz06.Utils.addressDecoding;
+
 public class CinemaController {
 
     public static List<Cinema> getCinemasList() {
@@ -53,6 +55,7 @@ public class CinemaController {
                 cinemaData.put("phoneNumber", rs.getString(4));
                 cinemaData.put("email", rs.getString(5));
                 cinemaData.put("address", rs.getString(6));
+                cinemaData.put("location", new JSONObject(addressDecoding(rs.getString(6))));
                 resultData.put(cinemaData);
             }
             fc.closeQuery();
