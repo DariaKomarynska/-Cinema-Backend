@@ -1,9 +1,12 @@
 package org.papz06;
 
+import org.papz06.Models.Ticket;
 import org.papz06.Request.CinemaServer;
 import org.papz06.Request.MovieServer;
+import org.papz06.Request.PurchaseServer;
 import org.papz06.Request.RoomServer;
 import org.papz06.Request.ScheduleServer;
+import org.papz06.Request.TicketServer;
 import org.papz06.Request.UserServer;
 
 import java.io.*;
@@ -149,6 +152,12 @@ public class JavaHTTPServer implements Runnable {
                         case "schedule":
                             result = ScheduleServer.ScheduleCreate(requesBody);
                             break;
+                        case "tickets/types":
+                            result = TicketServer.TicketTypeCreate(requesBody);
+                            break;
+                        case "purchase":
+                            result = PurchaseServer.PurchaseCreate(requesBody);
+                            break;
                     }
                 } else if (method.equals("GET")) {
                     /*
@@ -195,6 +204,9 @@ public class JavaHTTPServer implements Runnable {
                         case "analytics":
                             result = CinemaServer.AnalyticsDetail();
                             break;
+                        case "tickets/types":
+                            result = TicketServer.TicketTypesList(Integer.parseInt(id));
+                            break;
                     }
 
                 } else if (method.equals("PATCH")) {
@@ -217,6 +229,14 @@ public class JavaHTTPServer implements Runnable {
                             if (id != null)
                                 result = MovieServer.MovieCategoryUpdate(Integer.parseInt(id), requesBody);
                             break;
+                        case "tickets/types":
+                            if (id != null)
+                                result = TicketServer.TicketTypeUpdate(Integer.parseInt(id), requesBody);
+                            break;
+                        case "purchase":
+                            if (id != null)
+                                result = PurchaseServer.PaymentAccepted(Integer.parseInt(id), requesBody);
+                            break;
                     }
 
                 } else if (method.equals("DELETE")) {
@@ -235,6 +255,10 @@ public class JavaHTTPServer implements Runnable {
                         case "movie":
                             if (id != null)
                                 result = MovieServer.MovieDelete(Integer.parseInt(id));
+                            break;
+                        case "tickets/types":
+                            if (id != null)
+                                result = TicketServer.TicketTypeDelete(Integer.parseInt(id));
                             break;
                     }
                 } else {
