@@ -47,6 +47,11 @@
       <systemPath>${project.basedir}/lib/ojdbc8.jar</systemPath>
 <!--      <systemPath>{</systemPath>-->
     </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-inline</artifactId>
+        <version>4.2.0</version>
+    </dependency>
   </dependencies>
 
   <build>

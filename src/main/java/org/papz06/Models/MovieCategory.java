@@ -15,10 +15,6 @@ public class MovieCategory {
     public MovieCategory() {
     }
 
-    public String toString() {
-        return id + " " + name + ' ' + description;
-    }
-
     public JSONObject toJson() {
         JSONObject result = new JSONObject();
         result.put("id", id);

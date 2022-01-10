@@ -2,11 +2,18 @@ package org.papz06.Models;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.papz06.Controllers.MovieCategoryController;
 
 public class MovieTest {
     Movie basicMovie = new Movie(1, 90, "5+", 3, "Spider man", "Good", 2);
-    Movie basicMovie_noId = new Movie(75, "16+", 3, "Learn in PW", "Very Good", 1);
+    Movie basicMovie_noId = new Movie(75, "16+", 1, "Learn in PW", "Very Good", 1);
     @Test
     public void testGetAgeRestriction() {
         assertEquals(basicMovie.getAgeRestriction(), "5+");
@@ -15,7 +22,7 @@ public class MovieTest {
 
     @Test
     public void testGetCinemaId() {
-        assertEquals(basicMovie.getCinemaId(), 2);
+        assertEquals(basicMovie.getCinemaId(), 3);
         assertEquals(basicMovie_noId.getCinemaId(), 1);
     }
 
@@ -56,16 +63,25 @@ public class MovieTest {
 
     @Test
     public void testToJson() {
+        JSONObject mvCate = new JSONObject();
+        JSONObject actual = new JSONObject();
+        mvCate.put("name", "romantic");
+        mvCate.put("description", "funny");
+        mvCate.put("id", 2);
+        actual.put("name" , "Spider man");
+        actual.put("length" , 90);
+        actual.put("description" , "Good");
+        actual.put("ageRestriction" , "5+");
+        actual.put("movieCategory", mvCate);
+        actual.put("id" , 1);
 
-    }
+        MockedStatic<MovieCategoryController> mockedStatic = Mockito.mockStatic(MovieCategoryController.class);
+        mockedStatic.when(()->MovieCategoryController.getMovieCategoryById(2)).thenReturn(mvCate);
 
-    @Test
-    public void testToJsonDetails() {
+        JsonParser parser = new JsonParser();
+        JsonElement o1 = parser.parse(actual.toString());
+        JsonElement o2 = parser.parse(basicMovie.toJson().toString());
 
-    }
-
-    @Test
-    public void testToString() {
-
+        assertEquals(o1, o2);
     }
 }

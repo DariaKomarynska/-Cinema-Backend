@@ -1,11 +1,8 @@
 package org.papz06.Request;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Controllers.CinemaController;
-import org.papz06.Controllers.RoomController;
 import org.papz06.Controllers.TicketTypeController;
 import org.papz06.KeyValue;
 import org.papz06.Utils;
