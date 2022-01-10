@@ -167,4 +167,23 @@ public class ScheduleController {
         }
         return scheduleList;
     }
+
+    public static JSONObject getPurchaseInfo(int id) {
+        JSONObject resData = new JSONObject();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String query = String.format(
+                    "select movie_id, room_id from schedules where schedule_id = %d", id);
+            rs = fc.executeQuery(query);
+            while (rs.next()) {
+                resData.put("movie_id", rs.getInt(3));
+                resData.put("room_id", rs.getInt(4));
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return resData;
+    }
 }

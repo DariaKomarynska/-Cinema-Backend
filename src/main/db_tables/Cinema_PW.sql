@@ -93,8 +93,8 @@ create table Purchases
     Purchase_id NUMBER GENERATED ALWAYS AS IDENTITY,
     datetime NUMBER not null,
     amount float(2) not null,
-    paymentMethod varchar2(40) default 'Cash',
-    currency VARCHAR2(10) default 'pln',
+    paymentMethod varchar2(40),
+    currency VARCHAR2(10),
     schedule_id NUMBER NOT NULL CONSTRAINT sched_purch_fk REFERENCES Schedules (Schedule_id),
     available number default 1
 );

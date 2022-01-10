@@ -17,11 +17,32 @@ public class Purchase {
         this.scheduleId = scheduleId;
     }
 
-    public Purchase() {
+    public Purchase () {
+
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getDateTime() {
-        return Long.toString(datetime.getTime());
+        return datetime.toString();
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public String getCurrency(){
+        return currency;
+    }
+
+    public int getScheduleId() {
+        return scheduleId;
     }
 
     @Override
