@@ -82,7 +82,7 @@ public class TicketTypeController {
         ResultSet rs;
         int tckTypeID = 0;
         try {
-            String sqlInsert = String.format("insert into TicketTypes values (default, %s, %d, %d, default)",
+            String sqlInsert = String.format("insert into TicketTypes values (default, '%s', %d, %d, default)",
                     name, price, cinemaId);
             fc.executeQuery(sqlInsert);
             rs = fc.executeQuery("select * from TicketTypes where available = 1 order by ticketType_id desc fetch next 1 rows only");
