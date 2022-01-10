@@ -1,7 +1,5 @@
 package org.papz06;
 
-import org.papz06.Request.*;
-import org.papz06.Models.Ticket;
 import org.papz06.Request.CinemaServer;
 import org.papz06.Request.MovieServer;
 import org.papz06.Request.PurchaseServer;
