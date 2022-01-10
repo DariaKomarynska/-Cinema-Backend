@@ -112,7 +112,7 @@ public class RoomController {
         return getRoomWithCinemaById(roomId);
     }
 
-    public static JSONObject updateRoomName(Integer id, String newName, int rowsNumber, int seatsInRowNumber) {
+    public static JSONObject updateRoomData(Integer id, String newName, int rowsNumber, int seatsInRowNumber) {
         Function fc = new Function();
         try {
             String sqlUpdate = String.format(

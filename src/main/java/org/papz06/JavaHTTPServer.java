@@ -1,5 +1,7 @@
 package org.papz06;
 
+import org.papz06.Request.*;
+import org.papz06.Models.Ticket;
 import org.papz06.Request.CinemaServer;
 import org.papz06.Request.MovieServer;
 import org.papz06.Request.PurchaseServer;
@@ -129,8 +131,8 @@ public class JavaHTTPServer implements Runnable {
                     result = new KeyValue<>(401,
                             "{ \"status\": \"Access denied\", \"message\": \"Hello from Group Z06.\"}");
                 } else if (method.equals("POST")) {
-                    /*
-                     * Divider cases for PORT:
+                    /**
+                     * Divider cases for POST:
                      */
                     switch (url.trim().toLowerCase()) {
                         case "cinema":
@@ -159,7 +161,7 @@ public class JavaHTTPServer implements Runnable {
                             break;
                     }
                 } else if (method.equals("GET")) {
-                    /*
+                    /**
                      * Divider cases for GET:
                      */
                     switch (url.trim().toLowerCase()) {
@@ -205,7 +207,8 @@ public class JavaHTTPServer implements Runnable {
                             result = CinemaServer.AnalyticsDetail();
                             break;
                         case "tickets/types":
-                            result = TicketServer.TicketTypesList(Integer.parseInt(id));
+                            if (id != null)
+                                result = TicketServer.TicketTypesList(Integer.parseInt(id));
                             break;
                         case "statistics":
                             result = CinemaServer.StatisticDetail();
