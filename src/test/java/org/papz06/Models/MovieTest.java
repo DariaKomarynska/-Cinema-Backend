@@ -1,10 +1,21 @@
 package org.papz06.Models;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.papz06.Controllers.MovieCategoryController;
 
 public class MovieTest {
+    private static final Assert JSONAssert = null;
     Movie basicMovie = new Movie(1, 90, "5+", 3, "Spider man", "Good", 2);
     Movie basicMovie_noId = new Movie(75, "16+", 3, "Learn in PW", "Very Good", 1);
     @Test
@@ -56,7 +67,26 @@ public class MovieTest {
 
     @Test
     public void testToJson() {
+        JSONObject mvCate = new JSONObject();
+        JSONObject prediction = new JSONObject();
+        mvCate.put("name", "romantic");
+        mvCate.put("description", "funny");
+        mvCate.put("id", 2);
+        prediction.put("name" , "Spider man");
+        prediction.put("length" , 90);
+        prediction.put("description" , "Good");
+        prediction.put("ageRestriction" , "5+");
+        prediction.put("movieCategory", mvCate);
+        prediction.put("id" , 1);
 
+        MockedStatic<MovieCategoryController> mockedStatic = Mockito.mockStatic(MovieCategoryController.class);
+        mockedStatic.when(()->MovieCategoryController.getMovieCategoryById(2)).thenReturn(mvCate);
+
+        JsonParser parser = new JsonParser();
+        JsonElement o1 = parser.parse(prediction.toString());
+        JsonElement o2 = parser.parse(basicMovie.toJson().toString());
+
+        assertEquals(o1, o2);
     }
 
     @Test
