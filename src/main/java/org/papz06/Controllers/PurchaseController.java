@@ -110,7 +110,25 @@ public class PurchaseController {
         Function fc = new Function();
         JSONObject purchaseData = new JSONObject();
         try {
+            String sqlUpdate = String.format(
+                    "update purchases set paymentMethod = '%s', currency = '%s' where purchase_id = %d and available = 1",
+                    paymentMethod, currency, purchaseId);
+            fc.executeQuery(sqlUpdate);
 
+            float amount = getPurchaseById(purchaseId).getAmount();
+            int scheduleId = getPurchaseById(purchaseId).getScheduleId();
+            int movie_id = (int) ScheduleController.getPurchaseInfo(scheduleId).get("movie_id");
+            int room_id = (int) ScheduleController.getPurchaseInfo(scheduleId).get("room_id");
+
+            String movieName = MovieController.getMovieById(movie_id).getName();
+            String roomName = RoomController.getRoomById(room_id).getName();
+            JSONArray tickets = TicketController.getBoughtTicketsInfo(purchaseId);
+
+            purchaseData.put("id", purchaseId);
+            purchaseData.put("amount", amount);
+            purchaseData.put("movieName", movieName);
+            purchaseData.put("roomName", roomName);
+            purchaseData.put("tickets", tickets);
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println("Exception: " + e);
