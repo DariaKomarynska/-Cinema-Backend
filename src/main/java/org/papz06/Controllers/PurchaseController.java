@@ -6,7 +6,11 @@ import org.papz06.Function;
 import org.papz06.Models.Purchase;
 
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PurchaseController {
 
@@ -40,9 +44,9 @@ public class PurchaseController {
         JSONObject purchaseData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
-        int seatId, ticketTypeId, purchaseId, price, dateTime;
+        int seatId, ticketTypeId, purchaseId, price;
         int totalPrice = 0;
-
+        long dateTime;
         try {
             for (int i = 0; i <  tickets.length(); ++i) {
                 JSONObject ticket = tickets.getJSONObject(i);
@@ -53,14 +57,15 @@ public class PurchaseController {
                 price = TicketTypeController.getPriceById(ticketTypeId);
                 totalPrice += price;
             }
-            dateTime = 0;
+            Instant instant = Instant.now();
+            dateTime = instant.getEpochSecond();
             String addPurchase = String.format("insert into purchases values " +
                         "(default, %d, %d, default, default, %d, default)",
                         dateTime, totalPrice, scheduleId);
             fc.executeQuery(addPurchase);
 
-            String getPurchaseId = String.format("select * from purchases where available = 1 " +
-                        "order by purchase_id desc fetch next 1 rows only");
+            String getPurchaseId = "select * from purchases where available = 1 " +
+                        "order by purchase_id desc fetch next 1 rows only";
             rs = fc.executeQuery(getPurchaseId);
             rs.next();
             purchaseId = rs.getInt(1);

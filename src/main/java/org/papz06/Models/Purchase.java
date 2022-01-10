@@ -20,6 +20,10 @@ public class Purchase {
     public Purchase() {
     }
 
+    public String getDateTime() {
+        return Long.toString(datetime.getTime());
+    }
+
     @Override
     public String toString() {
         return id + " " + datetime  //.toString()
