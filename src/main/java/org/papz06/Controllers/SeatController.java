@@ -53,5 +53,25 @@ public class SeatController {
         }
         return resData;
     }
+
+    public static JSONObject getSeatById(int id){
+        JSONObject seatData = new JSONObject();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sqlSelect = String.format("select positionX, positionY, type from seats " +
+                    "where seat_id = %d and available = 0", id);
+            rs = fc.executeQuery(sqlSelect);
+            while (rs.next()) {
+                seatData.put("positionX", rs.getInt(1));
+                seatData.put("positionY", rs.getInt(2));
+                seatData.put("type", rs.getString(3));
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return seatData;
+    }
 }
 

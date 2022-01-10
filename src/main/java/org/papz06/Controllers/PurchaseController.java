@@ -4,13 +4,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
 import org.papz06.Models.Purchase;
+import org.papz06.Models.Room;
+import org.papz06.Models.Ticket;
 
 import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PurchaseController {
 
@@ -37,10 +36,29 @@ public class PurchaseController {
         return purchasesList;
     }
 
+    public static Purchase getPurchaseById(int id) {
+        Purchase purchaseData = new Purchase();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sqlSelect = String.format("select * from purchases where purchase_id = %d and available = 1", id);
+            rs = fc.executeQuery(sqlSelect);
+            while (rs.next()) {
+                purchaseData = new Purchase(rs.getInt(1),
+                        rs.getDate(2),
+                        rs.getFloat(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6));
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return purchaseData;
+    }
+
     public static JSONObject createPurchase(int scheduleId, JSONArray tickets) {
-
-        // DATE IS NOT FINISHED
-
         JSONObject purchaseData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -87,6 +105,21 @@ public class PurchaseController {
         }
         return purchaseData;
     }
+
+    public static JSONObject acceptPayment(int purchaseId, String paymentMethod, String currency) {
+        Function fc = new Function();
+        JSONObject purchaseData = new JSONObject();
+        try {
+
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return purchaseData;
+    }
+
+
+
 
 }
 
