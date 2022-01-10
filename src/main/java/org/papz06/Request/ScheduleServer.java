@@ -127,4 +127,10 @@ public class ScheduleServer {
             return new KeyValue<>(400, "");
         return new KeyValue<>(200, result.toString());
     }
+
+    public static KeyValue<Integer, String> ScheduleDelete (int id){
+        if (ScheduleController.deleteSchedule(id))
+            return new KeyValue<>(200, "");
+        return new KeyValue<>(404, "");
+    }
 }
