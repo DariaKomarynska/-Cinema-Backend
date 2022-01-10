@@ -26,7 +26,7 @@ public class ScheduleController {
         }
     }
 
-    public static JSONObject getSchedule(int sch_id){
+    public static JSONObject getSchedule(int sch_id) {
         Schedule sch = null;
         Function fc = new Function();
         ResultSet rs;
@@ -52,10 +52,10 @@ public class ScheduleController {
             System.out.println(e);
             return null;
         }
-        if (sch == null) return null;
+        if (sch == null)
+            return null;
         return sch.toJsonDetails();
     }
-
 
     public static KeyValue<Boolean, JSONObject> createSchedule(Schedule sch) {
         Function fc = new Function();
@@ -76,6 +76,33 @@ public class ScheduleController {
             rs = fc.executeQuery("select max(schedule_id) from schedules where available = 1");
             rs.next();
             sch.setId(rs.getInt(1));
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println(e);
+            return new KeyValue<>(true, null);
+        }
+        return new KeyValue<>(true, sch.toJsonShort());
+    }
+
+    public static KeyValue<Boolean, JSONObject> updateSchedule(int old_id, Schedule sch) {
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sql = "update schedules set available = 0 where schedule_id = " + old_id;
+            sql = MessageFormat.format(
+                    "select can_create_schedule({0}, {1}, {2}, {3}, {4}) from dual", sch.getFilmId(),
+                    sch.getRoomId(), sch.getDateTime(), sch.getOpenSale(), sch.getCloseSale());
+            rs = fc.executeQuery(sql);
+            rs.next();
+            if (rs.getInt(1) == 0)
+                return new KeyValue<>(false, null);
+            sql = MessageFormat.format(
+                    "update schedules set datetime = {0}, movie_id = {1}, room_id = {2}, opensale = {3}, closesale = {4} , available = 1 where schedule_id = {5}",
+                    sch.getDateTime(),
+                    sch.getFilmId(),
+                    sch.getRoomId(), sch.getOpenSale(), sch.getCloseSale(), old_id);
+            fc.executeQuery(sql);
+            sch.setId(old_id);
             fc.closeQuery();
         } catch (Exception e) {
             System.out.println(e);

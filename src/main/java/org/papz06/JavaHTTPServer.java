@@ -240,6 +240,10 @@ public class JavaHTTPServer implements Runnable {
                             if (id != null)
                                 result = PurchaseServer.PaymentAccepted(Integer.parseInt(id), requesBody);
                             break;
+                        case "schedule":
+                            if (id != null)
+                                result = ScheduleServer.ScheduleUpdate(Integer.parseInt(id), requesBody);
+                            break;
                     }
 
                 } else if (method.equals("DELETE")) {
