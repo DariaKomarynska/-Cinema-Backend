@@ -61,26 +61,7 @@ public class Movie {
         return movieCateId;
     }
 
-    public String toString() {
-        return id + " " + length
-                + " " + ageRestriction
-                + " " + cinemaId
-                + " " + name
-                + " " + description;
-    }
-
     public JSONObject toJson() {
-        JSONObject result = new JSONObject();
-        result.put("id", id);
-        result.put("name", name);
-        result.put("description", description);
-        result.put("length", length);
-        result.put("ageRestriction", ageRestriction);
-        result.put("movieCategory", MovieCategoryController.getMovieCategoryById(movieCateId));
-        return result;
-    }
-
-    public JSONObject toJsonDetails() {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("name", name);

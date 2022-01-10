@@ -93,7 +93,7 @@ public class Schedule {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("datetime", datetime);
-        result.put("film", film.toJsonDetails());
+        result.put("film", film.toJson());
         result.put("room", room.toJsonDetails(id));
         result.put("openSale", openSale);
         result.put("closeSale", closeSale);
