@@ -44,7 +44,7 @@ public class TicketController {
         ResultSet rs;
         try {
             String query = String.format(
-                    "select seat_id, ticketType_id from tickets where purchase_id = %d", purchase_id);
+                    "select seat_id, ticketType_id from tickets where purchase_id = %d and available = 1", purchase_id);
             rs = fc.executeQuery(query);
             while (rs.next()) {
                 JSONObject seatInfo = new JSONObject();
@@ -79,4 +79,6 @@ public class TicketController {
         }
         return tickets;
     }
+
+    public static boolean checkTicketExist(JSONArray tickets){return true;}
 }

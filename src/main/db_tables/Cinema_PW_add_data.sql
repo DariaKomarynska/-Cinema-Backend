@@ -36,8 +36,8 @@ insert into cinemas values (default, 0004, 'NewCinema', 'https://movieddl.to/', 
 commit;
 -------------------------
 
-insert into rooms values (default, 'Room 1', 5, 10, 1, default);
-insert into rooms values (default, 'Room 2', 8, 6, 1, default);
+insert into rooms values (default, 'Room 1', 5, 6, 1, default);
+insert into rooms values (default, 'Room 2', 4, 6, 1, default);
 insert into rooms values (default, 'Room 1', 4, 6, 2, default);
 insert into rooms values (default, 'Room 2', 6, 5, 2, default);
 insert into rooms values (default, 'Room 1', 3, 4, 3, default);
