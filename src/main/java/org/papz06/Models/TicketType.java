@@ -15,6 +15,18 @@ public class TicketType {
     public TicketType() {
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getCinemaId() {
+        return cinemaId;
+    }
+
     @Override
     public String toString() {
         return id + " " + name

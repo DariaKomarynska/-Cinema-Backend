@@ -1,6 +1,10 @@
 package org.papz06.Request;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
+import org.json.JSONObject;
+import org.papz06.Controllers.CinemaController;
 import org.papz06.Controllers.RoomController;
 import org.papz06.Controllers.TicketTypeController;
 import org.papz06.KeyValue;
@@ -19,18 +23,66 @@ public class TicketServer {
         return new KeyValue<>(200, result.toString());
     }
 
+    public static KeyValue<Integer, String> TicketTypeCreate (String requestBody) {
+        /**
+         * POST
+         * Creates new ticket type. Request body:
+         * name: string;
+         * price: number;
+         * cinemaId: number;
+         */
+        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+        }.getType());
+        String name = retMap.get("name");
+        int price = Integer.parseInt(retMap.get("price"));
+        int cinemaId = Integer.parseInt(retMap.get("cinemaId"));
+
+        if (TicketTypeController.checkExist(name, cinemaId)) {
+            return new KeyValue<>(400, "");
+        }else if (!CinemaController.checkExist(cinemaId)){
+            return new KeyValue<>(400, "");
+        } else if (TicketTypeController.isNameEmpty(name)) {
+            return new KeyValue<>(400, "");
+        } else if (TicketTypeController.isPriceNegative(price)) {
+            return new KeyValue<>(400, "");
+        }
+        JSONObject result = TicketTypeController.insertNewTicketType(name, price, cinemaId);
+        return new KeyValue<>(200, result.toString());
+    }
+
+
     public static KeyValue<Integer, String> TicketTypeUpdate (int id, String requestBody) {
-        JSONArray result = null;
+        /**
+         * PATCH
+         * Updates ticket type object.
+         * name: string;
+         * price: number;
+         */
+        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
+        String name = retMap.get("name");
+        int price = Integer.parseInt(retMap.get("price"));
+
+        if (TicketTypeController.notExist(id)) {
+            return new KeyValue<>(404, "");
+        } else if (TicketTypeController.isNameEmpty(name)) {
+            return new KeyValue<>(400, "");
+        } else if (TicketTypeController.isPriceNegative(price)) {
+            return new KeyValue<>(400, "");
+        }
+        JSONObject result = TicketTypeController.updateTicketType(id, name, price);
         return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> TicketTypeDelete (int id) {
-        JSONArray result = null;
+        /**
+         * DELETE
+         * Deletes ticket type.
+         */
+        if (TicketTypeController.notExist(id)) {
+            return new KeyValue<>(404, "");
+        }
+        JSONObject result = TicketTypeController.deleteTicketType(id);
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> TicketTypeCreate (String requestBody) {
-        JSONArray result = null;
-        return new KeyValue<>(200, result.toString());
-    }
 }

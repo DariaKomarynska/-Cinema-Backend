@@ -27,8 +27,6 @@ public class RoomServer {
          * rowsNumber: number;
          * seatsInRowNumber: number;
          * cinemaId: number;
-         * seats: Array<{ positionX: number;
-         * positionY: number; type: string;}>;
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String newRoomName = retMap.get("name");
@@ -79,7 +77,7 @@ public class RoomServer {
         } else if (RoomController.isNameEmpty(roomName)) {
                 return new KeyValue<>(400, "");
         }
-        JSONObject result = RoomController.updateRoomName(id, roomName, rowsNumber, seatsInRowNumber);
+        JSONObject result = RoomController.updateRoomData(id, roomName, rowsNumber, seatsInRowNumber);
         return new KeyValue<>(200, result.toString());
     }
 
