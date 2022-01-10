@@ -153,7 +153,7 @@ public class TicketTypeController {
         int resPrice = 0;
         try {
             String query = String.format(
-                    "select price where ticketType_id = %d and available = 1", id);
+                    "select price from ticketTypes where ticketType_id = %d and available = 1", id);
             rs = fc.executeQuery(query);
             rs.next();
             resPrice = rs.getInt(1);

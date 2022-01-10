@@ -19,10 +19,10 @@ public class PurchaseServer {
          * seatId: number;
          * ticketTypeId: number;
          */
-        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
-        int scheduleId = Integer.parseInt(retMap.get("scheduleId"));
-        JSONArray tickets = new JSONArray(retMap.get("tickets"));
-
+        Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
+        int scheduleId =  ((Double) retMap.get("scheduleId")).intValue();
+        JSONObject jsonRequest = new JSONObject(requestBody);
+        JSONArray tickets = jsonRequest.getJSONArray("tickets");
 
         JSONObject result = PurchaseController.createPurchase(scheduleId, tickets);
         return new KeyValue<>(200, result.toString());

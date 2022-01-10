@@ -34,10 +34,12 @@ public class PurchaseController {
     }
 
     public static JSONObject createPurchase(int scheduleId, JSONArray tickets) {
+
+        // DATE IS NOT FINISHED
+
         JSONObject purchaseData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
-        int roomId = 0;
         int seatId, ticketTypeId, purchaseId, price, dateTime;
         int totalPrice = 0;
 
@@ -46,7 +48,6 @@ public class PurchaseController {
                 JSONObject ticket = tickets.getJSONObject(i);
                 seatId = ticket.optInt("seatId");
                 ticketTypeId = ticket.optInt("ticketTypeId");
-
                 String seatUnavailable = String.format("update seats set available = 0 where seat_id = %d", seatId);
                 fc.executeQuery(seatUnavailable);
                 price = TicketTypeController.getPriceById(ticketTypeId);
