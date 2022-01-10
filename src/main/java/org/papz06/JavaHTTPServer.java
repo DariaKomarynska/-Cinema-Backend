@@ -270,6 +270,10 @@ public class JavaHTTPServer implements Runnable {
                             if (id != null)
                                 result = TicketServer.TicketTypeDelete(Integer.parseInt(id));
                             break;
+                        case "schedule":
+                            if (id != null)
+                                result = ScheduleServer.ScheduleDelete(Integer.parseInt(id));
+                            break;
                     }
                 } else {
                     /*

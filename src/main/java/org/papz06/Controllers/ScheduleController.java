@@ -57,6 +57,25 @@ public class ScheduleController {
         return sch.toJsonDetails();
     }
 
+    public static boolean deleteSchedule(int id) {
+        Function fc = new Function();
+        try {
+            String sql = "select count(*) from schedules where available = 1 and schedule_id = " + id;
+
+            ResultSet rs = fc.executeQuery(sql);
+            rs.next();
+            if (rs.getInt(1) == 0)
+                return false;
+            sql = "update schedules set available = 0  where schedule_id = " + id;
+            fc.executeQuery(sql);
+            fc.closeQuery();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
     public static KeyValue<Boolean, JSONObject> createSchedule(Schedule sch) {
         Function fc = new Function();
         ResultSet rs;
