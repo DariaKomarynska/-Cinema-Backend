@@ -147,4 +147,21 @@ public class TicketTypeController {
         return price < 0;
     }
 
+    public static int getPriceById(int id) {
+        Function fc = new Function();
+        ResultSet rs;
+        int resPrice = 0;
+        try {
+            String query = String.format(
+                    "select price where ticketType_id = %d and available = 1", id);
+            rs = fc.executeQuery(query);
+            rs.next();
+            resPrice = rs.getInt(1);
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return resPrice;
+    }
+
 }

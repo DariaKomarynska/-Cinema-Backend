@@ -22,7 +22,7 @@ public class RoomServer {
     public static KeyValue<Integer, String> RoomCreate(String requestBody) {
         /**
          * POST
-         * Creates new room. Request body:
+         * Create new room. Request body:
          * name: string;
          * rowsNumber: number;
          * seatsInRowNumber: number;
