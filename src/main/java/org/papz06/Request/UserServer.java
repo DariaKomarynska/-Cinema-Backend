@@ -82,6 +82,28 @@ public class UserServer {
     }
 
     public static KeyValue<Integer, String> UserCreate(String requestBody){
-        return null;
+        JSONObject response = new JSONObject();
+        try{
+            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+            }.getType());
+            String firstName = retMap.get("firstName");
+            String lastName = retMap.get("lastName");
+            String loginData = retMap.get("login");
+            String passwordData = retMap.get("password");
+            if (UserController.checkExistUser(loginData)) {
+                // data.put("token", "User's already existed!");
+                return new KeyValue<>(400, "");
+            }
+            String passwordAfterHash = Utils.MD5(passwordData);
+            UserController.registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
+            User new_us = UserController.getUserFromLogin(loginData);
+            response.put("login", loginData);
+            response.put("id", new_us.getId());
+            return new KeyValue<>(200, response.toString());
+
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return new KeyValue<>(400, "");
     }
 }
