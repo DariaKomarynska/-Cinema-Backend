@@ -42,7 +42,7 @@ public class ScheduleServer {
             try {
                 filmId = Integer.parseInt(queryParams.get("filmid"));
             } catch (Exception e) {
-                result.put("error", "BAD_REQUEST");
+                System.out.println(e);
                 return new KeyValue<Integer, String>(400, result.toString());
             }
         }
@@ -50,7 +50,7 @@ public class ScheduleServer {
             try {
                 roomId = Integer.parseInt(queryParams.get("roomid"));
             } catch (Exception e) {
-                result.put("error", "BAD_REQUEST");
+                System.out.println(e);
                 return new KeyValue<Integer, String>(400, result.toString());
             }
         }
@@ -59,9 +59,9 @@ public class ScheduleServer {
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
 
             try {
-                date = df1.parse(queryParams.get("date"));
+                date = df1.parse(queryParams.get("date").toUpperCase());
             } catch (ParseException e) {
-                result.put("error", "BAD_REQUEST");
+                System.out.println(e);
                 return new KeyValue<Integer, String>(400, result.toString());
             }
         }
@@ -84,13 +84,39 @@ public class ScheduleServer {
             }.getType());
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
 
+            Date datetime = df1.parse(retMap.get("datetime").toUpperCase());
+            int filmId = Integer.parseInt(retMap.get("filmId"));
+            int roomId = Integer.parseInt(retMap.get("roomId"));
+            Date openSale = df1.parse(retMap.get("openSale").toUpperCase());
+            Date closeSale = df1.parse(retMap.get("closeSale").toUpperCase());
+            Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
+            KeyValue<Boolean, JSONObject> tmp = ScheduleController.createSchedule(sch);
+            if (tmp.getKey() == false)
+                return new KeyValue<>(454, "");
+            result = tmp.getValue();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        if (result == null)
+            return new KeyValue<>(400, "");
+        return new KeyValue<>(200, result.toString());
+    }
+
+    public static KeyValue<Integer, String> ScheduleUpdate(int id, String requestBody){
+        // Create map and use Gson to parse from string to Map
+        JSONObject result = null;
+        try {
+            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+            }.getType());
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
+
             Date datetime = df1.parse(retMap.get("datetime"));
             int filmId = Integer.parseInt(retMap.get("filmId"));
             int roomId = Integer.parseInt(retMap.get("roomId"));
             Date openSale = df1.parse(retMap.get("openSale"));
             Date closeSale = df1.parse(retMap.get("closeSale"));
             Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
-            KeyValue<Boolean, JSONObject> tmp = ScheduleController.createSchedule(sch);
+            KeyValue<Boolean, JSONObject> tmp = ScheduleController.updateSchedule(id, sch);
             if (tmp.getKey() == false)
                 return new KeyValue<>(454, "");
             result = tmp.getValue();

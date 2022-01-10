@@ -36,15 +36,14 @@ public class TicketServer {
         int price = Integer.parseInt(retMap.get("price"));
         int cinemaId = Integer.parseInt(retMap.get("cinemaId"));
 
-        if (TicketTypeController.checkExist(name, cinemaId)) {
+        if (TicketTypeController.checkExist(name, cinemaId))
             return new KeyValue<>(400, "");
-        } if (!CinemaController.checkExist(cinemaId)){
+        if (!CinemaController.checkExist(cinemaId))
             return new KeyValue<>(400, "");
-        }  if (TicketTypeController.isNameEmpty(name)) {
+        if (TicketTypeController.isNameEmpty(name)) 
             return new KeyValue<>(400, "");
-        }  if (TicketTypeController.isPriceNegative(price)) {
+        if (TicketTypeController.isPriceNegative(price))
             return new KeyValue<>(400, "");
-        }
         JSONObject result = TicketTypeController.insertNewTicketType(name, price, cinemaId);
         return new KeyValue<>(200, result.toString());
     }

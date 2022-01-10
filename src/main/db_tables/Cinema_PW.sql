@@ -191,7 +191,7 @@ begin
     loop
         select schedule.datetime into tmp_start from dual;
         select schedule.datetime + m.length*60*1000 into tmp_end
-        from movies m where m.movie_id = schedule.movie_id;
+        from movies m where m.movie_id = schedule.movie_id and m.available = 1;
         if (date_start between tmp_start and tmp_end) or (date_end between tmp_start and tmp_end) then
             return 0;
         end if;
