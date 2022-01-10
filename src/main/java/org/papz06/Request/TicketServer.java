@@ -31,19 +31,18 @@ public class TicketServer {
          * price: number;
          * cinemaId: number;
          */
-        Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-        }.getType());
+        Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String name = retMap.get("name");
         int price = Integer.parseInt(retMap.get("price"));
         int cinemaId = Integer.parseInt(retMap.get("cinemaId"));
 
         if (TicketTypeController.checkExist(name, cinemaId)) {
             return new KeyValue<>(400, "");
-        }else if (!CinemaController.checkExist(cinemaId)){
+        } if (!CinemaController.checkExist(cinemaId)){
             return new KeyValue<>(400, "");
-        } else if (TicketTypeController.isNameEmpty(name)) {
+        }  if (TicketTypeController.isNameEmpty(name)) {
             return new KeyValue<>(400, "");
-        } else if (TicketTypeController.isPriceNegative(price)) {
+        }  if (TicketTypeController.isPriceNegative(price)) {
             return new KeyValue<>(400, "");
         }
         JSONObject result = TicketTypeController.insertNewTicketType(name, price, cinemaId);
@@ -64,9 +63,9 @@ public class TicketServer {
 
         if (TicketTypeController.notExist(id)) {
             return new KeyValue<>(404, "");
-        } else if (TicketTypeController.isNameEmpty(name)) {
+        } if (TicketTypeController.isNameEmpty(name)) {
             return new KeyValue<>(400, "");
-        } else if (TicketTypeController.isPriceNegative(price)) {
+        } if (TicketTypeController.isPriceNegative(price)) {
             return new KeyValue<>(400, "");
         }
         JSONObject result = TicketTypeController.updateTicketType(id, name, price);
