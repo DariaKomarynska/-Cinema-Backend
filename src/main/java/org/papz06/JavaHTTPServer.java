@@ -198,7 +198,9 @@ public class JavaHTTPServer implements Runnable {
                         case "schedule":
                             if (id == null)
                                 result = ScheduleServer.ScheduleList(queryParams);
-                            else
+                            break;
+                        case "schedule/details":
+                            if (id != null)
                                 result = ScheduleServer.ScheduleDetails(Integer.parseInt(id));
                             break;
                         case "analytics":

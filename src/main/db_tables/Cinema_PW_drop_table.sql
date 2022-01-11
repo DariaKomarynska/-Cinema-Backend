@@ -8,13 +8,8 @@ drop table Schedules CASCADE CONSTRAINTS;
 drop table Tickets;
 drop table Purchases CASCADE CONSTRAINTS;
 drop table TicketTypes;
-<<<<<<< HEAD
-
---update seats set available = 0 where seat_id = 3;
-=======
 --
 --update seats set available = 1 where seat_id = 21;
->>>>>>> 07acd185f94a8de443ab6a2ab4f30901c33bb299
 --
 --insert into purchases values (default, 4564654123, 500, default, default, 3, default);
 --
@@ -22,8 +17,5 @@ drop table TicketTypes;
 --order by purchase_id desc fetch next 1 rows only;
 --
 --insert into tickets values (default, 21, 3, 5, 3, default);
-<<<<<<< HEAD
-=======
 --
 --update seats set available = 1 where available = 0;
->>>>>>> 07acd185f94a8de443ab6a2ab4f30901c33bb299
