@@ -6,6 +6,7 @@ import org.papz06.Function;
 import org.papz06.Models.Purchase;
 import org.papz06.Models.Room;
 import org.papz06.Models.Ticket;
+import org.papz06.Models.TicketType;
 
 import java.sql.ResultSet;
 import java.time.Instant;
@@ -68,10 +69,7 @@ public class PurchaseController {
         try {
             for (int i = 0; i <  tickets.length(); ++i) {
                 JSONObject ticket = tickets.getJSONObject(i);
-                seatId = ticket.optInt("seatId");
                 ticketTypeId = ticket.optInt("ticketTypeId");
-                String seatUnavailable = String.format("update seats set available = 0 where seat_id = %d", seatId);
-                fc.executeQuery(seatUnavailable);
                 price = TicketTypeController.getPriceById(ticketTypeId);
                 totalPrice += price;
             }
@@ -136,8 +134,19 @@ public class PurchaseController {
         return purchaseData;
     }
 
+    public static boolean checkExist(int id){
+        for (Purchase purchase : getPurchasesList()) {
+            if (purchase.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public static boolean isStringEmpty(String string) {
 
+        return string.length() == 0;
+    }
 
 }
 

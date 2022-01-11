@@ -60,7 +60,7 @@ public class SeatController {
         ResultSet rs;
         try {
             String sqlSelect = String.format("select positionX, positionY, type from seats " +
-                    "where seat_id = %d and available = 0", id);
+                    "where seat_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 seatData.put("positionX", rs.getInt(1));

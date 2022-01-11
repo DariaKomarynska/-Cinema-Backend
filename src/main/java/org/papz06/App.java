@@ -1,5 +1,8 @@
 package org.papz06;
 
+import org.papz06.Controllers.ScheduleController;
+import org.papz06.Models.Schedule;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Date;
@@ -11,6 +14,7 @@ import static org.papz06.JavaHTTPServer.PORT;
  */
 public class App {
     public static void main(String[] args) {
+        ScheduleController.checkExist(95);
         try {
             try (ServerSocket serverConnect = new ServerSocket(PORT)) {
                 System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");

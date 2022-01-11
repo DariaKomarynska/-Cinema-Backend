@@ -186,4 +186,24 @@ public class ScheduleController {
         }
         return resData;
     }
+
+    public static boolean checkExist(int id) {
+        Function fc = new Function();
+        ResultSet rs;
+        int schedule_id = 0;
+        try {
+            String query = String.format(
+                    "select schedule_id from schedules where schedule_id = %d", id);
+            rs = fc.executeQuery(query);
+            schedule_id = rs.getInt(1);
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        if (schedule_id == 0)
+                return false;
+        return true;
+
+    }
+
 }
