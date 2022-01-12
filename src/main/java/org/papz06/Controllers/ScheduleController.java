@@ -176,9 +176,10 @@ public class ScheduleController {
             String query = String.format(
                     "select movie_id, room_id from schedules where schedule_id = %d", id);
             rs = fc.executeQuery(query);
+
             while (rs.next()) {
-                resData.put("movie_id", rs.getInt(3));
-                resData.put("room_id", rs.getInt(4));
+                resData.put("movie_id", rs.getInt(1));
+                resData.put("room_id", rs.getInt(2));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -195,6 +196,7 @@ public class ScheduleController {
             String query = String.format(
                     "select schedule_id from schedules where schedule_id = %d", id);
             rs = fc.executeQuery(query);
+            rs.next();
             schedule_id = rs.getInt(1);
             fc.closeQuery();
         } catch (Exception e) {

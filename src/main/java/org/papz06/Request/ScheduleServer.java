@@ -83,7 +83,6 @@ public class ScheduleServer {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
-
             Date datetime = df1.parse(retMap.get("datetime").toUpperCase());
             int filmId = Integer.parseInt(retMap.get("filmId"));
             int roomId = Integer.parseInt(retMap.get("roomId"));
