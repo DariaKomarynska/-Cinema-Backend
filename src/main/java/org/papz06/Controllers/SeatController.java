@@ -1,13 +1,10 @@
 package org.papz06.Controllers;
 
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
-import org.papz06.KeyValue;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class SeatController {
 
@@ -31,7 +28,7 @@ public class SeatController {
         }
         return resData;
     }
-    
+
     public static JSONArray getSeatsListBySchedule(int sch_id) {
         JSONArray resData = new JSONArray();
         Function fc = new Function();
@@ -77,7 +74,7 @@ public class SeatController {
         return resData;
     }
 
-    public static JSONObject getSeatById(int id){
+    public static JSONObject getSeatById(int id) {
         JSONObject seatData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -97,26 +94,27 @@ public class SeatController {
         return seatData;
     }
 
-    public static boolean checkSeats(int scheduleId, JSONArray tickets){
+    public static boolean checkSeats(int scheduleId, JSONArray tickets) {
         int seatId, avSeatId;
         JSONObject ticket, avSeatInfo;
         int full = 0;
         JSONArray availableSeats = getSeatIdBySchedule(scheduleId);
         System.out.println(availableSeats);
-        for (int i = 0; i <  availableSeats.length(); ++i) {
+        for (int i = 0; i < availableSeats.length(); ++i) {
             avSeatInfo = availableSeats.getJSONObject(i);
             avSeatId = avSeatInfo.getInt("id");
             boolean canSeat = avSeatInfo.getBoolean("isFree");
-            for (int j = 0; j < tickets.length(); ++j){
+            for (int j = 0; j < tickets.length(); ++j) {
                 ticket = tickets.getJSONObject(j);
                 seatId = ticket.optInt("seatId");
-                if ((seatId == avSeatId) && canSeat){
+                if ((seatId == avSeatId) && canSeat) {
                     ++full;
-                    if (full == tickets.length()) {return true;}
+                    if (full == tickets.length()) {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 }
-
