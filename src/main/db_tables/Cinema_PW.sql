@@ -187,9 +187,12 @@ begin
     select length*60*1000 + date_start into date_end
     from movies
     where mv_id = movie_id;
-    for schedule in (select * from schedules where rm_id = room_id and available = 1)
+    for schedule in (select * from schedules ss where rm_id = ss.room_id and ss.available = 1 and (
+        select mm.available from movies mm where mm.movie_id = ss.movie_id
+    ) = 1)
     loop
         select schedule.datetime into tmp_start from dual;
+        tmp_end := tmp_start;
         select schedule.datetime + m.length*60*1000 into tmp_end
         from movies m where m.movie_id = schedule.movie_id and m.available = 1;
         if (date_start between tmp_start and tmp_end) or (date_end between tmp_start and tmp_end) then
