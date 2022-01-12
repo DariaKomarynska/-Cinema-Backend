@@ -170,6 +170,27 @@ public class PurchaseController {
         return string.length() == 0;
     }
 
+    public static boolean checkAlreadyAccepted(int purchaseId){
+        JSONObject isAccepted = new JSONObject();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sqlSelect = String.format("select paymentMethod, currency from purchases where purchase_id = %d and available = 1", purchaseId);
+            rs = fc.executeQuery(sqlSelect);
+            while (rs.next()) {
+                isAccepted.put("paymentMethod", rs.getString(1) == null);
+                isAccepted.put("currency", rs.getString(2) == null);
+            }
+            if (isAccepted.getBoolean("paymentMethod") && isAccepted.getBoolean("currency")){
+                return false;
+            }
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return true;
+    }
+
 }
 
 

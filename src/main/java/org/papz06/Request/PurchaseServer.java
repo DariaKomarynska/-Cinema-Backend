@@ -70,6 +70,9 @@ public class PurchaseServer {
         if(PurchaseController.isStringEmpty(currency)){
             return new KeyValue<>(400, "");
         }
+        if(PurchaseController.checkAlreadyAccepted(id)){
+            return new KeyValue<>(400, "");
+        }
         JSONObject result = PurchaseController.acceptPayment(id, paymentMethod, currency);
         if (result == null){
             TicketController.deleteTicket(id);
