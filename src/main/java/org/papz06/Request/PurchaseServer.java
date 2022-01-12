@@ -4,9 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Controllers.PurchaseController;
 import org.papz06.Controllers.ScheduleController;
+import org.papz06.Controllers.SeatController;
 import org.papz06.KeyValue;
 import org.papz06.Utils;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PurchaseServer {
@@ -25,11 +27,14 @@ public class PurchaseServer {
         JSONObject jsonRequest = new JSONObject(requestBody);
         JSONArray tickets = jsonRequest.getJSONArray("tickets");
 
+        if(!SeatController.checkSeats(scheduleId, tickets)){
+            return new KeyValue<>(455, "");}
         if (!ScheduleController.checkExist(scheduleId)){
             return new KeyValue<>(400, "");}
         if (tickets == null){
             return new KeyValue<>(400, "");}
-
+        if (tickets.length() == 0){
+            return new KeyValue<>(400, "");}
         JSONObject result = PurchaseController.createPurchase(scheduleId, tickets);
         return new KeyValue<>(200, result.toString());
     }

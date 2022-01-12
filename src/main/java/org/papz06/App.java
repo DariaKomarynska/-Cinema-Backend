@@ -14,7 +14,7 @@ import static org.papz06.JavaHTTPServer.PORT;
  */
 public class App {
     public static void main(String[] args) {
-        ScheduleController.checkExist(95);
+
         try {
             try (ServerSocket serverConnect = new ServerSocket(PORT)) {
                 System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");

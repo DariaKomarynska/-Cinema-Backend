@@ -23,7 +23,7 @@ public class PurchaseController {
             while (rs.next()) {
                 purchasesList.add(
                         new Purchase(rs.getInt(1),
-                                rs.getDate(2),
+                                rs.getInt(2),
                                 rs.getFloat(3),
                                 rs.getString(4),
                                 rs.getString(5),
@@ -37,20 +37,20 @@ public class PurchaseController {
         return purchasesList;
     }
 
-    public static Purchase getPurchaseById(int id) {
-        Purchase purchaseData = new Purchase();
+    public static JSONObject getPurchaseById(int id) {
+        JSONObject purchaseData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
         try {
             String sqlSelect = String.format("select * from purchases where purchase_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
-                purchaseData = new Purchase(rs.getInt(1),
-                        rs.getDate(2),
-                        rs.getFloat(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6));
+                purchaseData.put("purchase_id", rs.getInt(1));
+                purchaseData.put("dateTime", rs.getInt(2));
+                purchaseData.put("amount", rs.getInt(3));
+                purchaseData.put("paymentMethod", rs.getString(4));
+                purchaseData.put("currency", rs.getString(5));
+                purchaseData.put("schedule_id", rs.getInt(6));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -76,16 +76,15 @@ public class PurchaseController {
             Instant instant = Instant.now();
             dateTime = instant.getEpochSecond();
             String addPurchase = String.format("insert into purchases values " +
-                        "(default, %d, %d, default, default, %d, default)",
-                        dateTime, totalPrice, scheduleId);
+                            "(default, %d, %d, default, default, %d, default)",
+                    dateTime, totalPrice, scheduleId);
             fc.executeQuery(addPurchase);
 
             String getPurchaseId = "select * from purchases where available = 1 " +
-                        "order by purchase_id desc fetch next 1 rows only";
+                    "order by purchase_id desc fetch next 1 rows only";
             rs = fc.executeQuery(getPurchaseId);
             rs.next();
             purchaseId = rs.getInt(1);
-
             for (int i = 0; i <  tickets.length(); ++i) {
                 JSONObject ticket = tickets.getJSONObject(i);
                 seatId = ticket.optInt("seatId");
@@ -113,15 +112,15 @@ public class PurchaseController {
                     paymentMethod, currency, purchaseId);
             fc.executeQuery(sqlUpdate);
 
-            float amount = getPurchaseById(purchaseId).getAmount();
-            int scheduleId = getPurchaseById(purchaseId).getScheduleId();
-            int movie_id = (int) ScheduleController.getPurchaseInfo(scheduleId).get("movie_id");
-            int room_id = (int) ScheduleController.getPurchaseInfo(scheduleId).get("room_id");
+            int amount = getPurchaseById(purchaseId).getInt("amount");
+            int scheduleId = getPurchaseById(purchaseId).getInt("schedule_id");
+            int movie_id = ScheduleController.getPurchaseInfo(scheduleId).getInt("movie_id");
+            int room_id = ScheduleController.getPurchaseInfo(scheduleId).getInt("room_id");
 
             String movieName = MovieController.getMovieById(movie_id).getName();
             String roomName = RoomController.getRoomById(room_id).getName();
             JSONArray tickets = TicketController.getBoughtTicketsInfo(purchaseId);
-
+            System.out.println(tickets);
             purchaseData.put("id", purchaseId);
             purchaseData.put("amount", amount);
             purchaseData.put("movieName", movieName);
