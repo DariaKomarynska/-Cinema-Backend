@@ -100,7 +100,6 @@ public class MovieController {
         Function fc = new Function();
         try {
             String sql = "select count(*) from movies where available =1 and movie_id = " + id;
-
             ResultSet rs = fc.executeQuery(sql);
             rs.next();
             if (rs.getInt(1) == 0)
