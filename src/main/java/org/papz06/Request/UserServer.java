@@ -31,7 +31,10 @@ public class UserServer {
             // Check if it exists in data base?
             // Yes
             if (UserController.checkExist(loginData, passAfterHash)) {
-                String JWTToken = Utils.createJWTToken(UserController.getUserFromLogin(loginData), Function.getSecret());
+                String key = Function.getSecret();
+                if (key == null)
+                    return new KeyValue<Integer,String>(502, "Key is not detedted!");
+                String JWTToken = Utils.createJWTToken(UserController.getUserFromLogin(loginData), key);
                 data.put("token", JWTToken);
                 return new KeyValue<>(200, new JSONObject(data).toString());
             }
@@ -57,7 +60,10 @@ public class UserServer {
             }
             String passwordAfterHash = Utils.MD5(passwordData);
             UserController.registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
-            String JWTToken = Utils.createJWTToken(UserController.getUserFromLogin(loginData), Function.getSecret());
+            String key = Function.getSecret();
+            if (key == null)
+                return new KeyValue<Integer,String>(502, "Key is not detedted!");
+            String JWTToken = Utils.createJWTToken(UserController.getUserFromLogin(loginData), key);
             data.put("token", JWTToken);
             return new KeyValue<>(200, new JSONObject(data).toString());
 

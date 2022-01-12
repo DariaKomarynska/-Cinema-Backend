@@ -56,7 +56,7 @@ public class ScheduleServer {
         }
         if (queryParams.containsKey("date")) {
 
-            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
 
             try {
                 date = df1.parse(queryParams.get("date").toUpperCase());
