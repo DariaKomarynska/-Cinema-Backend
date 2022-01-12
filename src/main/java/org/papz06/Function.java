@@ -18,7 +18,7 @@ public class Function {
         // Class.forName("oracle.jdbc.driver.OracleDriver");
         try {
             con = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@194.29.167.132:1521/pdb1.ii.pw.edu.pl", "z06", "t4jzpt");
+                    "jdbc:oracle:thin:@194.29.167.132:1521/pdb1.ii.pw.edu.pl", "z06", System.getenv("KEY_DATA_BASE"));
         } catch (Exception e) {
             System.out.println(e);
         }
