@@ -101,6 +101,7 @@ public class SeatController {
         JSONObject ticket, avSeatInfo;
         int full = 0;
         JSONArray availableSeats = getSeatIdBySchedule(scheduleId);
+        System.out.println(availableSeats);
         for (int i = 0; i <  availableSeats.length(); ++i) {
             avSeatInfo = availableSeats.getJSONObject(i);
             avSeatId = avSeatInfo.getInt("id");
