@@ -52,7 +52,7 @@ public class ScheduleTest {
 
     @Test
     public void testToJsonGeneral() {
-
+        
     }
 
     @Test

@@ -1,13 +1,27 @@
 package org.papz06;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.Scanner;
 
 public class Function {
-    static final private String secret = "SuperScretKey123123";
     Connection con;
 
     public static String getSecret() {
-        return secret;
+        try {
+            File myObj = new File("key.txt");
+            Scanner myReader = new Scanner(myObj);
+            String secret;
+            myReader.hasNextLine();
+            secret = myReader.nextLine();
+            myReader.close();
+            return secret;
+        } catch (FileNotFoundException e){
+            System.out.println("File key is not found!");
+            System.out.println(e);
+        }
+        return null;
     }
 
     public static String getEnv(String key) {
