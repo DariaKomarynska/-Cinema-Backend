@@ -1,5 +1,6 @@
 # Secret key
-key.txt
+.env
+.env_windows
 
 # Compiled class file
 *.class

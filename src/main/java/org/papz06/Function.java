@@ -1,27 +1,12 @@
 package org.papz06;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.*;
-import java.util.Scanner;
 
 public class Function {
     Connection con;
 
     public static String getSecret() {
-        try {
-            File myObj = new File("key.txt");
-            Scanner myReader = new Scanner(myObj);
-            String secret;
-            myReader.hasNextLine();
-            secret = myReader.nextLine();
-            myReader.close();
-            return secret;
-        } catch (FileNotFoundException e){
-            System.out.println("File key is not found!");
-            System.out.println(e);
-        }
-        return null;
+        return System.getenv("KEY");
     }
 
     public static String getEnv(String key) {
@@ -29,7 +14,7 @@ public class Function {
     }
 
     public ResultSet executeQuery(String sql) throws SQLException, ClassNotFoundException {
-//        System.out.println(sql);
+        // System.out.println(sql);
         // Class.forName("oracle.jdbc.driver.OracleDriver");
         try {
             con = DriverManager.getConnection(
@@ -38,7 +23,7 @@ public class Function {
             System.out.println(e);
         }
         Statement stmt = con.createStatement();
-//        String sql = "select * from " + tableName;
+        // String sql = "select * from " + tableName;
         return stmt.executeQuery(sql);
     }
 
