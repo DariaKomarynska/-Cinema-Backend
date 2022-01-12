@@ -4,8 +4,10 @@ package org.papz06.Controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
+import org.papz06.KeyValue;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class SeatController {
 
@@ -54,6 +56,26 @@ public class SeatController {
         return resData;
     }
 
+    public static JSONArray getSeatIdBySchedule(int sch_id) {
+        JSONArray resData = new JSONArray();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String sqlSelect = String.format(
+                    "select seat_id, is_free from get_seats(%d)", sch_id);
+            rs = fc.executeQuery(sqlSelect);
+            while (rs.next()) {
+                JSONObject seat = new JSONObject();
+                seat.put("id", rs.getInt(1));
+                seat.put("isFree", rs.getInt(2) == 1);
+                resData.put(seat);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+        return resData;
+    }
+
     public static JSONObject getSeatById(int id){
         JSONObject seatData = new JSONObject();
         Function fc = new Function();
@@ -72,6 +94,28 @@ public class SeatController {
             System.out.println("Exception: " + e);
         }
         return seatData;
+    }
+
+    public static boolean checkSeats(int scheduleId, JSONArray tickets){
+        int seatId, avSeatId;
+        JSONObject ticket, avSeatInfo;
+        int full = 0;
+        JSONArray availableSeats = getSeatIdBySchedule(scheduleId);
+        System.out.println(availableSeats);
+        for (int i = 0; i <  availableSeats.length(); ++i) {
+            avSeatInfo = availableSeats.getJSONObject(i);
+            avSeatId = avSeatInfo.getInt("id");
+            boolean canSeat = avSeatInfo.getBoolean("isFree");
+            for (int j = 0; j < tickets.length(); ++j){
+                ticket = tickets.getJSONObject(j);
+                seatId = ticket.optInt("seatId");
+                if ((seatId == avSeatId) && canSeat){
+                    ++full;
+                    if (full == tickets.length()) {return true;}
+                }
+            }
+        }
+        return false;
     }
 }
 

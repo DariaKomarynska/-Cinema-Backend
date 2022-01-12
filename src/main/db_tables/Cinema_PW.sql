@@ -202,7 +202,7 @@ begin
     return 1;
 end;
 /
---Function to return status of seats in a schedule
+----Function to return status of seats in a schedule
 create or replace type seat_record as object (
        seat_id number,
        positionx number,
@@ -213,6 +213,8 @@ create or replace type seat_record as object (
 /
 create or replace type seats_table as table of seat_record;
 /
+--create or drop type type seat_record
+--/
 create or replace function get_seats(sch_id number)
 return seats_table
 as

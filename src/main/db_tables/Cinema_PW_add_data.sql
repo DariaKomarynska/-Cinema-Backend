@@ -116,7 +116,7 @@ insert into Tickets values (default, 1, 3, 1, 2, default);
 insert into Tickets values (default, 2, 6, 4, 2, default);
 insert into Tickets values (default, 2, 7, 3, 3, default);
 insert into Tickets values (default, 2, 8, 4, 3, default);
-insert into Tickets values (default, 3, 14, 6, 4, default);
+insert into Tickets values (default, 3, 4, 6, 4, default);
 commit;
 -------------------------
 
