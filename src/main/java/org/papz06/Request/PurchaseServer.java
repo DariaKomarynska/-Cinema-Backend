@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.papz06.Controllers.PurchaseController;
 import org.papz06.Controllers.ScheduleController;
 import org.papz06.Controllers.SeatController;
+import org.papz06.Controllers.TicketController;
 import org.papz06.KeyValue;
 import org.papz06.Utils;
 
@@ -60,20 +61,20 @@ public class PurchaseServer {
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String paymentMethod = retMap.get("paymentMethod");
         String currency = retMap.get("currency");
-        System.out.println("hello20");
         if (!PurchaseController.checkExist(id)){
             return new KeyValue<>(400, "");
         }
-        System.out.println("helloo30");
         if(PurchaseController.isStringEmpty(paymentMethod)){
             return new KeyValue<>(400, "");
         }
-        System.out.println("hello4000");
         if(PurchaseController.isStringEmpty(currency)){
             return new KeyValue<>(400, "");
         }
-        System.out.println("hello5050");
         JSONObject result = PurchaseController.acceptPayment(id, paymentMethod, currency);
+        if (result == null){
+            TicketController.deleteTicket(id);
+            return new KeyValue<>(400, "");
+        }
         return new KeyValue<>(200, result.toString());
     }
 }

@@ -48,8 +48,8 @@ public class TicketController {
             rs = fc.executeQuery(query);
             while (rs.next()) {
                 JSONObject seatInfo = new JSONObject();
-                seatInfo.put("seat_id", rs.getInt(3));
-                seatInfo.put("ticketType_id", rs.getInt(4));
+                seatInfo.put("seat_id", rs.getInt(1));
+                seatInfo.put("ticketType_id", rs.getInt(2));
                 seatsList.put(seatInfo);
             }
             fc.closeQuery();
@@ -80,5 +80,17 @@ public class TicketController {
         return tickets;
     }
 
-    public static boolean checkTicketExist(JSONArray tickets){return true;}
+    public static void deleteTicket(int purchase_id) {
+        JSONArray seatsList = new JSONArray();
+        Function fc = new Function();
+        ResultSet rs;
+        try {
+            String query = String.format(
+                    "update tickets set available = 0 where purchase_id = %d", purchase_id);
+            fc.executeQuery(query);
+            fc.closeQuery();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+    }
 }
