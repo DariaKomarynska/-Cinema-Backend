@@ -16,7 +16,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieList(int cinema_id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Returns list of movies in the cinema.
          */
         JSONArray result = MovieController.getMovieList(cinema_id);
@@ -28,7 +28,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieCreate(String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Creates new movie.
          */
         JSONObject result = null;
@@ -54,7 +54,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieDetails(int id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Returns movie details.
          */
         Movie result = MovieController.getMovieById(id);
@@ -66,7 +66,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieUpdate(int id, String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Updates movie object.
          */
         JSONObject result = null;
@@ -92,7 +92,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieDelete(int id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Deletes movie object.
          */
         if (MovieController.deleteMovie(id))
@@ -103,7 +103,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieCategoryList(int cinema_id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Returns list of movie categories in the cinema.
          */
         return new KeyValue<>(200, MovieCategoryController.getListCategory(cinema_id).toString());
@@ -112,7 +112,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieCategoryCreate(String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Creates new movie category.
          */
         JSONObject result = null;
@@ -133,7 +133,7 @@ public class MovieServer {
     public static KeyValue<Integer, String> MovieCategoryUpdate(int id, String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Updates movie category object.
          */
         JSONObject result = null;

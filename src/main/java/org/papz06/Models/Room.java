@@ -15,8 +15,8 @@ public class Room {
         this.cinemaId = cinemaId;
     }
 
-    public int getSeatNumber(){
-        return rowsNumber*seatsInRowNumber;
+    public int getSeatNumber() {
+        return rowsNumber * seatsInRowNumber;
     }
 
     public Room() {

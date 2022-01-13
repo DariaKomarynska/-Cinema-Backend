@@ -11,8 +11,10 @@ import java.util.Map;
 public class CinemaServer {
 
     public static KeyValue<Integer, String> CinemaList() {
-        /* GET
-         Return list of cinemas managed by the user
+        /*
+         * Authentication: JWT Token
+         *
+         * Returns list of cinemas managed by the user
          */
         JSONArray result = CinemaController.getCinemaData();
         return new KeyValue<>(200, result.toString());
@@ -20,8 +22,10 @@ public class CinemaServer {
 
 
     public static KeyValue<Integer, String> CinemaCreate(String requestBody) {
-        /*POST
-         Create new cinema
+        /*
+         * Authentication: JWT Token
+         *
+         * Creates new cinema
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         int newManagerId = Integer.parseInt(retMap.get("manager_id"));
@@ -44,8 +48,9 @@ public class CinemaServer {
 
     public static KeyValue<Integer, String> CinemaDetails(Integer id) {
         /*
-         * GET
-         * Return cinema details
+         * Authentication: JWT Token
+         *
+         * Returns cinema details
          */
         if (!CinemaController.checkExist(id)) {
             return new KeyValue<>(404, "");
@@ -56,7 +61,8 @@ public class CinemaServer {
 
     public static KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
         /*
-         * PATCH
+         * Authentication: JWT Token
+         *
          * Update data about cinema
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
@@ -77,7 +83,8 @@ public class CinemaServer {
 
     public static KeyValue<Integer, String> CinemaDelete(Integer id) {
         /*
-         * DELETE
+         * Authentication: JWT Token
+         *
          * Deletes cinema object.
          */
         if (!CinemaController.checkExist(id)) {
@@ -87,22 +94,26 @@ public class CinemaServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> AnalyticsDetail(){
+    public static KeyValue<Integer, String> AnalyticsDetail() {
         /*
-        Get analytic data in cinemas
+         * Authentication: JWT Token
+         *
+         * Get analytic data in cinemas
          */
-        JSONArray result = null;
+        JSONArray result;
         result = CinemaController.getAnalytics();
         if (result == null)
             return new KeyValue<>(400, "");
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> StatisticDetail(){
+    public static KeyValue<Integer, String> StatisticDetail() {
         /*
-        Get statistic of income
+         * Authentication: JWT Token
+         *
+         * Get statistic of income
          */
-        JSONObject result = null;
+        JSONObject result;
         result = CinemaController.getStatistic();
         if (result == null)
             return new KeyValue<>(400, "");

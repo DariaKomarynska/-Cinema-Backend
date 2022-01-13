@@ -23,18 +23,22 @@ public class PurchaseServer {
          * ticketTypeId: number;
          */
         Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
-        int scheduleId =  ((Double) retMap.get("scheduleId")).intValue();
+        int scheduleId = ((Double) retMap.get("scheduleId")).intValue();
         JSONObject jsonRequest = new JSONObject(requestBody);
         JSONArray tickets = jsonRequest.getJSONArray("tickets");
 
-        if(!SeatController.checkSeats(scheduleId, tickets)){
-            return new KeyValue<>(455, "");}
-        if (!ScheduleController.checkExist(scheduleId)){
-            return new KeyValue<>(400, "");}
-        if (tickets == null){
-            return new KeyValue<>(400, "");}
-        if (tickets.length() == 0){
-            return new KeyValue<>(400, "");}
+        if (!SeatController.checkSeats(scheduleId, tickets)) {
+            return new KeyValue<>(455, "");
+        }
+        if (!ScheduleController.checkExist(scheduleId)) {
+            return new KeyValue<>(400, "");
+        }
+        if (tickets == null) {
+            return new KeyValue<>(400, "");
+        }
+        if (tickets.length() == 0) {
+            return new KeyValue<>(400, "");
+        }
         JSONObject result = PurchaseController.createPurchase(scheduleId, tickets);
         return new KeyValue<>(200, result.toString());
     }
@@ -60,20 +64,20 @@ public class PurchaseServer {
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String paymentMethod = retMap.get("paymentMethod");
         String currency = retMap.get("currency");
-        if (!PurchaseController.checkExist(id)){
+        if (!PurchaseController.checkExist(id)) {
             return new KeyValue<>(400, "");
         }
-        if(PurchaseController.isStringEmpty(paymentMethod)){
+        if (PurchaseController.isStringEmpty(paymentMethod)) {
             return new KeyValue<>(400, "");
         }
-        if(PurchaseController.isStringEmpty(currency)){
+        if (PurchaseController.isStringEmpty(currency)) {
             return new KeyValue<>(400, "");
         }
-        if(PurchaseController.checkAlreadyAccepted(id)){
+        if (PurchaseController.checkAlreadyAccepted(id)) {
             return new KeyValue<>(400, "");
         }
         JSONObject result = PurchaseController.acceptPayment(id, paymentMethod, currency);
-        if (result == null){
+        if (result == null) {
             TicketController.deleteTicket(id);
             return new KeyValue<>(400, "");
         }

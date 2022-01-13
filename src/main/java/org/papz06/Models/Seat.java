@@ -13,9 +13,6 @@ public class Seat {
         this.available = available;
     }
 
-    public Seat() {
-    }
-
     @Override
     public String toString() {
         return id + " " + roomId
@@ -28,7 +25,4 @@ public class Seat {
         return id;
     }
 
-    public int getRoomId() {
-        return roomId;
-    }
 }

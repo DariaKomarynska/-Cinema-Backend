@@ -12,9 +12,6 @@ public class TicketType {
         this.cinemaId = cinemaId;
     }
 
-    public TicketType() {
-    }
-
     public Integer getId() {
         return id;
     }

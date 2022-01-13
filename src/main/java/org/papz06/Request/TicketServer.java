@@ -20,7 +20,7 @@ public class TicketServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> TicketTypeCreate (String requestBody) {
+    public static KeyValue<Integer, String> TicketTypeCreate(String requestBody) {
         /**
          * POST
          * Creates new ticket type. Request body:
@@ -37,7 +37,7 @@ public class TicketServer {
             return new KeyValue<>(400, "");
         if (!CinemaController.checkExist(cinemaId))
             return new KeyValue<>(400, "");
-        if (TicketTypeController.isNameEmpty(name)) 
+        if (TicketTypeController.isNameEmpty(name))
             return new KeyValue<>(400, "");
         if (TicketTypeController.isPriceNegative(price))
             return new KeyValue<>(400, "");
@@ -46,7 +46,7 @@ public class TicketServer {
     }
 
 
-    public static KeyValue<Integer, String> TicketTypeUpdate (int id, String requestBody) {
+    public static KeyValue<Integer, String> TicketTypeUpdate(int id, String requestBody) {
         /**
          * PATCH
          * Updates ticket type object.
@@ -59,16 +59,18 @@ public class TicketServer {
 
         if (TicketTypeController.notExist(id)) {
             return new KeyValue<>(404, "");
-        } if (TicketTypeController.isNameEmpty(name)) {
+        }
+        if (TicketTypeController.isNameEmpty(name)) {
             return new KeyValue<>(400, "");
-        } if (TicketTypeController.isPriceNegative(price)) {
+        }
+        if (TicketTypeController.isPriceNegative(price)) {
             return new KeyValue<>(400, "");
         }
         JSONObject result = TicketTypeController.updateTicketType(id, name, price);
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> TicketTypeDelete (int id) {
+    public static KeyValue<Integer, String> TicketTypeDelete(int id) {
         /**
          * DELETE
          * Deletes ticket type.

@@ -139,8 +139,7 @@ public class Utils {
             if (rootobj.get("status").getAsString().trim().contains("OK")) {
                 return rootobj.get("results").getAsJsonArray().get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject().toString();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return "";

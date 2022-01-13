@@ -11,9 +11,6 @@ public class Ticket {
         this.scheduleId = scheduleId;
     }
 
-    public Ticket() {
-    }
-
     @Override
     public String toString() {
         return id + " " + purchaseId

@@ -50,7 +50,7 @@ public class UserServer {
     public static KeyValue<Integer, String> Registration(String requestBody) {
         /*
          * Authentication: None
-         * 
+         *
          * Creates new user. Returns authentication JWT token if successfull.
          */
         Map<String, String> data = new HashMap<>();
@@ -87,7 +87,7 @@ public class UserServer {
     public static KeyValue<Integer, String> UserList() {
         /*
          * Authentication: None
-         * 
+         *
          * Creates new user. Returns authentication JWT token if successfull.
          */
         JSONArray result = UserController.getAllUser();
@@ -97,7 +97,7 @@ public class UserServer {
     public static KeyValue<Integer, String> UserDetail(int id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Returns user details.
          */
         try {
@@ -111,7 +111,7 @@ public class UserServer {
     public static KeyValue<Integer, String> UserCreate(String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Create a new user.
          */
         JSONObject response = new JSONObject();

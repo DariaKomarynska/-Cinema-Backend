@@ -3,6 +3,7 @@ package org.papz06.Request;
 // import com.google.gson.Gson;
 // import com.google.gson.reflect.TypeToken;
 // import org.json.JSONArray;
+
 import org.json.JSONObject;
 // import org.papz06.Controllers.RoomController;
 import org.papz06.KeyValue;
@@ -23,7 +24,7 @@ public class ScheduleServer {
     public static KeyValue<Integer, String> ScheduleList(Map<String, String> queryParams) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Returns list of scheduled events in the cinema, ordered by datetime, filtered
          * by sale, film, room, date.
          * When method = "GET", Request Data => Query Parameters
@@ -72,7 +73,7 @@ public class ScheduleServer {
     public static KeyValue<Integer, String> ScheduleDetails(int id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Returns scheduled event details.
          */
         JSONObject result = null;
@@ -85,7 +86,7 @@ public class ScheduleServer {
     public static KeyValue<Integer, String> ScheduleCreate(String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Creates new schedule event.
          */
         JSONObject result = null;
@@ -118,7 +119,7 @@ public class ScheduleServer {
     public static KeyValue<Integer, String> ScheduleUpdate(int id, String requestBody) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Creates new schedule event.
          */
         JSONObject result = null;
@@ -152,7 +153,7 @@ public class ScheduleServer {
     public static KeyValue<Integer, String> ScheduleDelete(int id) {
         /*
          * Authentication: JWT Token
-         * 
+         *
          * Deletes scheduled event.
          */
         if (ScheduleController.deleteSchedule(id))

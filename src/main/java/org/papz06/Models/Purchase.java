@@ -27,32 +27,9 @@ public class Purchase {
         this.scheduleId = scheduleId;
     }
 
-    public Purchase () {
-
-    }
 
     public int getId() {
         return id;
-    }
-
-    public String getDateTime() {
-        return datetime.toString();
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public String getCurrency(){
-        return currency;
-    }
-
-    public int getScheduleId() {
-        return scheduleId;
     }
 
     @Override

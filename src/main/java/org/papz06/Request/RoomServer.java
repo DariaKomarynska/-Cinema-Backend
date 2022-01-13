@@ -12,8 +12,8 @@ import java.util.Map;
 public class RoomServer {
     public static KeyValue<Integer, String> RoomList(int cinema_id) {
         /**
-          GET
-           Returns list of rooms in the cinema.
+         GET
+         Returns list of rooms in the cinema.
          */
         JSONArray result = RoomController.getRoomListByCinema(cinema_id);
         return new KeyValue<>(200, result.toString());
@@ -38,7 +38,7 @@ public class RoomServer {
             return new KeyValue<>(400, "");
         } else if (RoomController.isNameEmpty(newRoomName)) {
             return new KeyValue<>(400, "");
-        }else if (!CinemaController.checkExist(newCinemaId)){
+        } else if (!CinemaController.checkExist(newCinemaId)) {
             return new KeyValue<>(400, "");
         }
 
@@ -75,7 +75,7 @@ public class RoomServer {
         if (!RoomController.checkExist(id)) {
             return new KeyValue<>(404, "");
         } else if (RoomController.isNameEmpty(roomName)) {
-                return new KeyValue<>(400, "");
+            return new KeyValue<>(400, "");
         }
         JSONObject result = RoomController.updateRoomData(id, roomName, rowsNumber, seatsInRowNumber);
         return new KeyValue<>(200, result.toString());

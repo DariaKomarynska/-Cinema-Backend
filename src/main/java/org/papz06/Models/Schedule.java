@@ -1,6 +1,7 @@
 package org.papz06.Models;
 
 import java.util.Date;
+
 import org.json.JSONObject;
 import org.papz06.Controllers.MovieController;
 import org.papz06.Controllers.RoomController;
@@ -62,8 +63,6 @@ public class Schedule {
         this.seatLeft = this.room.getSeatNumber();
     }
 
-    public Schedule() {
-    }
 
     public JSONObject toJsonGeneral() {
         JSONObject result = new JSONObject();
@@ -89,7 +88,7 @@ public class Schedule {
         return result;
     }
 
-    public JSONObject toJsonDetails(){
+    public JSONObject toJsonDetails() {
         JSONObject result = new JSONObject();
         result.put("id", id);
         result.put("datetime", datetime);

@@ -26,9 +26,6 @@ public class Movie {
         this.movieCateId = movieCateId;
     }
 
-    public Movie() {
-    }
-
     public int getId() {
         return id;
     }
