@@ -18,6 +18,9 @@ import static org.papz06.Utils.addressDecoding;
 public class CinemaController {
 
     public static List<Cinema> getCinemasList() {
+        /*
+        Get list with data of all Cinema objects
+         */
         List<Cinema> cinemasList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
@@ -41,6 +44,9 @@ public class CinemaController {
     }
 
     public static JSONArray getCinemaData() {
+        /*
+        Get data about all cinemas
+         */
         JSONArray resultData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -66,6 +72,9 @@ public class CinemaController {
     }
 
     public static JSONObject getCinemaById(Integer id) {
+        /*
+        Get cinema data by id
+         */
         JSONObject cinemaData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -90,6 +99,9 @@ public class CinemaController {
     }
 
     public static JSONObject getCinemaByName(String newName) {
+        /*
+        Get cinema data by cinema name
+         */
         Function fc = new Function();
         JSONObject cinemaData = new JSONObject();
         ResultSet rs;
@@ -106,7 +118,7 @@ public class CinemaController {
                 cinemaData.put("phoneNumber", rs.getString(4));
                 cinemaData.put("email", rs.getString(5));
                 cinemaData.put("address", rs.getString(6));
-                System.out.println(cinemaData.toString());
+                System.out.println(cinemaData);
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -116,7 +128,10 @@ public class CinemaController {
     }
 
     public static JSONObject insertNewCinema(int managerId, String newName, String website, String phoneNumber,
-            String email, String address) {
+                                             String email, String address) {
+        /*
+        Create new cinema
+         */
         Function fc = new Function();
         try {
             String sqlInsert = String.format(
@@ -130,8 +145,11 @@ public class CinemaController {
         return getCinemaByName(newName);
     }
 
-    public static JSONObject updateCinemaName(Integer id, int managerId, String newName, String website,
-            String phoneNumber, String email, String address) {
+    public static JSONObject updateCinemaData(Integer id, int managerId, String newName, String website,
+                                              String phoneNumber, String email, String address) {
+        /*
+        Update data of existing cinema
+         */
         Function fc = new Function();
         try {
             String sqlUpdate = String.format(
@@ -146,6 +164,10 @@ public class CinemaController {
     }
 
     public static JSONObject deleteCinema(Integer id) {
+        /*
+        Delete cinema from database
+        set available to 0
+         */
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update cinemas set available = 0 where cinema_id = %d", id);
@@ -158,6 +180,9 @@ public class CinemaController {
     }
 
     public static boolean checkExist(Integer id) {
+        /*
+        Check whether cinema exists by id
+         */
         for (Cinema cin : getCinemasList()) {
             if (cin.getId().equals(id))
                 return true;
@@ -166,6 +191,9 @@ public class CinemaController {
     }
 
     public static boolean checkExist(String name) {
+        /*
+        Check whether cinema exists by name
+         */
         for (Cinema cin : getCinemasList()) {
             if (cin.getName().equals(name))
                 return true;
@@ -174,10 +202,17 @@ public class CinemaController {
     }
 
     public static boolean sizeNewNameCinema(String newName) {
+        /*
+        Check size of cinema name to prevent empty name
+         */
         return newName.length() != 0;
     }
 
     public static JSONArray getAnalytics() {
+        /*
+        Get data for cinemas about number of purchases, link to number of schedules
+        in certain time
+         */
         JSONArray dataList = new JSONArray();
         Function fc = new Function();
         DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -208,6 +243,10 @@ public class CinemaController {
     }
 
     public static JSONObject getStatistic() {
+        /*
+        Get data about daily income connected to purchase and schedules
+        in cinemas
+         */
         JSONObject data = new JSONObject();
         Function fc = new Function();
         ResultSet rs;

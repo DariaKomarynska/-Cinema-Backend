@@ -3,40 +3,15 @@ package org.papz06.Controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
-import org.papz06.Models.Ticket;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 public class TicketController {
-    ArrayList<Ticket> ticketList = new ArrayList<>();
-
-    public TicketController() {
-        Function fc = new Function();
-        ResultSet rs;
-        try {
-            rs = fc.executeQuery("select * from tickets");
-            while (rs.next()) {
-                ticketList.add(
-                        new Ticket(rs.getInt(1),
-                                rs.getInt(2),
-                                rs.getInt(3),
-                                rs.getInt(4),
-                                rs.getInt(5)));
-            }
-            fc.closeQuery();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    public void displayTicketList() {
-        for (Ticket tck : ticketList) {
-            System.out.println(tck.toString());
-        }
-    }
 
     public static JSONArray getSeatsInfo(int purchase_id) {
+        /*
+        Get information about seats
+         */
         JSONArray seatsList = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -58,6 +33,9 @@ public class TicketController {
     }
 
     public static JSONArray getBoughtTicketsInfo(int purchaseId) {
+        /*
+        Get already bought tickets data - all not deleted tickets
+         */
         JSONArray seatsInfo = TicketController.getSeatsInfo(purchaseId);
         JSONObject seatInfo = new JSONObject();
         JSONArray tickets = new JSONArray();
@@ -66,11 +44,13 @@ public class TicketController {
         String ticketTypeName;
         int seat_id, ticketType_id;
         for (int i = 0; i < seatsInfo.length(); ++i) {
+            // get data for one seat
             seatInfo = seatsInfo.getJSONObject(i);
             seat_id = seatInfo.getInt("seat_id");
             ticketType_id = seatInfo.getInt("ticketType_id");
             seatPos = SeatController.getSeatById(seat_id);
             ticketTypeName = TicketTypeController.getTicketTypeById(ticketType_id).getString("name");
+            // put seat data to ticket
             ticketInfo.put("seat", seatPos);
             ticketInfo.put("ticketTypeName", ticketTypeName);
             tickets.put(ticketInfo);
@@ -79,6 +59,9 @@ public class TicketController {
     }
 
     public static void deleteTicket(int purchase_id) {
+        /*
+        Delete ticket by setting available to 0
+         */
         Function fc = new Function();
         try {
             String query = String.format(

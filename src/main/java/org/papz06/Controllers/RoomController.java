@@ -12,6 +12,9 @@ import java.util.List;
 public class RoomController {
 
     public static JSONArray getRoomListByCinema(int id) {
+        /*
+        Get list of rooms in cinema
+         */
         JSONArray resultData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -32,7 +35,9 @@ public class RoomController {
     }
 
     public static JSONObject getRoomWithSeatsById(Integer id, boolean withSeats) {
-        // Room Details
+        /*
+        Get room id details with or without seats for the room
+         */
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -54,7 +59,9 @@ public class RoomController {
     }
 
     public static Room getRoomById(Integer id) {
-        // Room Details
+        /*
+        Get room data by id
+         */
         Room roomData = new Room();
         Function fc = new Function();
         ResultSet rs;
@@ -76,6 +83,9 @@ public class RoomController {
     }
 
     public static JSONObject getRoomWithCinemaById(int id) {
+        /*
+        Room details by id
+         */
         JSONObject roomData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -95,6 +105,9 @@ public class RoomController {
     }
 
     public static JSONObject insertNewRoom(String newRoomName, int rowsNumber, int seatsInRowNumber, int newCinemaId) {
+        /*
+        Create new room
+         */
         Function fc = new Function();
         ResultSet rs;
         int roomId = 0;
@@ -109,10 +122,14 @@ public class RoomController {
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
+        // data about new room
         return getRoomWithCinemaById(roomId);
     }
 
     public static JSONObject updateRoomData(Integer id, String newName, int rowsNumber, int seatsInRowNumber) {
+        /*
+        Update existing room data
+         */
         Function fc = new Function();
         try {
             String sqlUpdate = String.format(
@@ -127,6 +144,9 @@ public class RoomController {
     }
 
     public static JSONObject deleteRoom(Integer id) {
+        /*
+        Delete room by setting available to 0
+         */
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update rooms set available = 0 where room_id = %d", id);
@@ -139,6 +159,9 @@ public class RoomController {
     }
 
     public static List<Room> getRoomList() {
+        /*
+        Get list of room objects
+         */
         List<Room> roomsList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
@@ -162,10 +185,12 @@ public class RoomController {
     }
 
     public static boolean isNameEmpty(String newName) {
+        // check whether string is empty
         return newName.length() == 0;
     }
 
     public static boolean checkExist(String name, int cinemaId) {
+        // check whether room exists
         for (Room rm : getRoomList()) {
             if (rm.getCinemaId().equals(cinemaId))
                 if (rm.getName().equals(name))
@@ -175,6 +200,7 @@ public class RoomController {
     }
 
     public static boolean checkExist(Integer id) {
+        // check whether room exists
         for (Room rm : getRoomList()) {
             if (rm.getId().equals(id))
                 return true;

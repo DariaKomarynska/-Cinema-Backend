@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class TicketTypeController {
 
     public static ArrayList<TicketType> getAllTicketTypeList() {
+        /*
+        Get list of all ticket types
+         */
         ArrayList<TicketType> ticketTypeList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
@@ -31,6 +34,9 @@ public class TicketTypeController {
     }
 
     public static JSONArray getTicketTypes(int cinemaId) {
+        /*
+        Get ticket types in certain cinema
+         */
         JSONArray resultData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -54,6 +60,9 @@ public class TicketTypeController {
     }
 
     public static JSONObject getTicketTypeById(int id) {
+        /*
+        Get ticket type data by id
+         */
         JSONObject tckTypeData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -74,13 +83,18 @@ public class TicketTypeController {
     }
 
     public static JSONObject insertNewTicketType(String name, int price, int cinemaId) {
+        /*
+        Create new ticket type
+         */
         Function fc = new Function();
         ResultSet rs;
         int tckTypeID = 0;
         try {
+            // insert new ticket type
             String sqlInsert = String.format("insert into TicketTypes values (default, '%s', %d, %d, default)",
                     name, price, cinemaId);
             fc.executeQuery(sqlInsert);
+            // get more data of just created ticket type
             rs = fc.executeQuery(
                     "select * from TicketTypes where available = 1 order by ticketType_id desc fetch next 1 rows only");
             rs.next();
@@ -93,6 +107,9 @@ public class TicketTypeController {
     }
 
     public static JSONObject updateTicketType(int id, String name, int price) {
+        /*
+        Update existing ticket type
+         */
         Function fc = new Function();
         try {
             String sqlUpdate = String.format(
@@ -107,6 +124,9 @@ public class TicketTypeController {
     }
 
     public static JSONObject deleteTicketType(int id) {
+        /*
+        Delete ticket type by setting available to 0
+         */
         Function fc = new Function();
         try {
             String sqlDelete = String.format("update TicketTypes set available = 0 where ticketType_id = %d", id);
@@ -119,6 +139,7 @@ public class TicketTypeController {
     }
 
     public static boolean checkExist(String name, int cinemaId) {
+        // check whether ticket type exists in certain cinema
         for (TicketType tckType : getAllTicketTypeList()) {
             if (tckType.getCinemaId().equals(cinemaId))
                 if (tckType.getName().equals(name))
@@ -128,6 +149,7 @@ public class TicketTypeController {
     }
 
     public static boolean notExist(int id) {
+        // check whether ticket type exists by id
         for (TicketType tckType : getAllTicketTypeList()) {
             if (tckType.getId().equals(id)) {
                 return false;
@@ -145,6 +167,9 @@ public class TicketTypeController {
     }
 
     public static int getPriceById(int id) {
+        /*
+        Get price of ticket type by id
+         */
         Function fc = new Function();
         ResultSet rs;
         int resPrice = 0;

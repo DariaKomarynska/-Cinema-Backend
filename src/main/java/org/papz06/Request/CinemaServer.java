@@ -11,18 +11,18 @@ import java.util.Map;
 public class CinemaServer {
 
     public static KeyValue<Integer, String> CinemaList() {
-        /** GET
-         Returns list of cinemas managed by the user.
-         **/
+        /* GET
+         Return list of cinemas managed by the user
+         */
         JSONArray result = CinemaController.getCinemaData();
         return new KeyValue<>(200, result.toString());
     }
 
 
     public static KeyValue<Integer, String> CinemaCreate(String requestBody) {
-        /** POST
-         Creates new cinema.
-         **/
+        /*POST
+         Create new cinema
+         */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         int newManagerId = Integer.parseInt(retMap.get("manager_id"));
         System.out.println(newManagerId);
@@ -43,9 +43,9 @@ public class CinemaServer {
 
 
     public static KeyValue<Integer, String> CinemaDetails(Integer id) {
-        /**
+        /*
          * GET
-         * Returns cinema details.
+         * Return cinema details
          */
         if (!CinemaController.checkExist(id)) {
             return new KeyValue<>(404, "");
@@ -55,7 +55,7 @@ public class CinemaServer {
     }
 
     public static KeyValue<Integer, String> CinemaUpdate(Integer id, String requestBody) {
-        /**
+        /*
          * PATCH
          * Update data about cinema
          */
@@ -72,12 +72,12 @@ public class CinemaServer {
         } else if (!CinemaController.checkExist(id)) {
             return new KeyValue<>(404, "");
         }
-        JSONObject result = CinemaController.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
+        JSONObject result = CinemaController.updateCinemaData(id, newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
         return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> CinemaDelete(Integer id) {
-        /**
+        /*
          * DELETE
          * Deletes cinema object.
          */
@@ -89,6 +89,9 @@ public class CinemaServer {
     }
 
     public static KeyValue<Integer, String> AnalyticsDetail(){
+        /*
+        Get analytic data in cinemas
+         */
         JSONArray result = null;
         result = CinemaController.getAnalytics();
         if (result == null)
@@ -97,6 +100,9 @@ public class CinemaServer {
     }
 
     public static KeyValue<Integer, String> StatisticDetail(){
+        /*
+        Get statistic of income
+         */
         JSONObject result = null;
         result = CinemaController.getStatistic();
         if (result == null)
