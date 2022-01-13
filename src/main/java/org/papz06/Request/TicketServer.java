@@ -12,8 +12,9 @@ import java.util.Map;
 public class TicketServer {
 
     public static KeyValue<Integer, String> TicketTypesList(int cinema_id) {
-        /**
-         * GET
+        /*
+         * Authentication: JWT Token
+         *
          * Returns list with data about ticket types in the cinema.
          */
         JSONArray result = TicketTypeController.getTicketTypes(cinema_id);
@@ -21,12 +22,10 @@ public class TicketServer {
     }
 
     public static KeyValue<Integer, String> TicketTypeCreate(String requestBody) {
-        /**
-         * POST
-         * Creates new ticket type. Request body:
-         * name: string;
-         * price: number;
-         * cinemaId: number;
+        /*
+         * Authentication: JWT Token
+         *
+         * Creates new ticket type.
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String name = retMap.get("name");
@@ -47,11 +46,10 @@ public class TicketServer {
 
 
     public static KeyValue<Integer, String> TicketTypeUpdate(int id, String requestBody) {
-        /**
-         * PATCH
+        /*
+         * Authentication: JWT Token
+         *
          * Updates ticket type object.
-         * name: string;
-         * price: number;
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String name = retMap.get("name");
@@ -71,8 +69,9 @@ public class TicketServer {
     }
 
     public static KeyValue<Integer, String> TicketTypeDelete(int id) {
-        /**
-         * DELETE
+        /*
+         * Authentication: JWT Token
+         *
          * Deletes ticket type.
          */
         if (TicketTypeController.notExist(id)) {

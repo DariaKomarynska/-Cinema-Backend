@@ -14,13 +14,10 @@ import java.util.Map;
 public class PurchaseServer {
 
     public static KeyValue<Integer, String> PurchaseCreate(String requestBody) {
-        /**
-         * POST
-         * Create new purchase. Request body:
-         * scheduleId: number;
-         * tickets: Array<{
-         * seatId: number;
-         * ticketTypeId: number;
+        /*
+         * Authentication: JWT Token
+         *
+         * Create new purchase.
          */
         Map<String, Object> retMap = Utils.parseRequestBody(requestBody);
         int scheduleId = ((Double) retMap.get("scheduleId")).intValue();
@@ -44,22 +41,10 @@ public class PurchaseServer {
     }
 
     public static KeyValue<Integer, String> PaymentAccepted(int id, String requestBody) {
-        /**
-         * PATCH
-         * Accept purchase. Request body:
-         * paymentMethod: String;
-         * currency: String
+        /*
+         * Authentication: JWT Token
          *
-         * Result:
-         * id: number;
-         * amount: number;
-         * movieName: string;
-         * roomName: string;
-         * tickets: Array<{
-         *      seat: {positionX: number;
-         *             positionY: number;
-         *             type: string;};
-         *      ticketTypeName: string;}>;
+         * Accept purchase
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String paymentMethod = retMap.get("paymentMethod");
@@ -76,7 +61,9 @@ public class PurchaseServer {
         if (PurchaseController.checkAlreadyAccepted(id)) {
             return new KeyValue<>(400, "");
         }
+        // Accept payment
         JSONObject result = PurchaseController.acceptPayment(id, paymentMethod, currency);
+        // If payment was not accepted - delete already created ticket
         if (result == null) {
             TicketController.deleteTicket(id);
             return new KeyValue<>(400, "");

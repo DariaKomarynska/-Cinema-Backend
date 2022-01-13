@@ -28,13 +28,13 @@ public class UserServer {
             String loginData = retMap.get("login");
             String passwordData = retMap.get("password");
             String passAfterHash = Utils.MD5(passwordData);
-            // Check if it exists in data base?
+            // Check if it exists in database?
             if (UserController.checkExist(loginData, passAfterHash)) {
                 // Yes
-                // Get key from eviroment
+                // Get key from environment
                 String key = Function.getSecret();
                 if (key == null)
-                    return new KeyValue<Integer, String>(502, "Key is not detedted!");
+                    return new KeyValue<Integer, String>(502, "Key is not detected!");
                 // Create token and return
                 String JWTToken = Utils.createJWTToken(UserController.getUserFromLogin(loginData), key);
                 data.put("token", JWTToken);
@@ -51,7 +51,7 @@ public class UserServer {
         /*
          * Authentication: None
          *
-         * Creates new user. Returns authentication JWT token if successfull.
+         * Creates new user. Returns authentication JWT token if successful.
          */
         Map<String, String> data = new HashMap<>();
         try {
@@ -67,13 +67,13 @@ public class UserServer {
                 data.put("token", "User's already existed!");
                 return new KeyValue<>(453, new JSONObject(data).toString());
             }
-            // Hash password and put to data base
+            // Hash password and put to database
             String passwordAfterHash = Utils.MD5(passwordData);
             UserController.registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
             // Get key and create token, return data
             String key = Function.getSecret();
             if (key == null)
-                return new KeyValue<Integer, String>(502, "Key is not detedted!");
+                return new KeyValue<>(502, "Key is not detected!");
             String JWTToken = Utils.createJWTToken(UserController.getUserFromLogin(loginData), key);
             data.put("token", JWTToken);
             return new KeyValue<>(200, new JSONObject(data).toString());
@@ -88,7 +88,7 @@ public class UserServer {
         /*
          * Authentication: None
          *
-         * Creates new user. Returns authentication JWT token if successfull.
+         * Creates new user. Returns authentication JWT token if successful.
          */
         JSONArray result = UserController.getAllUser();
         return new KeyValue<>(200, result.toString());
@@ -128,7 +128,7 @@ public class UserServer {
                 return new KeyValue<>(400, "");
             }
             String passwordAfterHash = Utils.MD5(passwordData);
-            // Put into data base and return
+            // Put into database and return
             UserController.registerUser(new User(firstName, lastName, loginData, passwordAfterHash));
             User new_us = UserController.getUserFromLogin(loginData);
             response.put("login", loginData);

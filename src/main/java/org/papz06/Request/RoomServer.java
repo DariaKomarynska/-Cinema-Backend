@@ -11,22 +11,19 @@ import java.util.Map;
 
 public class RoomServer {
     public static KeyValue<Integer, String> RoomList(int cinema_id) {
-        /**
-         GET
-         Returns list of rooms in the cinema.
+        /*
+         * Authentication: JWT Token
+         * Returns list of rooms in the cinema.
          */
         JSONArray result = RoomController.getRoomListByCinema(cinema_id);
         return new KeyValue<>(200, result.toString());
     }
 
     public static KeyValue<Integer, String> RoomCreate(String requestBody) {
-        /**
-         * POST
-         * Create new room. Request body:
-         * name: string;
-         * rowsNumber: number;
-         * seatsInRowNumber: number;
-         * cinemaId: number;
+        /*
+         * Authentication: JWT Token
+         *
+         * Create new room.
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String newRoomName = retMap.get("name");
@@ -48,8 +45,9 @@ public class RoomServer {
 
 
     public static KeyValue<Integer, String> RoomDetails(int id) {
-        /**
-         * GET
+        /*
+         * Authentication: JWT Token
+         *
          * Returns room details.
          */
 
@@ -61,12 +59,10 @@ public class RoomServer {
     }
 
     public static KeyValue<Integer, String> RoomUpdate(int id, String requestBody) {
-        /**
-         * PATCH
+        /*
+         * Authentication: JWT Token
+         *
          * Updates room object.
-         * name: string;
-         * rowsNumber: number;
-         * seatsInRowNumber: number;
          */
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         String roomName = retMap.get("name");
@@ -82,8 +78,9 @@ public class RoomServer {
     }
 
     public static KeyValue<Integer, String> RoomDelete(int id) {
-        /**
-         * DELETE
+        /*
+         * Authentication: JWT Token
+         *
          * Deletes room object.
          */
 

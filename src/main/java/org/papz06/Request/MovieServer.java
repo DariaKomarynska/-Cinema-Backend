@@ -1,7 +1,5 @@
 package org.papz06.Request;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Controllers.MovieCategoryController;
@@ -9,6 +7,7 @@ import org.papz06.Controllers.MovieController;
 import org.papz06.KeyValue;
 import org.papz06.Models.Movie;
 import org.papz06.Models.MovieCategory;
+import org.papz06.Utils;
 
 import java.util.Map;
 
@@ -33,8 +32,7 @@ public class MovieServer {
          */
         JSONObject result = null;
         try {
-            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-            }.getType());
+            Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
             String name = retMap.get("name");
             String description = retMap.get("description");
             int length = Integer.parseInt(retMap.get("length"));
@@ -69,10 +67,9 @@ public class MovieServer {
          *
          * Updates movie object.
          */
-        JSONObject result = null;
+        JSONObject result;
         try {
-            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-            }.getType());
+            Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
             String name = retMap.get("name");
             String description = retMap.get("description");
             int length = Integer.parseInt(retMap.get("length"));
@@ -117,8 +114,7 @@ public class MovieServer {
          */
         JSONObject result = null;
         try {
-            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-            }.getType());
+            Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
             String name = retMap.get("name");
             String description = retMap.get("description");
             result = MovieCategoryController.createCategory(name, description);
@@ -136,10 +132,9 @@ public class MovieServer {
          *
          * Updates movie category object.
          */
-        JSONObject result = null;
+        JSONObject result;
         try {
-            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
-            }.getType());
+            Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
             String name = retMap.get("name");
             String description = retMap.get("description");
             MovieCategory mvCate = new MovieCategory(id, name, description);
