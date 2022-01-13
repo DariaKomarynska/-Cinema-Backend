@@ -224,17 +224,20 @@ public class CinemaController {
             c.setTime(date);
             c.add(Calendar.DATE, 1);
 
-            query = "select count(*) from schedules where datetime between " + date.getTime() + " and " + c.getTime().getTime();
+            query = "select count(*) from schedules where datetime between " + date.getTime() + " and "
+                    + c.getTime().getTime();
             System.out.println(query);
             rs = fc.executeQuery(query);
             rs.next();
             data.put("today_schedules", rs.getInt(1));
-            query = "select count(*) from purchases where datetime between " + date.getTime() + " and " + c.getTime().getTime();
+            query = "select count(*) from purchases where datetime between " + date.getTime() + " and "
+                    + c.getTime().getTime();
             System.out.println(query);
             rs = fc.executeQuery(query);
             rs.next();
             data.put("today_purchases", rs.getInt(1));
-            query = "select sum(amount) from purchases where datetime between " + date.getTime() + " and " + c.getTime().getTime();
+            query = "select sum(amount) from purchases where datetime between " + date.getTime() + " and "
+                    + c.getTime().getTime();
             System.out.println(query);
             rs = fc.executeQuery(query);
             rs.next();

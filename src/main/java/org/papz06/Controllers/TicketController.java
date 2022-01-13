@@ -22,9 +22,7 @@ public class TicketController {
                                 rs.getInt(2),
                                 rs.getInt(3),
                                 rs.getInt(4),
-                                rs.getInt(5)
-                        )
-                );
+                                rs.getInt(5)));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -59,7 +57,7 @@ public class TicketController {
         return seatsList;
     }
 
-    public static JSONArray getBoughtTicketsInfo(int purchaseId){
+    public static JSONArray getBoughtTicketsInfo(int purchaseId) {
         JSONArray seatsInfo = TicketController.getSeatsInfo(purchaseId);
         JSONObject seatInfo = new JSONObject();
         JSONArray tickets = new JSONArray();
@@ -67,7 +65,7 @@ public class TicketController {
         JSONObject seatPos = new JSONObject();
         String ticketTypeName;
         int seat_id, ticketType_id;
-        for (int i = 0; i < seatsInfo.length(); ++i){
+        for (int i = 0; i < seatsInfo.length(); ++i) {
             seatInfo = seatsInfo.getJSONObject(i);
             seat_id = seatInfo.getInt("seat_id");
             ticketType_id = seatInfo.getInt("ticketType_id");
@@ -81,9 +79,7 @@ public class TicketController {
     }
 
     public static void deleteTicket(int purchase_id) {
-        JSONArray seatsList = new JSONArray();
         Function fc = new Function();
-        ResultSet rs;
         try {
             String query = String.format(
                     "update tickets set available = 0 where purchase_id = %d", purchase_id);

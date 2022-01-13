@@ -8,25 +8,17 @@ import org.papz06.Models.Schedule;
 
 import java.sql.ResultSet;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-// import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ScheduleController {
-    ArrayList<Schedule> scheduleList = new ArrayList<>();
-
-    public void displaySchedulesList() {
-        for (Schedule sch : scheduleList) {
-            System.out.println(sch.toString());
-        }
-    }
-
     public static JSONObject getSchedule(int sch_id) {
+        /*
+         * Get all a schedule from schedule_id;
+         */
         Schedule sch = null;
         Function fc = new Function();
         ResultSet rs;
@@ -58,6 +50,11 @@ public class ScheduleController {
     }
 
     public static boolean deleteSchedule(int id) {
+        /*
+         * Delete schedule from database
+         * First check if it exists?
+         * Then set available = 0
+         */
         Function fc = new Function();
         try {
             String sql = "select count(*) from schedules where available = 1 and schedule_id = " + id;
@@ -77,6 +74,12 @@ public class ScheduleController {
     }
 
     public static KeyValue<Boolean, JSONObject> createSchedule(Schedule sch) {
+        /*
+         * Create a schdeule
+         * First check if it confict?
+         * Then insert into database
+         * Add id to schedule and return
+         */
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -104,6 +107,11 @@ public class ScheduleController {
     }
 
     public static KeyValue<Boolean, JSONObject> updateSchedule(int old_id, Schedule sch) {
+        /*
+         * Update schedule
+         * First check if it has conflict?
+         * then update
+         */
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -131,6 +139,11 @@ public class ScheduleController {
     }
 
     public static JSONArray getScheduleList(int filmId, int roomId, Date date) {
+        /*
+         * Get schedules list
+         * Get schedule with requirement
+         * 
+         */
         JSONArray scheduleList = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -169,6 +182,9 @@ public class ScheduleController {
     }
 
     public static JSONObject getPurchaseInfo(int id) {
+        /*
+         * Get purchase info
+         */
         JSONObject resData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -189,6 +205,9 @@ public class ScheduleController {
     }
 
     public static boolean checkExist(int id) {
+        /*
+         * Check if a schedule exist?
+         */
         Function fc = new Function();
         ResultSet rs;
         int schedule_id = 0;
@@ -203,7 +222,7 @@ public class ScheduleController {
             System.out.println("Exception: " + e);
         }
         if (schedule_id == 0)
-                return false;
+            return false;
         return true;
 
     }
