@@ -1,13 +1,3 @@
---delete from users;
---delete from cinemas;
---delete from movies;
---delete from rooms;
---delete from seats;
---delete from MovieCategories;
---delete from Schedules;
---delete from Tickets;
---delete from Purchases;
---delete from TicketTypes;
 
 -------------------------
 insert into users values (default, 'Betty', 'BROWN', 'bow12', 'bo526wil', default);

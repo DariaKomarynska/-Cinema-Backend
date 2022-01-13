@@ -231,37 +231,3 @@ begin
     return res;
 end get_seats;
 /
-
---describe users;
---describe cinemas;
---describe movies;
---describe rooms;
---describe seats;
---describe MovieCategories;
---describe Schedules;
---describe Tickets;
---describe Purchases;
---describe TicketTypes;
-----
---drop table cinemas CASCADE CONSTRAINTS;
---drop table movies CASCADE CONSTRAINTS;
---drop table rooms CASCADE CONSTRAINTS;
---drop table users CASCADE CONSTRAINTS;
---drop table seats CASCADE CONSTRAINTS;
---drop table MovieCategories;
---drop table Schedules CASCADE CONSTRAINTS;
---drop table Tickets;
---drop table Purchases CASCADE CONSTRAINTS;
---drop table TicketTypes;
---
---select * from users;
---select * from cinemas;
---select * from movies;
---select * from rooms;
---select * from seats;
---select * from MovieCategories;
---select * from Schedules;
---select * from Tickets;
---select * from Purchases;
---select * from TicketTypes;
---
