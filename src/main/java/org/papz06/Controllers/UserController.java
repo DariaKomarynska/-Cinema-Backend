@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 
 public class UserController {
     public static JSONArray getAllUser() {
+        /*
+         * Get all user
+         */
         JSONArray result = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -23,6 +26,9 @@ public class UserController {
     }
 
     static public boolean checkExistUser(String user) {
+        /*
+         * Check if a user_name exists?
+         */
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -39,6 +45,9 @@ public class UserController {
     }
 
     static public boolean checkExist(String user, String password) {
+        /*
+         * Check if a user_name and password exist?
+         */
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -57,6 +66,9 @@ public class UserController {
     }
 
     static public void registerUser(User us) {
+        /*
+         * Insert new data of user into data base
+         */
         Function fc = new Function();
         try {
             String sql = "insert into users values (default, \'"
@@ -64,7 +76,6 @@ public class UserController {
                     + us.getLastName() + "\', \'"
                     + us.getLogin() + "\', \'"
                     + us.getPassword() + "\', default)";
-            // Implement
             fc.executeQuery(sql);
             fc.closeQuery();
         } catch (Exception e) {
@@ -73,6 +84,9 @@ public class UserController {
     }
 
     static public User getUserFromLogin(String login) {
+        /*
+         * Get user from login
+         */
         Function fc = new Function();
         ResultSet rs;
         try {

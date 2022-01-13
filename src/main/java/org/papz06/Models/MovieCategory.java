@@ -15,6 +15,18 @@ public class MovieCategory {
     public MovieCategory() {
     }
 
+    public int getId(){
+        return this.id;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
     public JSONObject toJson() {
         JSONObject result = new JSONObject();
         result.put("id", id);

@@ -13,13 +13,18 @@ import java.util.List;
 public class MovieCategoryController {
 
     public static JSONArray getListCategory(int cinema_id) {
+        /*
+         * Get list of categories
+         */
         JSONArray categoryList = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
         try {
-            rs = fc.executeQuery("select distinct moviecate_id from movies where available =1 and cinema_id = " + cinema_id);
+            rs = fc.executeQuery(
+                    "select distinct moviecate_id from movies where available =1 and cinema_id = " + cinema_id);
             while (rs.next()) {
-                ResultSet rs2 = fc.executeQuery("select * from moviecategories where available = 1 and moviecategory_id = " + rs.getInt(1));
+                ResultSet rs2 = fc.executeQuery(
+                        "select * from moviecategories where available = 1 and moviecategory_id = " + rs.getInt(1));
                 rs2.next();
                 MovieCategory cate = new MovieCategory(rs2.getInt(1), rs2.getString(2), rs2.getString(3));
                 categoryList.put(cate.toJson());
@@ -32,14 +37,17 @@ public class MovieCategoryController {
     }
 
     public static JSONObject createCategory(String name, String description) {
+        /*
+         * Create category
+         */
         Function fc = new Function();
         ResultSet rs;
         String quote = "\'";
         MovieCategory mc;
         try {
             String sql = MessageFormat.format(
-                    "insert into moviecategories values (default, {2}{0}{2}, {2}{1}{2}, default)"
-                    , name, description, quote);
+                    "insert into moviecategories values (default, {2}{0}{2}, {2}{1}{2}, default)", name, description,
+                    quote);
             fc.executeQuery(sql);
             rs = fc.executeQuery("select * from moviecategories where available = 1" +
                     " order by moviecategory_id desc fetch next 1 rows only");
@@ -53,7 +61,29 @@ public class MovieCategoryController {
         return mc.toJson();
     }
 
+    public static JSONObject updateMovieCategory(MovieCategory mv) {
+        /*
+         * Update category
+         */
+        Function fc = new Function();
+        try {
+            String sql = "update moviecategories set" +
+                    " name = \'" + mv.getName() +
+                    "\', description = \'" + mv.getDescription() +
+                    "\' where available = 1 and moviecategory_id = " + mv.getId();
+            fc.executeQuery(sql);
+            fc.closeQuery();
+            return mv.toJson();
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
     public static List<MovieCategory> getAllCategories() {
+        /*
+         * Get all category
+         */
         List<MovieCategory> movieCategoriesList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
@@ -63,9 +93,7 @@ public class MovieCategoryController {
                 movieCategoriesList.add(
                         new MovieCategory(rs.getInt(1),
                                 rs.getString(2),
-                                rs.getString(3)
-                        )
-                );
+                                rs.getString(3)));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -75,6 +103,9 @@ public class MovieCategoryController {
     }
 
     public static JSONObject getMovieCategoryById(int id) {
+        /*
+         * Get category by id
+         */
         JSONObject result = new JSONObject();
         Function fc = new Function();
         ResultSet rs;

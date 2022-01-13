@@ -8,11 +8,17 @@ import org.papz06.Controllers.MovieCategoryController;
 import org.papz06.Controllers.MovieController;
 import org.papz06.KeyValue;
 import org.papz06.Models.Movie;
+import org.papz06.Models.MovieCategory;
 
 import java.util.Map;
 
 public class MovieServer {
     public static KeyValue<Integer, String> MovieList(int cinema_id) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Returns list of movies in the cinema.
+         */
         JSONArray result = MovieController.getMovieList(cinema_id);
         if (result == null)
             return new KeyValue<>(200, "");
@@ -20,7 +26,11 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieCreate(String requestBody) {
-        // Create map and use Gson to parse from string to Map
+        /*
+         * Authentication: JWT Token
+         * 
+         * Creates new movie.
+         */
         JSONObject result = null;
         try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
@@ -42,6 +52,11 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieDetails(int id) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Returns movie details.
+         */
         Movie result = MovieController.getMovieById(id);
         if (result == null)
             return new KeyValue<>(404, "");
@@ -49,6 +64,11 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieUpdate(int id, String requestBody) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Updates movie object.
+         */
         JSONObject result = null;
         try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
@@ -70,17 +90,31 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieDelete(int id) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Deletes movie object.
+         */
         if (MovieController.deleteMovie(id))
             return new KeyValue<>(200, "");
         return new KeyValue<>(404, "");
     }
 
     public static KeyValue<Integer, String> MovieCategoryList(int cinema_id) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Returns list of movie categories in the cinema.
+         */
         return new KeyValue<>(200, MovieCategoryController.getListCategory(cinema_id).toString());
     }
 
     public static KeyValue<Integer, String> MovieCategoryCreate(String requestBody) {
-        // Create map and use Gson to parse from string to Map
+        /*
+         * Authentication: JWT Token
+         * 
+         * Creates new movie category.
+         */
         JSONObject result = null;
         try {
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
@@ -97,6 +131,25 @@ public class MovieServer {
     }
 
     public static KeyValue<Integer, String> MovieCategoryUpdate(int id, String requestBody) {
-        return null;
+        /*
+         * Authentication: JWT Token
+         * 
+         * Updates movie category object.
+         */
+        JSONObject result = null;
+        try {
+            Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
+            }.getType());
+            String name = retMap.get("name");
+            String description = retMap.get("description");
+            MovieCategory mvCate = new MovieCategory(id, name, description);
+            result = MovieCategoryController.updateMovieCategory(mvCate);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new KeyValue<>(400, "");
+        }
+        if (result == null)
+            return new KeyValue<>(404, "");
+        return new KeyValue<>(200, result.toString());
     }
 }

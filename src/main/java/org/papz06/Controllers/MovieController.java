@@ -12,16 +12,20 @@ import java.util.List;
 
 public class MovieController {
     public static JSONObject createMovie(Movie mv) {
+        /*
+         * Create a new movie
+         */
         Function fc = new Function();
         ResultSet rs;
         String quote = "\'";
         try {
             String sql = MessageFormat.format(
-                    "Insert into movies values (default, {0}, {6}{1}{6}, {2}, {6}{3}{6}, {6}{4}{6}, {5}, default)"
-                    , mv.getLength(), mv.getAgeRestriction(), mv.getCinemaId(), mv.getName()
-                    , mv.getDescription(), mv.getMovieCateId(), quote);
+                    "Insert into movies values (default, {0}, {6}{1}{6}, {2}, {6}{3}{6}, {6}{4}{6}, {5}, default)",
+                    mv.getLength(), mv.getAgeRestriction(), mv.getCinemaId(), mv.getName(), mv.getDescription(),
+                    mv.getMovieCateId(), quote);
             fc.executeQuery(sql);
-            rs = fc.executeQuery("select * from movies where available = 1 order by movie_id desc fetch next 1 rows only");
+            rs = fc.executeQuery(
+                    "select * from movies where available = 1 order by movie_id desc fetch next 1 rows only");
             rs.next();
             mv.setId(rs.getInt(1));
             fc.closeQuery();
@@ -33,6 +37,9 @@ public class MovieController {
     }
 
     public static Movie getMovieById(int id) {
+        /*
+         * Get movie by id
+         */
         Function fc = new Function();
         ResultSet rs;
         try {
@@ -54,6 +61,9 @@ public class MovieController {
     }
 
     public static JSONArray getMovieList(int cinema_id) {
+        /*
+         * Get list of movies by cinema_id
+         */
         JSONArray moviesList = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -78,6 +88,9 @@ public class MovieController {
     }
 
     public static JSONObject updateMovie(Movie mv) {
+        /*
+         * Update movie
+         */
         Function fc = new Function();
         try {
             String sql = "update movies set" +
@@ -97,6 +110,11 @@ public class MovieController {
     }
 
     public static boolean deleteMovie(int id) {
+        /*
+         * Delete movie
+         * First check if movie exists?
+         * then set available to 0
+         */
         Function fc = new Function();
         try {
             String sql = "select count(*) from movies where available =1 and movie_id = " + id;
@@ -115,6 +133,9 @@ public class MovieController {
     }
 
     public List<Movie> getAllMovies() {
+        /*
+         * Get all movies
+         */
         List<Movie> moviesList = new ArrayList<>();
         Function fc = new Function();
         ResultSet rs;
@@ -128,9 +149,7 @@ public class MovieController {
                                 rs.getInt(4),
                                 rs.getString(5),
                                 rs.getString(6),
-                                rs.getInt(7)
-                        )
-                );
+                                rs.getInt(7)));
             }
             fc.closeQuery();
         } catch (Exception e) {
