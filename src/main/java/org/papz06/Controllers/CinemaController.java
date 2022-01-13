@@ -221,9 +221,9 @@ public class CinemaController {
             String query = "SELECT \"DATE\", \"BEGINTIME\", \"ENDTIME\", (SELECT COUNT(*) FROM purchases " +
                     "WHERE datetime > begintime and datetime <=endtime) cnt_purchases, (SELECT COUNT(*) " +
                     "FROM schedules WHERE datetime > begintime and datetime <=endtime) cnt_schedules " +
-                    "FROM (SELECT  sysdate - (LEVEL - 1) \"DATE\",  round(((sysdate - (LEVEL)) - (DATE '1970-01-01')))*24*60*60*1000 begintime,  "
+                    "FROM (SELECT  sysdate - (LEVEL - 1) \"DATE\",  round(((sysdate - (LEVEL-1)) - (DATE '1970-01-01')))*24*60*60*1000 begintime,  "
                     +
-                    "round(((sysdate - (LEVEL-1)) - (DATE '1970-01-01')))*24*60*60*1000 endtime FROM dual CONNECT BY LEVEL < 8) A";
+                    "round(((sysdate - (LEVEL-2)) - (DATE '1970-01-01')))*24*60*60*1000 endtime FROM dual CONNECT BY LEVEL < 8) A";
             rs = fc.executeQuery(query);
             while (rs.next()) {
                 JSONObject tmp = new JSONObject();

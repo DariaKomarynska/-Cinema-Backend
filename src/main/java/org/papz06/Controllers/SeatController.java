@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 public class SeatController {
 
     public static JSONArray getSeatListByRoomId(int roomId) {
+        /*
+         * Get all seat from room
+         */
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -30,6 +33,9 @@ public class SeatController {
     }
 
     public static JSONArray getSeatsListBySchedule(int sch_id) {
+        /*
+         * Get all seat and status by schedule_id
+         */
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -54,6 +60,9 @@ public class SeatController {
     }
 
     public static JSONArray getSeatIdBySchedule(int sch_id) {
+        /*
+         * Get seat by schedule in short version
+         */
         JSONArray resData = new JSONArray();
         Function fc = new Function();
         ResultSet rs;
@@ -75,6 +84,9 @@ public class SeatController {
     }
 
     public static JSONObject getSeatById(int id) {
+        /*
+         * Get seat details by id
+         */
         JSONObject seatData = new JSONObject();
         Function fc = new Function();
         ResultSet rs;
@@ -95,6 +107,9 @@ public class SeatController {
     }
 
     public static boolean checkSeats(int scheduleId, JSONArray tickets) {
+        /*
+         * Check if seat in this ticket is free or not?
+         */
         int seatId, avSeatId;
         JSONObject ticket, avSeatInfo;
         int full = 0;
