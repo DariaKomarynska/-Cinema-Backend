@@ -22,7 +22,6 @@ import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
 public class Utils {
     private static String encode(byte[] bytes) {
         return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
@@ -83,11 +82,13 @@ public class Utils {
     }
 
     static public boolean checkValidJWT(String token, String secret) {
-        if (token == null) return false;
+        if (token == null)
+            return false;
         String[] parts = token.split("\\.");
         JSONObject payload = new JSONObject(decode(parts[1]));
         String signature = parts[2];
-        if (payload.getLong("exp") < (System.currentTimeMillis() / 1000)) return false;
+        if (payload.getLong("exp") < (System.currentTimeMillis() / 1000))
+            return false;
         String headerAndPayloadHashed = Utils.hmacSha256(parts[0] + "." + parts[1], secret);
         return signature.equals(headerAndPayloadHashed);
     }
@@ -97,7 +98,8 @@ public class Utils {
         String[] pairs = query.split("&");
         for (String pair : pairs) {
             int idx = pair.indexOf("=");
-            query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+            query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"),
+                    URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
         }
         return query_pairs;
     }
@@ -125,7 +127,9 @@ public class Utils {
 
     public static String addressDecoding(String address) {
         try {
-            String sURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + URLEncoder.encode(address, StandardCharsets.UTF_8.toString()) + "&key=AIzaSyAOrujqH1UzTEalk1FRCZgG3O97hi0Kmf4"; //just a string
+            String sURL = "https://maps.googleapis.com/maps/api/geocode/json?address="
+                    + URLEncoder.encode(address, StandardCharsets.UTF_8.toString())
+                    + "&key=AIzaSyAOrujqH1UzTEalk1FRCZgG3O97hi0Kmf4"; // just a string
 
             // Connect to the URL using java's native library
             URL url = new URL(sURL);
@@ -133,11 +137,14 @@ public class Utils {
             request.connect();
 
             // Convert to a JSON object to print data
-            JsonParser jp = new JsonParser(); //from gson
-            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-            JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
+            JsonParser jp = new JsonParser(); // from gson
+            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); // Convert the input
+                                                                                                    // stream to a json
+                                                                                                    // element
+            JsonObject rootobj = root.getAsJsonObject(); // May be an array, may be an object.
             if (rootobj.get("status").getAsString().trim().contains("OK")) {
-                return rootobj.get("results").getAsJsonArray().get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject().toString();
+                return rootobj.get("results").getAsJsonArray().get(0).getAsJsonObject().get("geometry")
+                        .getAsJsonObject().get("location").getAsJsonObject().toString();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

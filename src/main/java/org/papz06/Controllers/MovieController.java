@@ -7,8 +7,6 @@ import org.papz06.Models.Movie;
 
 import java.sql.ResultSet;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MovieController {
     public static JSONObject createMovie(Movie mv) {
@@ -130,31 +128,5 @@ public class MovieController {
             System.out.println(e);
         }
         return false;
-    }
-
-    public List<Movie> getAllMovies() {
-        /*
-         * Get all movies
-         */
-        List<Movie> moviesList = new ArrayList<>();
-        Function fc = new Function();
-        ResultSet rs;
-        try {
-            rs = fc.executeQuery("select * from movies where available = 1");
-            while (rs.next()) {
-                moviesList.add(
-                        new Movie(rs.getInt(1),
-                                rs.getInt(2),
-                                rs.getString(3),
-                                rs.getInt(4),
-                                rs.getString(5),
-                                rs.getString(6),
-                                rs.getInt(7)));
-            }
-            fc.closeQuery();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return moviesList;
     }
 }
