@@ -3,14 +3,12 @@ package org.papz06.Controllers;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
-import org.papz06.Models.Room;
 import org.papz06.Models.TicketType;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class TicketTypeController {
-
 
     public static ArrayList<TicketType> getAllTicketTypeList() {
         ArrayList<TicketType> ticketTypeList = new ArrayList<>();
@@ -23,9 +21,7 @@ public class TicketTypeController {
                         new TicketType(rs.getInt(1),
                                 rs.getString(2),
                                 rs.getInt(3),
-                                rs.getInt(4)
-                        )
-                );
+                                rs.getInt(4)));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -85,7 +81,8 @@ public class TicketTypeController {
             String sqlInsert = String.format("insert into TicketTypes values (default, '%s', %d, %d, default)",
                     name, price, cinemaId);
             fc.executeQuery(sqlInsert);
-            rs = fc.executeQuery("select * from TicketTypes where available = 1 order by ticketType_id desc fetch next 1 rows only");
+            rs = fc.executeQuery(
+                    "select * from TicketTypes where available = 1 order by ticketType_id desc fetch next 1 rows only");
             rs.next();
             tckTypeID = rs.getInt(1);
             fc.closeQuery();
@@ -130,7 +127,7 @@ public class TicketTypeController {
         return false;
     }
 
-    public static boolean notExist(int id){
+    public static boolean notExist(int id) {
         for (TicketType tckType : getAllTicketTypeList()) {
             if (tckType.getId().equals(id)) {
                 return false;

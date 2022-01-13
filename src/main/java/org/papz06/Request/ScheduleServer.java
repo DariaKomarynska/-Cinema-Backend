@@ -30,6 +30,7 @@ public class ScheduleServer {
          */
         JSONObject result = new JSONObject();
         int filmId = -1, roomId = -1;
+        // Get today date
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -68,7 +69,12 @@ public class ScheduleServer {
         return new KeyValue<Integer, String>(200, ScheduleController.getScheduleList(filmId, roomId, date).toString());
     }
 
-    public static KeyValue<Integer, String> ScheduleDetails(int id){
+    public static KeyValue<Integer, String> ScheduleDetails(int id) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Returns scheduled event details.
+         */
         JSONObject result = null;
         result = ScheduleController.getSchedule(id);
         if (result == null)
@@ -77,9 +83,14 @@ public class ScheduleServer {
     }
 
     public static KeyValue<Integer, String> ScheduleCreate(String requestBody) {
-        // Create map and use Gson to parse from string to Map
+        /*
+         * Authentication: JWT Token
+         * 
+         * Creates new schedule event.
+         */
         JSONObject result = null;
         try {
+            // Parse data
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
@@ -89,6 +100,9 @@ public class ScheduleServer {
             Date openSale = df1.parse(retMap.get("openSale").toUpperCase());
             Date closeSale = df1.parse(retMap.get("closeSale").toUpperCase());
             Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
+            // Get result from creating
+            // tmp.first: can create or not
+            // tmp.second: data to return
             KeyValue<Boolean, JSONObject> tmp = ScheduleController.createSchedule(sch);
             if (tmp.getKey() == false)
                 return new KeyValue<>(454, "");
@@ -101,10 +115,15 @@ public class ScheduleServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> ScheduleUpdate(int id, String requestBody){
-        // Create map and use Gson to parse from string to Map
+    public static KeyValue<Integer, String> ScheduleUpdate(int id, String requestBody) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Creates new schedule event.
+         */
         JSONObject result = null;
         try {
+            // Parse data
             Map<String, String> retMap = new Gson().fromJson(requestBody, new TypeToken<Map<String, String>>() {
             }.getType());
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SX");
@@ -115,6 +134,9 @@ public class ScheduleServer {
             Date openSale = df1.parse(retMap.get("openSale"));
             Date closeSale = df1.parse(retMap.get("closeSale"));
             Schedule sch = new Schedule(datetime, openSale, closeSale, filmId, roomId);
+            // Get result from updating
+            // tmp.first: can create or not
+            // tmp.second: data to return
             KeyValue<Boolean, JSONObject> tmp = ScheduleController.updateSchedule(id, sch);
             if (tmp.getKey() == false)
                 return new KeyValue<>(454, "");
@@ -127,7 +149,12 @@ public class ScheduleServer {
         return new KeyValue<>(200, result.toString());
     }
 
-    public static KeyValue<Integer, String> ScheduleDelete (int id){
+    public static KeyValue<Integer, String> ScheduleDelete(int id) {
+        /*
+         * Authentication: JWT Token
+         * 
+         * Deletes scheduled event.
+         */
         if (ScheduleController.deleteSchedule(id))
             return new KeyValue<>(200, "");
         return new KeyValue<>(404, "");
