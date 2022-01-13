@@ -62,14 +62,13 @@ public class CinemaServer {
         Map<String, String> retMap = Utils.getValueFromRequest(requestBody);
         int newManagerId = Integer.parseInt(retMap.get("manager_id"));
         String newName = retMap.get("name");
+
         String newWebsite = retMap.get("website");
         String newPhoneNumber = retMap.get("phoneNumber");
         String newEmail = retMap.get("email");
         String newAddress = retMap.get("address");
 
-        if (CinemaController.checkExist(newName)) {
-            return new KeyValue<>(400, "");
-        } else if (!CinemaController.checkExist(id)) {
+        if (!CinemaController.checkExist(id)) {
             return new KeyValue<>(404, "");
         }
         JSONObject result = CinemaController.updateCinemaName(id, newManagerId, newName, newWebsite, newPhoneNumber, newEmail, newAddress);
