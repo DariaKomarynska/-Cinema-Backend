@@ -11,6 +11,26 @@ public class Ticket {
         this.scheduleId = scheduleId;
     }
 
+    public int getId(){
+        return id;
+    }
+
+    public int getPurchaseId(){
+        return purchaseId;
+    }
+
+    public int getSeatId(){
+        return seatId;
+    }
+
+    public int getTicketTypeId(){
+        return ticketTypeId;
+    }
+
+    public int getScheduleId(){
+        return scheduleId;
+    }
+
     @Override
     public String toString() {
         return id + " " + purchaseId

@@ -75,7 +75,7 @@ public class PurchaseController {
             }
             // Adding purchase with current time
             Instant instant = Instant.now();
-            dateTime = instant.getEpochSecond();
+            dateTime = instant.toEpochMilli();
             String addPurchase = String.format("insert into purchases values " +
                             "(default, %d, %d, default, default, %d, default)",
                     dateTime, totalPrice, scheduleId);
