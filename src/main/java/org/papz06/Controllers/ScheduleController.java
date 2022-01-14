@@ -116,13 +116,18 @@ public class ScheduleController {
         ResultSet rs;
         try {
             String sql = "update schedules set available = 0 where schedule_id = " + old_id;
+            rs = fc.executeQuery(sql);
             sql = MessageFormat.format(
                     "select can_create_schedule({0}, {1}, {2}, {3}, {4}) from dual", sch.getFilmId(),
                     sch.getRoomId(), sch.getDateTime(), sch.getOpenSale(), sch.getCloseSale());
             rs = fc.executeQuery(sql);
             rs.next();
             if (rs.getInt(1) == 0)
+            {
+                sql = "update schedules set available = 1 where schedule_id = " + old_id;
+                rs = fc.executeQuery(sql);
                 return new KeyValue<>(false, null);
+            }
             sql = MessageFormat.format(
                     "update schedules set datetime = {0}, movie_id = {1}, room_id = {2}, opensale = {3}, closesale = {4} , available = 1 where schedule_id = {5}",
                     sch.getDateTime(),
