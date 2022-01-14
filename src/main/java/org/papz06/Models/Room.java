@@ -38,6 +38,14 @@ public class Room {
         return name;
     }
 
+    public int getRowsNumber() {
+        return rowsNumber;
+    }
+
+    public int getSeatsInRowNumber(){
+        return seatsInRowNumber;
+    }
+
     public Integer getCinemaId() {
         return cinemaId;
     }

@@ -7,7 +7,7 @@ public class Purchase {
     Date datetime;
     float amount;
     String paymentMethod, currency;
-    int date;
+    long date;
 
     public Purchase(int id, Date datetime, float amount, String paymentMethod, String currency, int scheduleId) {
         this.id = id;
@@ -18,7 +18,7 @@ public class Purchase {
         this.scheduleId = scheduleId;
     }
 
-    public Purchase(int id, int date, float amount, String paymentMethod, String currency, int scheduleId) {
+    public Purchase(int id, long date, float amount, String paymentMethod, String currency, int scheduleId) {
         this.id = id;
         this.date = date;
         this.amount = amount;
@@ -32,9 +32,29 @@ public class Purchase {
         return id;
     }
 
+    public long getDate() {
+        return date;
+    }
+
+    public float getAmount(){
+        return amount;
+    }
+
+    public String getPaymentMethod(){
+        return paymentMethod;
+    }
+
+    public String getCurrency(){
+        return currency;
+    }
+
+    public int getScheduleId(){
+        return scheduleId;
+    }
+
     @Override
     public String toString() {
-        return id + " " + datetime  //.toString()
+        return id + " " + date  //.toString()
                 + " " + amount
                 + " " + paymentMethod
                 + " " + currency
