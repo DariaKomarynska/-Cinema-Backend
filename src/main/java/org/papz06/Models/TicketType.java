@@ -20,6 +20,10 @@ public class TicketType {
         return name;
     }
 
+    public float getPrice(){
+        return price;
+    }
+
     public Integer getCinemaId() {
         return cinemaId;
     }
