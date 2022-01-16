@@ -36,21 +36,19 @@ public class TicketController {
         /*
         Get already bought tickets data - all not deleted tickets
          */
-        JSONArray seatsInfo = TicketController.getSeatsInfo(purchaseId);
-        JSONObject seatInfo = new JSONObject();
+        JSONArray seatsListInfo = TicketController.getSeatsInfo(purchaseId);
         JSONArray tickets = new JSONArray();
-        JSONObject ticketInfo = new JSONObject();
-        JSONObject seatPos = new JSONObject();
         String ticketTypeName;
         int seat_id, ticketType_id;
-        for (int i = 0; i < seatsInfo.length(); ++i) {
+        for (int i = 0; i < seatsListInfo.length(); ++i) {
             // get data for one seat
-            seatInfo = seatsInfo.getJSONObject(i);
+            JSONObject seatInfo = seatsListInfo.getJSONObject(i);
             seat_id = seatInfo.getInt("seat_id");
             ticketType_id = seatInfo.getInt("ticketType_id");
-            seatPos = SeatController.getSeatById(seat_id);
+            JSONObject seatPos = SeatController.getSeatById(seat_id);
             ticketTypeName = TicketTypeController.getTicketTypeById(ticketType_id).getString("name");
             // put seat data to ticket
+            JSONObject ticketInfo = new JSONObject();
             ticketInfo.put("seat", seatPos);
             ticketInfo.put("ticketTypeName", ticketTypeName);
             tickets.put(ticketInfo);
