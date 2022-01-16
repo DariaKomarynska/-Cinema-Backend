@@ -100,6 +100,8 @@ create table Purchases
 );
 ALTER TABLE Purchases ADD (
   CONSTRAINT Purchases_pk PRIMARY KEY (Purchase_id));
+ALTER TABLE Purchases
+    MODIFY amount number(5,2);
 
 create table TicketTypes
 (
@@ -111,6 +113,8 @@ create table TicketTypes
 );
 ALTER TABLE TicketTypes ADD (
   CONSTRAINT TicketTypes_pk PRIMARY KEY (TicketType_id));
+ALTER TABLE TicketTypes
+    MODIFY price number(5,2);
 
 create table Tickets
 (

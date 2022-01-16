@@ -1,11 +1,10 @@
 package org.papz06.Models;
 
 public class TicketType {
-    int id, cinemaId;
-    float price;
+    int id, cinemaId, price;
     String name;
 
-    public TicketType(int id, String name, float price, int cinemaId) {
+    public TicketType(int id, String name, int price, int cinemaId) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -20,7 +19,7 @@ public class TicketType {
         return name;
     }
 
-    public float getPrice(){
+    public int getPrice(){
         return price;
     }
 

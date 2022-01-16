@@ -69,7 +69,6 @@ public class SeatController {
         try {
             String sqlSelect = String.format(
                     "select seat_id, is_free from get_seats(%d)", sch_id);
-            System.out.println(sqlSelect);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
                 JSONObject seat = new JSONObject();

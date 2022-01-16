@@ -10,8 +10,6 @@ public class TicketTest {
 
     TicketType ticketType = new TicketType(4, "comfort", 250, 4);
 
-    private static final double DELTA = 1e-15;
-
     @Test
     public void testTicketGetId() {
         int id = ticket.getId();
@@ -63,8 +61,8 @@ public class TicketTest {
 
     @Test
     public void testTicketTypeGetPrice() {
-        float id = ticketType.getPrice();
-        assertEquals(250.0, id, DELTA);
+        int price = ticketType.getPrice();
+        assertEquals(250, price);
     }
 
     @Test

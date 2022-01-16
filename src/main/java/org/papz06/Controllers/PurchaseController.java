@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.papz06.Function;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.time.Instant;
 
@@ -38,15 +39,11 @@ public class PurchaseController {
         Function fc = new Function();
         ResultSet rs;
         try {
-            String sqlSelect = String.format("select * from purchases where purchase_id = %d and available = 1", id);
+            String sqlSelect = String.format("select amount, schedule_id from purchases where purchase_id = %d and available = 1", id);
             rs = fc.executeQuery(sqlSelect);
             while (rs.next()) {
-                purchaseData.put("purchase_id", rs.getInt(1));
-                purchaseData.put("dateTime", rs.getInt(2));
-                purchaseData.put("amount", rs.getInt(3));
-                purchaseData.put("paymentMethod", rs.getString(4));
-                purchaseData.put("currency", rs.getString(5));
-                purchaseData.put("schedule_id", rs.getInt(6));
+                purchaseData.put("amount", rs.getInt(1));
+                purchaseData.put("schedule_id", rs.getInt(2));
             }
             fc.closeQuery();
         } catch (Exception e) {
@@ -117,6 +114,7 @@ public class PurchaseController {
                     "update purchases set paymentMethod = '%s', currency = '%s' where purchase_id = %d and available = 1",
                     paymentMethod, currency, purchaseId);
             fc.executeQuery(query);
+            System.out.println("purchaseId " + purchaseId);
             // Get information of made purchase, about ticket and cinema details
             int amount = getPurchaseById(purchaseId).getInt("amount");
             int scheduleId = getPurchaseById(purchaseId).getInt("schedule_id");
@@ -147,7 +145,6 @@ public class PurchaseController {
         /*
         Check if purchase exists
          */
-        System.out.println(getPurchasesId());
         JSONArray purchasesId = getPurchasesId();
         JSONObject purchId = new JSONObject();
         int existId;

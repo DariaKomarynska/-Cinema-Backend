@@ -3,13 +3,12 @@ package org.papz06.Models;
 import java.util.Date;
 
 public class Purchase {
-    int id, scheduleId;
+    int id, scheduleId, amount;
     Date datetime;
-    float amount;
     String paymentMethod, currency;
     long date;
 
-    public Purchase(int id, Date datetime, float amount, String paymentMethod, String currency, int scheduleId) {
+    public Purchase(int id, Date datetime, int amount, String paymentMethod, String currency, int scheduleId) {
         this.id = id;
         this.datetime = datetime;
         this.amount = amount;
@@ -18,7 +17,7 @@ public class Purchase {
         this.scheduleId = scheduleId;
     }
 
-    public Purchase(int id, long date, float amount, String paymentMethod, String currency, int scheduleId) {
+    public Purchase(int id, long date, int amount, String paymentMethod, String currency, int scheduleId) {
         this.id = id;
         this.date = date;
         this.amount = amount;
@@ -36,7 +35,7 @@ public class Purchase {
         return date;
     }
 
-    public float getAmount(){
+    public int getAmount(){
         return amount;
     }
 

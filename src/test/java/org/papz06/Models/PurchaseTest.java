@@ -25,7 +25,7 @@ public class PurchaseTest {
 
     @Test
     public void getAmount() {
-        assertEquals(purchase.getAmount(), 250, DELTA);
+        assertEquals(purchase.getAmount(), 250);
     }
 
     @Test
