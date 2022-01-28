@@ -69,6 +69,8 @@ The project have classes match with table in database, and for each class, have 
 - Ticket: id, purchaseId, seatId, ticketTypeId
 - Purchase: id, datetime, amount, paymentMethod, currency, scheduleId
 - TicketType: id, name, price, cinemaId
+- TicketHistory: id, dateRemoved
+- MovieHistory: id, dateRemoved
 ```
 
 ### Other classes:
@@ -84,7 +86,7 @@ While building models and functions, we also needed to implement unit testing to
 
 ## Deployment
 The application is deployed to web hosting service (Heroku).
-- Backend: https://pwcinema-5c3e9.web.app/
+- Backend and Frontend: https://pwcinema-5c3e9.web.app/
 
 ## Repositories
 Frontend and backend repositories with running instructions:
@@ -107,4 +109,4 @@ First, we chose technologies we used in project. We created repositories for bot
 ![relation](src/main/db_tables/Logical.png)
 
 ## Database files
-All necessary database files are in /src/main/db_tables. 
+All necessary database files are in path /src/main/db_tables. 
