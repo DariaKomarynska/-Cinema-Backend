@@ -1,4 +1,3 @@
-
 --
 create table users
 (
@@ -11,6 +10,7 @@ create table users
 );
 ALTER TABLE users ADD (
   CONSTRAINT users_pk PRIMARY KEY (user_id));
+
 
 create table Cinemas
 (
@@ -26,6 +26,7 @@ create table Cinemas
 ALTER TABLE Cinemas ADD (
   CONSTRAINT Cinemas_pk PRIMARY KEY (cinema_ID));
 
+
 create table rooms
 (
     room_id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -37,6 +38,7 @@ create table rooms
 );
 ALTER TABLE rooms ADD (
   CONSTRAINT rooms_pk PRIMARY KEY (room_id));
+
 
 create table seats
 (
@@ -50,6 +52,7 @@ create table seats
 ALTER TABLE seats ADD (
   CONSTRAINT seats_pk PRIMARY KEY (seat_id));
 
+
 create table MovieCategories
 (
     MovieCategory_id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -59,6 +62,7 @@ create table MovieCategories
 );
 ALTER TABLE MovieCategories ADD (
   CONSTRAINT MovieCategories_pk PRIMARY KEY (MovieCategory_id));
+
 
 create table movies
 (
@@ -74,6 +78,7 @@ create table movies
 ALTER TABLE movies ADD (
   CONSTRAINT movies_pk PRIMARY KEY (movie_ID));
 
+
 create table Schedules
 (
     Schedule_id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -87,6 +92,7 @@ create table Schedules
 );
 ALTER TABLE Schedules ADD (
   CONSTRAINT Schedules_pk PRIMARY KEY (Schedule_id));
+
 
 create table Purchases
 (
@@ -103,6 +109,7 @@ ALTER TABLE Purchases ADD (
 ALTER TABLE Purchases
     MODIFY amount number(5,2);
 
+
 create table TicketTypes
 (
     TicketType_id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -116,6 +123,7 @@ ALTER TABLE TicketTypes ADD (
 ALTER TABLE TicketTypes
     MODIFY price number(5,2);
 
+
 create table Tickets
 (
     Ticket_id NUMBER GENERATED ALWAYS AS IDENTITY,
@@ -127,3 +135,22 @@ create table Tickets
 );
 ALTER TABLE Tickets ADD (
   CONSTRAINT Tickets_pk PRIMARY KEY (Ticket_id));
+
+
+create table TicketHistory
+(
+    TickHist_id NUMBER GENERATED ALWAYS AS IDENTITY CONSTRAINT tickhist_pk PRIMARY KEY,
+    Ticket_id NUMBER NOT NULL CONSTRAINT th_tick_fk REFERENCES Tickets (Ticket_id),
+    Purchase_id NUMBER NOT NULL CONSTRAINT th_purch_fk REFERENCES Purchases (Purchase_id),
+    date_removed NUMBER NOT NULL
+);
+
+
+create table MovieHistory
+(
+    MovHist_id NUMBER GENERATED ALWAYS AS IDENTITY CONSTRAINT movhist_pk PRIMARY KEY,
+    Movie_id NUMBER NOT NULL CONSTRAINT mh_mov_fk REFERENCES Movies (Movie_id),
+    Schedule_id NUMBER NOT NULL CONSTRAINT mh_sched_fk REFERENCES Schedules (Schedule_id),
+    date_removed NUMBER NOT NULL
+);
+

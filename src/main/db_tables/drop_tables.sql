@@ -8,4 +8,6 @@ drop table Schedules CASCADE CONSTRAINTS;
 drop table Tickets;
 drop table Purchases CASCADE CONSTRAINTS;
 drop table TicketTypes;
+drop table TicketHistory;
+drop table MovieHistory;
 commit;
