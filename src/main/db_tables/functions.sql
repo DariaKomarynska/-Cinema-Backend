@@ -1,4 +1,3 @@
-
 -- Procedure for creating new seats
 CREATE OR REPLACE PROCEDURE createSeats (roomId number, rowsNumber number, seatsInRowNumber number)
 AS
@@ -17,6 +16,17 @@ BEGIN
     typeSeat := 'luxury';
     update seats
     set type = typeSeat where room_id = roomId and positionY > 4 / 5 * rowsNumber;
+END;
+/
+
+
+-- Procedure for setting available = 0 for tickets when schedule not available
+CREATE OR REPLACE PROCEDURE update_tickets_status is
+BEGIN
+    update tickets
+    set available = 0 where schedule_id in (
+        select s.schedule_id from schedules s where s.available = 0
+    );
 END;
 /
 
