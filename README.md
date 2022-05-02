@@ -1,6 +1,20 @@
-# PAP - Project - Documentation
+# PW - Cinema management - Documentation
 
 The application helps employees to manage the cinema and sell tickets.
+
+## Group Information
+Team members: 
+- Komarynska Daria (backend)
+- Do Truong Giang (backend)
+- Nguyen Cong Minh (frontend)
+- Gieroń Marcin (frontend)
+
+## Description of the application's operation
+- Adding and removing basic information about movies.
+- Creating a schedule of movies.
+- Managing the cinema department.
+- Managing rooms for certain movies.
+- Sell the tickets for customers.
 
 ## Views
 
